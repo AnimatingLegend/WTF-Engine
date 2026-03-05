@@ -158,7 +158,7 @@ class Strumline extends FlxGroup
                     return;
                 }
 
-                playConfirm(holdNote.direction);
+                getStrum(holdNote.direction).playConfirm();
 
                 holdNote.length = holdNote.time - Conductor.instance.time + holdNote.fullLength;
                 holdNote.y = y;
@@ -171,15 +171,15 @@ class Strumline extends FlxGroup
         });
 
         // Strum processing
-        strums.forEachAlive(strum -> {
-            var pressed:Bool = strum.direction.pressed;
+        strums.forEach(strum -> {
+            final pressed:Bool = strum.direction.pressed;
 
-            if (strum.confirmTime > 0 && (pressed || !isPlayer))
-                strum.playAnimation('confirm');
-            else if (pressed && isPlayer)
-                strum.playAnimation('press');
+            if (strum.confirmTime > 0) return;
+
+            if (pressed && isPlayer)
+                strum.playPress();
             else
-                strum.playAnimation('static');
+                strum.playStatic();
         });
     }
 
@@ -194,7 +194,7 @@ class Strumline extends FlxGroup
 
     public function hitNote(note:NoteSprite)
     {
-        playConfirm(note.direction);
+        getStrum(note.direction).playConfirm();
 
         if (note.holdNote != null)
         {
@@ -207,9 +207,6 @@ class Strumline extends FlxGroup
         note.kill();
         noteHit.dispatch(note);
     }
-
-    public function playConfirm(direction:NoteDirection)
-        getStrum(direction).confirmTime = 1;
 
     public function playSplash(direction:NoteDirection)
     {

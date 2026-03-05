@@ -34,6 +34,18 @@ class StrumSprite extends FunkinSprite
         addAnimation('press', [direction + Constants.NOTE_COUNT]);
         addAnimation('confirm', [direction + Constants.NOTE_COUNT * 2]);
 
+        playStatic();
+    }
+
+    public function playStatic()
         playAnimation('static');
+
+    public function playPress()
+        playAnimation('press');
+    
+    public function playConfirm()
+    {
+        playAnimation('confirm');
+        confirmTime = 1;
     }
 }
