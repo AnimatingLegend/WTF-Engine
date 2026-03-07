@@ -34,7 +34,7 @@ class FunkinBar extends FlxSpriteGroup
         fill = new FunkinSprite();
         fill.makeSolidColor(width, height, 0xFFFFFFFF);
         fill.active = false;
-        fill.offset.x = left ? -width : 0;
+        fill.offset.x = left ? -width + 1 : 0;
         fill.origin.x = left ? 1 : 0;
         add(fill);
 
@@ -52,7 +52,7 @@ class FunkinBar extends FlxSpriteGroup
         if (this.value == value) return value;
         this.value = value;
 
-        fill.scale.x = percent * (fill.width + 1);
+        fill.scale.x = percent * fill.width;
 
         return value;
     }

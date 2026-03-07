@@ -116,10 +116,10 @@ class PlayState extends FunkinState
 		if (Preferences.downscroll) healthBar.y = 60;
 
 		scoreText = new FunkinText(0, 0, '123456');
-		scoreText.size = 18;
+		scoreText.size = 15;
 		scoreText.alignment = CENTER;
 		scoreText.camera = camHUD;
-		scoreText.y = healthBar.y + healthBar.height + 5;
+		scoreText.y = healthBar.y + healthBar.height + 10;
 		add(scoreText);
 
 		countdown = new Countdown();
@@ -153,7 +153,10 @@ class PlayState extends FunkinState
 	{
 		super.update(elapsed);
 
-		// Updates the song and input
+		//
+		// SONG
+		//
+		
 		if (songLoaded)
 		{
 			conductor.time += elapsed * Constants.MS_PER_SEC;
@@ -169,12 +172,15 @@ class PlayState extends FunkinState
 
 		processInput();
 
+		//
 		// HUD
+		//
+
 		health = FlxMath.bound(health, healthBar.min, healthBar.max);
 		healthLerp = MathUtil.lerp(healthLerp, health, 0.15);
 		healthBar.value = healthLerp;
 
-		scoreText.text = 'score: ${Std.int(score)} | misses: ${tallies.misses} | combo: ${tallies.combo}';
+		scoreText.text = 'score: ${Std.int(score)} | misses: ${tallies.misses}';
 		scoreText.screenCenter(X);
 		
 		camGame.zoom = MathUtil.lerp(camGame.zoom, stage.zoom, 0.03);
@@ -182,8 +188,12 @@ class PlayState extends FunkinState
 
 		if (controls.PAUSE)
 			pauseGame();
+
 		if (controls.RESET)
+		{
 			health = 0;
+			healthLerp = 0;
+		}
 
 		// Death :(
 		if (health <= healthBar.min) openSubState(new GameOverSubState());

@@ -14,7 +14,6 @@ class Constants
     public static final MS_PER_SEC:Int = 1000;
     public static final SECS_PER_MIN:Int = 60;
     public static final PIXELS_PER_MS:Float = 0.45;
-
     public static final STEPS_PER_BEAT:Int = 4;
     public static final STEPS_PER_SECTION:Int = 16;
     
@@ -50,8 +49,8 @@ class Constants
     public static final STARTING_HEALTH:Float = 1;
     public static final HEALTH_FILL_COLOR:FlxColor = 0xFF00FF00;
     public static final HEALTH_EMPTY_COLOR:FlxColor = 0xFFFF0000;
-    public static final HOLD_HEALTH_PER_SEC:Float = 0.08;
-    public static final NOTE_HEALTH:Float = 0.06;
-    public static final MISS_HEALTH:Float = -0.04;
-    public static final GHOST_MISS_HEALTH:Float = -0.035;
+    public static final HOLD_HEALTH_PER_SEC:Float = 0.1;
+    public static final NOTE_HEALTH:Float = 0.08;
+    public static final MISS_HEALTH:Float = -0.065;
+    public static final GHOST_MISS_HEALTH:Float = -0.05;
 }
