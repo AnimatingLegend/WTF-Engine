@@ -33,7 +33,6 @@ class Character extends FunkinSprite
             addAnimation(anim.name, anim.frames, anim.framerate, anim.looped);
 
         flipX = meta.flipX != isPlayer;
-        offset.set(0, height);
 
         resetSingTimer();
         dance(true);
@@ -66,4 +65,10 @@ class Character extends FunkinSprite
 
     public function resetSingTimer()
         singTimer = 0;
+
+    override function set_x(x:Float):Float
+        return super.set_x(x + meta?.globalOffset[0] ?? 0);
+
+    override function set_y(y:Float):Float
+        return super.set_y(y + meta?.globalOffset[1] ?? 0);
 }

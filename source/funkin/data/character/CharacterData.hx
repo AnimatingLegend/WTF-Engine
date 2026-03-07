@@ -9,6 +9,8 @@ typedef CharacterData = {
     var image:String;
     var frameWidth:Int;
     var frameHeight:Int;
+    var globalOffset:Array<Float>;
+    var cameraOffset:Array<Float>;
     @:default(1)
     var scale:Float;
     var flipX:Bool;

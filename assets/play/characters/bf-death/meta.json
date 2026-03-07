@@ -2,6 +2,8 @@
     "name": "Boyfriend (Death)",
     "frameWidth": 217,
     "frameHeight": 240,
+    "globalOffset": [0, 0],
+    "cameraOffset": [150, 150],
     "animations": [
         {
             "name": "start",

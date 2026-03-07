@@ -2,6 +2,8 @@
     "name": "Boyfriend",
     "frameWidth": 266,
     "frameHeight": 248,
+    "globalOffset": [0, -350],
+    "cameraOffset": [100, 50],
     "flipX": true,
     "animations": [
         {

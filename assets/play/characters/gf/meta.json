@@ -2,6 +2,8 @@
     "name": "Girlfriend",
     "frameWidth": 262,
     "frameHeight": 288,
+    "globalOffset": [0, -420],
+    "cameraOffset": [0, 0],
     "danceEvery": 1,
     "animations": [
         {

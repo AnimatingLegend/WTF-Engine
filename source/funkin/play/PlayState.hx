@@ -274,11 +274,10 @@ class PlayState extends FunkinState
 
 		if (character == null) return;
 
-		var camPos:FlxPoint = character.getGraphicMidpoint();
-		camPos.x += character.isPlayer ? -100 : 100;
-		camPos.y -= 100;
-		
-		camFollow.setPosition(camPos.x, camPos.y);
+		var pos:FlxPoint = character.getPosition();
+		var offset:FlxPoint = MathUtil.arrayToPoint(character.meta.cameraOffset);
+
+		camFollow.setPosition(pos.x + offset.x, pos.y + offset.y);
 
 		if (instant) camGame.snapToTarget();
 	}

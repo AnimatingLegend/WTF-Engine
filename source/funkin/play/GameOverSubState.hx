@@ -7,6 +7,7 @@ import funkin.data.character.CharacterRegistry;
 import funkin.play.components.Character;
 import funkin.ui.FunkinSubState;
 import funkin.ui.freeplay.FreeplayState;
+import funkin.util.MathUtil;
 
 /**
  * The game over sub state that appears when the player dies.
@@ -38,9 +39,11 @@ class GameOverSubState extends FunkinSubState
 
         if (character != null)
         {
-            var followPos:FlxPoint = character.getGraphicMidpoint();
+            var pos:FlxPoint = character.getPosition();
+            var offset:FlxPoint = MathUtil.arrayToPoint(character.meta.cameraOffset);
 
-            PlayState.instance.camFollow.setPosition(followPos.x, followPos.y);
+            PlayState.instance.camFollow.setPosition(pos.x + offset.x, pos.y + offset.y);
+
             FlxG.camera.active = true;
         }
 
@@ -110,6 +113,7 @@ class GameOverSubState extends FunkinSubState
         _parentState.persistentDraw = true;
 
         FlxG.camera.fade(0xFF000000, 1, true);
+        
         PlayState.instance.resetSong();
     }
 }
