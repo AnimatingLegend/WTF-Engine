@@ -1,5 +1,6 @@
 package funkin.ui.freeplay;
 
+import funkin.audio.FunkinSound;
 import funkin.data.song.SongRegistry;
 import funkin.graphics.FunkinText;
 import funkin.play.PlayState;
@@ -17,6 +18,8 @@ class FreeplayState extends FunkinState
     override public function create()
     {
         super.create();
+
+        FunkinSound.playMusic('ui/music/menu', 1, true, true, false);
 
         // TODO: Make the difficulty changeable
         PlayState.difficulty = 'hard';

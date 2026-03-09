@@ -64,6 +64,8 @@ class PlayState extends FunkinState
 
 	override public function create()
 	{
+		super.create();
+
 		instance = this;
 
 		//
@@ -145,8 +147,6 @@ class PlayState extends FunkinState
 		resetSong();
 
 		healthLerp = health;
-
-		super.create();
 	}
 
 	override public function update(elapsed:Float)
@@ -505,7 +505,7 @@ class PlayState extends FunkinState
 	{
 		super.destroy();
 
-		FunkinSound.music.destroy();
+		FunkinSound.music.stop();
 
 		// Gonna want to reactivate this when the state is destroyed
 		// There are problems if this isn't done

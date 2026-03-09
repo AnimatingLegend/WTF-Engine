@@ -151,7 +151,7 @@ class Controls extends FlxActionSet
         setKeys(Control.UI_UP, [W, UP]);
         setKeys(Control.UI_RIGHT, [D, RIGHT]);
         setKeys(Control.ACCEPT, [Z, ENTER]);
-        setKeys(Control.BACK, [Z, ESCAPE]);
+        setKeys(Control.BACK, [X, ESCAPE]);
         setKeys(Control.PAUSE, [P, ENTER]);
         setKeys(Control.RESET, [R]);
     }

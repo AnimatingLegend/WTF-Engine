@@ -28,8 +28,10 @@ class FunkinSound extends FlxSound
     public static function playOnce(id:String, volume:Float = 1):FunkinSound
         return load(id, volume, false);
 
-    public static function playMusic(id:String, volume:Float = 1, looped:Bool = true, autoPlay:Bool = true)
+    public static function playMusic(id:String, volume:Float = 1, looped:Bool = true, autoPlay:Bool = true, overrideMusic:Bool = true)
     {
+        if (music?.playing && !overrideMusic) return;
+
         if (music == null)
             music = new FunkinSound();
         else if (music.active)

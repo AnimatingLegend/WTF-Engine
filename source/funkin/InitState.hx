@@ -14,6 +14,8 @@ class InitState extends FlxState
 {
     override public function create()
     {
+        super.create();
+
         // Flixel
         FlxG.fixedTimestep = false;
         FlxG.game.focusLostFramerate = 30;
@@ -29,9 +31,6 @@ class InitState extends FlxState
         StageRegistry.instance = new StageRegistry();
         SongRegistry.instance = new SongRegistry();
 
-        // TODO: Change this to a title screen once there is one
         FlxG.switchState(() -> new funkin.ui.freeplay.FreeplayState());
-
-        super.create();
     }
 }
