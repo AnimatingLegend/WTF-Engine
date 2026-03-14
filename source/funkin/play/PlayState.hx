@@ -24,6 +24,7 @@ import funkin.play.note.Strumline;
 import funkin.play.song.Song;
 import funkin.play.song.Voices;
 import funkin.ui.FunkinState;
+import funkin.ui.freeplay.FreeplayState;
 import funkin.util.MathUtil;
 import funkin.util.RhythmUtil;
 
@@ -232,7 +233,8 @@ class PlayState extends FunkinState
 		}
 
 		// Death :(
-		if (health <= healthBar.min) openSubState(new GameOverSubState());
+		if (health <= healthBar.min)
+			openSubState(new GameOverSubState());
 	}
 
 	override function beatHit(beat:Int)
@@ -377,7 +379,8 @@ class PlayState extends FunkinState
 
 		FunkinSound.stopAllSounds(true);
 
-		// TODO: Add song end logic
+		// TODO: Change this to a results screen
+		FlxG.switchState(() -> new FreeplayState());
 	}
 
 	function checkSongTime()
