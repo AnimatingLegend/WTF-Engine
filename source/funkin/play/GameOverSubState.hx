@@ -39,7 +39,7 @@ class GameOverSubState extends FunkinSubState
 
         if (character != null)
         {
-            var pos:FlxPoint = character.getPosition();
+            var pos:FlxPoint = character.getGraphicMidpoint();
             var offset:FlxPoint = MathUtil.arrayToPoint(character.meta.cameraOffset);
 
             PlayState.instance.camFollow.setPosition(pos.x + offset.x, pos.y + offset.y);

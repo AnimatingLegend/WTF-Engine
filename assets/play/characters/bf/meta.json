@@ -3,7 +3,7 @@
     "frameWidth": 266,
     "frameHeight": 248,
     "globalOffset": [0, -350],
-    "cameraOffset": [100, 50],
+    "cameraOffset": [-100, -100],
     "icon": {
         "flipX": true
     },

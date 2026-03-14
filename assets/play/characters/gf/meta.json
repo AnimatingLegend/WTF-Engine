@@ -1,14 +1,31 @@
 {
     "name": "Girlfriend",
     "frameWidth": 262,
-    "frameHeight": 288,
-    "globalOffset": [0, -420],
-    "cameraOffset": [0, 0],
+    "frameHeight": 295,
+    "globalOffset": [0, -400],
+    "cameraOffset": [0, -60],
+    "icon": {},
     "danceEvery": 1,
     "animations": [
         {
             "name": "idle",
             "frames": [0, 1, 2]
+        },
+        {
+            "name": "left",
+            "frames": [3, 4]
+        },
+        {
+            "name": "right",
+            "frames": [5, 6]
+        },
+        {
+            "name": "up",
+            "frames": [7, 8]
+        },
+        {
+            "name": "down",
+            "frames": [9, 10]
         }
     ]
 }

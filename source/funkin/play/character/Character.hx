@@ -33,6 +33,7 @@ class Character extends FunkinSprite
             addAnimation(anim.name, anim.frames, anim.framerate, anim.looped);
 
         flipX = meta.flipX != isPlayer;
+        offset.set(-meta.globalOffset[0] ?? 0, -meta.globalOffset[1] ?? 0);
 
         resetSingTimer();
         dance(true);
@@ -74,10 +75,4 @@ class Character extends FunkinSprite
             return null;
         return new HealthIcon(id, meta.icon, isPlayer);
     }
-
-    override function set_x(x:Float):Float
-        return super.set_x(x + meta?.globalOffset[0] ?? 0);
-
-    override function set_y(y:Float):Float
-        return super.set_y(y + meta?.globalOffset[1] ?? 0);
 }

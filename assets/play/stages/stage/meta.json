@@ -22,13 +22,15 @@
         {
             "id": "curtain",
             "position": [-525, -300],
-            "scroll": [0.75, 0.75]
+            "scroll": [0.75, 0.75],
+            "zIndex": 3
         },
         {
             "id": "curtain",
             "position": [700, -300],
             "scroll": [0.75, 0.75],
-            "flipX": true
+            "flipX": true,
+            "zIndex": 3
         }
     ]
 }

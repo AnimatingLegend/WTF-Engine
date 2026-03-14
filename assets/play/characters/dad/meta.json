@@ -2,8 +2,8 @@
     "name": "Daddy Dearest",
     "frameWidth": 249,
     "frameHeight": 315,
-    "globalOffset": [0, -460],
-    "cameraOffset": [250, 110],
+    "globalOffset": [0, -440],
+    "cameraOffset": [100, -80],
     "icon": {},
     "animations": [
         {

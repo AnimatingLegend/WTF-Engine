@@ -22,6 +22,12 @@ class Song
     public var player(get, never):String;
     public var gf(get, never):String;
 
+    public var instPath(get, never):String;
+    public var opponentPath(get, never):String;
+    public var playerPath(get, never):String;
+
+    var path(get, never):String;
+
     public function new(id:String, meta:SongMetadata, chart:SongChartData)
     {
         this.id = id;
@@ -68,4 +74,16 @@ class Song
 
     inline function get_gf():String
         return meta.gf;
+
+    inline function get_instPath():String
+        return '$path/inst';
+
+    inline function get_opponentPath():String
+        return '$path/opponent';
+
+    inline function get_playerPath():String
+        return '$path/player';
+
+    inline function get_path():String
+        return 'play/songs/$id';
 }

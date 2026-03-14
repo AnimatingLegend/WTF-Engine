@@ -13,10 +13,10 @@ class Voices
     public var opponentVolume(get, set):Float;
     public var playerVolume(get, set):Float;
 
-    public function new(id:String)
+    public function new(song:Song)
     {
-        opponent = FunkinSound.load(Paths.voices(id, 'opponent'), 1, false, false, false);
-        player = FunkinSound.load(Paths.voices(id, 'player'), 1, false, false, false);
+        opponent = FunkinSound.load(song.opponentPath, 1, false, false, false);
+        player = FunkinSound.load(song.playerPath, 1, false, false, false);
     }
 
     public function play()

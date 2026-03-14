@@ -77,7 +77,7 @@ class Stage extends FlxGroup
         {
             player.setPosition(position.x, position.y);
             player.scrollFactor.copyFrom(scroll);
-            player.zIndex = meta?.player?.zIndex ?? 200;
+            player.zIndex = meta?.player?.zIndex ?? 2;
 
             add(player);
             refresh();
@@ -99,7 +99,7 @@ class Stage extends FlxGroup
         {
             opponent.setPosition(position.x, position.y);
             opponent.scrollFactor.copyFrom(scroll);
-            opponent.zIndex = meta?.opponent?.zIndex ?? 200;
+            opponent.zIndex = meta?.opponent?.zIndex ?? 2;
 
             add(opponent);
             refresh();
@@ -121,7 +121,7 @@ class Stage extends FlxGroup
         {
             gf.setPosition(position.x, position.y);
             gf.scrollFactor.copyFrom(scroll);
-            gf.zIndex = meta?.gf?.zIndex ?? 150;
+            gf.zIndex = meta?.gf?.zIndex ?? 1;
 
             add(gf);
             refresh();

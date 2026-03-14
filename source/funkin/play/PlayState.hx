@@ -150,6 +150,8 @@ class PlayState extends FunkinState
 		resetCameraTarget();
 		resetSong();
 
+		refresh();
+
 		healthLerp = health;
 	}
 
@@ -291,7 +293,7 @@ class PlayState extends FunkinState
 
 		if (character == null) return;
 
-		var pos:FlxPoint = character.getPosition();
+		var pos:FlxPoint = character.getGraphicMidpoint();
 		var offset:FlxPoint = MathUtil.arrayToPoint(character.meta.cameraOffset);
 
 		camFollow.setPosition(pos.x + offset.x, pos.y + offset.y);
@@ -304,6 +306,15 @@ class PlayState extends FunkinState
 		stage.setPlayer(song.player);
 		stage.setOpponent(song.opponent);
 		stage.setGF(song.gf);
+
+		// GF opponent
+		if (stage.opponent != null && song.opponent == song.gf)
+		{
+			stage.opponent.setPosition(stage.gf.x, stage.gf.y);
+			stage.opponent.zIndex = stage.gf.zIndex;
+			stage.gf.destroy();
+			stage.refresh();
+		}
 
 		// Sets up character health icons
 		opponentIcon = stage.opponent?.buildHealthIcon();
@@ -322,16 +333,14 @@ class PlayState extends FunkinState
 			playerIcon.y = healthBar.y - playerIcon.height / 2;
 			add(playerIcon);
 		}
-
-		refresh();
 	}
 
 	function loadSong()
 	{
 		songLoaded = true;
 
-		FunkinSound.playMusic(Paths.inst(song.id), 1, false, false);
-		voices = new Voices(song.id);
+		FunkinSound.playMusic(song.instPath, 1, false, false);
+		voices = new Voices(song);
 	}
 
 	function startSong()

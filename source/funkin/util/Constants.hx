@@ -21,10 +21,14 @@ class Constants
     public static final ZOOM:Float = 1.35;
 
     /**
-     * This is so that the engine's songs prioritize custom songs,
-     * and so that songs appear in the correct order.
+     * This is so that the engine's songs have higher priority over custom songs.
      */
-    public static final DEFAULT_SONGS:Array<String> = ['bopeebo', 'fresh', 'dadbattle'];
+    public static final DEFAULT_SONGS:Array<String> = [
+        'tutorial',
+        'bopeebo',
+        'fresh',
+        'dadbattle'
+    ];
 
     public static final DEFAULT_SONG_NAME:String = 'Untitled';
     public static final DEFAULT_SONG_ARTIST:String = 'Unknown';
