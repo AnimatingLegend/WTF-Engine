@@ -5,6 +5,7 @@ import flixel.math.FlxPoint;
 import funkin.data.character.CharacterRegistry;
 import funkin.data.stage.StageData;
 import funkin.graphics.FunkinSprite;
+import funkin.play.character.Character;
 import funkin.util.MathUtil;
 
 /**

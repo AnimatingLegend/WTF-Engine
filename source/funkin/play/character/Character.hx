@@ -1,4 +1,4 @@
-package funkin.play.components;
+package funkin.play.character;
 
 import funkin.data.character.CharacterData;
 import funkin.graphics.FunkinSprite;

@@ -1,4 +1,4 @@
-package funkin.play.components;
+package funkin.play.character;
 
 import funkin.data.character.CharacterData.CharacterIconData;
 import funkin.graphics.FunkinSprite;
@@ -53,6 +53,7 @@ class HealthIcon extends FunkinSprite
 
         // Lerps the scale back to its base value
         scale.x = scale.y = MathUtil.lerp(scale.x, baseScale, 0.15);
+        angle = MathUtil.lerp(angle, 0, 0.15);
     }
 
     public function bop()
@@ -61,6 +62,9 @@ class HealthIcon extends FunkinSprite
         if (Conductor.instance.beat % meta.bopEvery != 0) return;
 
         scale.x = scale.y = baseScale + 0.35;
+
+        if (meta.bopAngle != null)
+            angle = meta.bopAngle;
     }
 
     function set_isDead(isDead:Bool):Bool
