@@ -125,6 +125,7 @@ class PlayState extends FunkinState
 		timeText.alignment = CENTER;
 		timeText.camera = camHUD;
 		timeText.y = 35;
+		timeText.visible = Preferences.showTimer;
 		add(timeText);
 
 		if (Preferences.downscroll)
