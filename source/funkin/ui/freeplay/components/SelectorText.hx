@@ -42,10 +42,10 @@ class SelectorText extends FlxSpriteGroup
         arrowRight.flipX = true;
         add(arrowRight);
 
-        select();
+        change();
     }
 
-    function select(change:Int = 0)
+    function change(change:Int = 0)
     {
         if (busy) return;
 

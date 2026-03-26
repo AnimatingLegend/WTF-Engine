@@ -22,7 +22,7 @@ class SortText extends SelectorText
         var right:Bool = Controls.instance.SORT_RIGHT;
 
         if (left || right)
-            select(left ? -1 : 1);
+            change(left ? -1 : 1);
     }
 
     override function updateSelected()

@@ -31,7 +31,7 @@ class DifficultyText extends SelectorText
         var right:Bool = Controls.instance.UI_RIGHT_P;
 
         if (left || right)
-            select(left ? -1 : 1);
+            change(left ? -1 : 1);
     }
 
     override function updateSelected()
