@@ -9,7 +9,7 @@ import funkin.data.stage.StageRegistry;
 import funkin.data.story.LevelRegistry;
 import funkin.input.Controls;
 import funkin.save.Save;
-import funkin.ui.story.StoryMenuSubState;
+import funkin.ui.freeplay.FreeplaySubState;
 
 /**
  * The initial state of the game. This is what sets up the game.
@@ -39,6 +39,6 @@ class InitState extends FlxState
         LevelRegistry.instance = new LevelRegistry();
         EventRegistry.instance = new EventRegistry();
 
-        FlxG.switchState(() -> StoryMenuSubState.build(false));
+        FlxG.switchState(() -> FreeplaySubState.build());
     }
 }
