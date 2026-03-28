@@ -1,4 +1,4 @@
-package funkin.ui.freeplay.components;
+package funkin.ui.selector;
 
 import flixel.group.FlxSpriteGroup;
 import flixel.util.FlxSignal.FlxTypedSignal;
@@ -17,7 +17,9 @@ class SelectorText extends FlxSpriteGroup
     public var selected:Int;
     public var busy:Bool = false;
 
-    public var onSelected(default, null) = new FlxTypedSignal<Int->Void>();
+    public var size(default, set):Int = 32;
+
+    public var onChanged(default, null) = new FlxTypedSignal<Int->Void>();
 
     var text:FunkinText;
     var arrowLeft:FunkinSprite;
@@ -65,7 +67,7 @@ class SelectorText extends FlxSpriteGroup
             selectTimer?.cancel();
             selectTimer = FlxTimer.wait(0.05, () -> text.y += 5);
 
-            onSelected.dispatch(selected);
+            onChanged.dispatch(selected);
         }
     }
 
@@ -82,5 +84,15 @@ class SelectorText extends FlxSpriteGroup
         arrowRight.x = text.x + text.width + ARROW_SPACING;
         arrowLeft.y = text.y + (text.height - arrowLeft.height) / 2;
         arrowRight.y = arrowLeft.y;
+    }
+
+    function set_size(size:Int):Int
+    {
+        if (text.size == size) return size;
+        text.size = size;
+
+        updateText();
+
+        return size;
     }
 }

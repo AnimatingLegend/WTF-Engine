@@ -1,6 +1,7 @@
 package funkin.ui.freeplay.capsule;
 
 import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.util.FlxSignal.FlxTypedSignal;
 import funkin.audio.FunkinSound;
 import funkin.data.song.SongRegistry;
 import funkin.input.Controls;
@@ -20,6 +21,8 @@ class CapsuleGroup extends FlxTypedGroup<CapsuleSprite>
 
     public var busy:Bool = false;
     public var lerp:Bool = true;
+
+    public var onChanged(default, null) = new FlxTypedSignal<Int->Void>();
 
     var justLoaded:Bool = true;
 
@@ -61,9 +64,12 @@ class CapsuleGroup extends FlxTypedGroup<CapsuleSprite>
         else if (selected >= size)
             selected = 0;
 
-        // Only play the sound if the selection was changed
         if (selected != lastSelected && change != 0)
+        {
             FunkinSound.playOnce('ui/sounds/scroll');
+
+            onChanged.dispatch(selected);
+        }
     }
 
     public function load(songs:Array<String>, difficulty:String)

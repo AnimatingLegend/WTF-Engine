@@ -25,7 +25,7 @@ class CharacterRegistry extends BaseRegistry<CharacterData>
         // Loads the entries
         for (id in FileUtil.listFolders(path))
         {
-            var metaPath:String = Paths.json('$path/$id/meta');
+            final metaPath:String = Paths.json('$path/$id/meta');
 
             // Skip the character if it doesn't have metadata
             if (!Paths.exists(metaPath)) continue;

@@ -1,6 +1,7 @@
 package funkin.ui.freeplay.components;
 
 import funkin.input.Controls;
+import funkin.ui.selector.SelectorText;
 
 /**
  * Text that displays how freeplay songs are currently being sorted.

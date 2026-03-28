@@ -8,17 +8,17 @@ import funkin.graphics.FunkinSprite;
 import funkin.graphics.FunkinText;
 import funkin.graphics.shader.TextureSwap;
 import funkin.play.PlayState;
+import funkin.play.Playlist;
 import funkin.play.song.Song;
 import funkin.save.Save;
 import funkin.ui.freeplay.capsule.CapsuleGroup;
 import funkin.ui.freeplay.capsule.CapsuleSprite;
 import funkin.ui.freeplay.components.BackcardSprite;
 import funkin.ui.freeplay.components.DJSprite;
-import funkin.ui.freeplay.components.DifficultyText;
 import funkin.ui.freeplay.components.SortText;
 import funkin.ui.menu.MainMenuState;
+import funkin.ui.selector.DifficultyText;
 import funkin.util.MathUtil;
-import funkin.util.StringUtil;
 
 /**
  * The engine's freeplay sub state.
@@ -31,13 +31,13 @@ class FreeplaySubState extends FunkinSubState
     static var selectedSort:Int = 0;
 
     var skipIntro:Bool;
-    var busy:Bool = false;
+    var exitMovers:ExitMovers;
+    var stateMachine:StateMachine;
 
     var song(get, never):Song;
     var difficulty(get, never):String;
-    
+    var songScore:Int;
     var lerpScore:Float;
-    var exitMovers:ExitMovers;
 
     var backcard:BackcardSprite;
     var backingImage:FunkinSprite;
@@ -61,8 +61,8 @@ class FreeplaySubState extends FunkinSubState
         FunkinSound.playMusic('ui/freeplay/music/random', 0);
         FunkinSound.music.fadeIn(0.75, 0, 0.6);
 
-        _parentState.persistentDraw = false;
-
+        exitMovers = new ExitMovers();
+        stateMachine = new StateMachine();
         conductor.reset(150);
 
         camera = new FlxCamera();
@@ -83,6 +83,7 @@ class FreeplaySubState extends FunkinSubState
         add(dj);
 
         capsules = new CapsuleGroup(selectedSong);
+        capsules.onChanged.add(changeSong);
         add(capsules);
         
         var blackbar:FunkinSprite = new FunkinSprite();
@@ -108,16 +109,15 @@ class FreeplaySubState extends FunkinSubState
 
         diffText = new DifficultyText(selectedDiff, SongRegistry.instance.getDifficulties());
         diffText.y = scoreText.y;
-        diffText.onSelected.add(selectDifficulty);
+        diffText.onChanged.add(changeDiff);
         add(diffText);
 
         sortText = new SortText(selectedSort);
         sortText.screenCenter(X);
         sortText.y = blackbar.height + 30;
-        sortText.onSelected.add(selectSort);
+        sortText.onChanged.add(changeSort);
         add(sortText);
 
-        exitMovers = new ExitMovers();
         exitMovers.add(backcard, -backcard.width);
         exitMovers.add(backingImage, FlxG.width);
         exitMovers.add(dj, -dj.width);
@@ -128,7 +128,10 @@ class FreeplaySubState extends FunkinSubState
         exitMovers.add(diffText, null, -diffText.height);
         exitMovers.add(sortText, null, -sortText.height);
 
-        selectDifficulty(selectedDiff);
+        if (!skipIntro)
+            stateMachine.transition(Transitioning);
+
+        changeDiff(selectedDiff);
         refresh();
 
         if (!skipIntro)
@@ -152,17 +155,16 @@ class FreeplaySubState extends FunkinSubState
         if (controls.BACK)
             exit();
 
-        capsules.busy = busy;
-        diffText.busy = busy;
-        sortText.busy = busy;
+        _parentState.persistentDraw = stateMachine.transitioning();
 
-        // Doing it like this so that random is selected
-        if (!busy)
-            selectedSong = capsules.selected;
+        capsules.lerp = !stateMachine.transitioning();
+        capsules.busy = !stateMachine.canInteract();
+        diffText.busy = !stateMachine.canInteract();
+        sortText.busy = !stateMachine.canInteract();
 
-        lerpScore = MathUtil.lerp(lerpScore, Save.instance.getSongScore(song?.id, difficulty), 0.45);
+        lerpScore = MathUtil.lerp(lerpScore, songScore, 0.45);
 
-        scoreText.text = StringUtil.leadingZeros(Math.round(lerpScore), 10);
+        scoreText.text = Std.string(Math.round(lerpScore)).leadingZeros(10);
         scoreText.x = FlxG.width - scoreText.width - 50;
     }
 
@@ -175,36 +177,42 @@ class FreeplaySubState extends FunkinSubState
         dj.dance();
     }
 
-    function selectDifficulty(selected:Int)
+    function changeSong(selected:Int)
     {
-        busy = true;
-        selectedDiff = selected;
-
-        var songs:Array<String> = SongRegistry.instance.listWithDifficulty(difficulty);
-
-        // Only view favorited songs if selectedSort is 1
-        if (selectedSort == 1)
-            songs = songs.filter(song -> return Save.instance.isSongFavorited(song));
-
-        capsules.load(songs, difficulty);
-        capsules.forEachAlive(capsule -> exitMovers.add(capsule, FlxG.width + capsule.x));
-
-        diffText.x = (440 - diffText.width) / 2;
-
-        FlxTimer.wait(0.1, () -> busy = false);
+        selectedSong = selected;
+        songScore = Save.instance.getSongScore(song?.id, difficulty);
     }
 
-    function selectSort(selected:Int)
+    function changeDiff(selected:Int)
+    {
+        selectedDiff = selected;
+        diffText.x = (440 - diffText.width) / 2;
+
+        loadCapsules();
+        changeSong(selectedSong);
+
+        if (!stateMachine.canInteract()) return;
+        stateMachine.transition(Interacting);
+
+        FlxTimer.wait(0.1, () -> stateMachine.reset());
+    }
+
+    function changeSort(selected:Int)
     {
         selectedSort = selected;
         sortText.screenCenter(X);
 
-        selectDifficulty(selectedDiff);
+        changeDiff(selectedDiff);
+
+        if (!stateMachine.canInteract()) return;
+        stateMachine.transition(Interacting);
+
+        FlxTimer.wait(0.1, () -> stateMachine.reset());
     }
 
     function confirm(capsule:CapsuleSprite)
     {
-        if (busy) return;
+        if (!stateMachine.canInteract()) return;
 
         // The capsule's song is null, meaning that it's Random
         if (capsule.song == null)
@@ -224,7 +232,7 @@ class FreeplaySubState extends FunkinSubState
             capsules.selected = capsule.ID;
         }
 
-        busy = true;
+        stateMachine.transition(Interacting);
 
         capsule.flicker();
         dj.confirm();
@@ -233,7 +241,9 @@ class FreeplaySubState extends FunkinSubState
 
         FlxTimer.wait(1, () -> {
             camera.fade(0xFF000000, 0.25, false, () -> {
-                PlayState.song = capsule.song;
+                Playlist.reset();
+
+                PlayState.song = song;
                 PlayState.difficulty = difficulty;
 
                 FlxG.switchState(() -> new PlayState());
@@ -243,8 +253,8 @@ class FreeplaySubState extends FunkinSubState
 
     function favorite(capsule:CapsuleSprite)
     {
-        if (busy) return;
-        busy = true;
+        if (!stateMachine.canInteract()) return;
+        stateMachine.transition(Interacting);
 
         var capsule:CapsuleSprite = capsules.capsule;
         var song:Song = capsule.song;
@@ -252,41 +262,40 @@ class FreeplaySubState extends FunkinSubState
         if (song != null)
             capsule.favorited = !Save.instance.isSongFavorited(song.id);
 
-        FlxTimer.wait(0.1, () -> busy = false);
+        FlxTimer.wait(0.1, () -> stateMachine.reset());
+    }
+
+    function loadCapsules()
+    {
+        var songs:Array<String> = SongRegistry.instance.listWithDifficulty(difficulty);
+
+        // Only view favorited songs if selectedSort is 1
+        if (selectedSort == 1)
+            songs = songs.filter(song -> return Save.instance.isSongFavorited(song));
+
+        capsules.load(songs, difficulty);
+        capsules.forEachAlive(capsule -> exitMovers.add(capsule, FlxG.width + capsule.x));
     }
 
     function intro()
     {
-        _parentState.persistentDraw = true;
-
-        busy = true;
-        capsules.lerp = false;
-
         backcard.hide();
         exitMovers.intro();
 
         exitMovers.onIntroDone = () -> {
-            _parentState.persistentDraw = false;
-
-            busy = false;
-            capsules.lerp = true;
-
+            stateMachine.reset();
             backcard.show();
         }
     }
 
     function exit()
     {
-        if (busy) return;
-        busy = true;
-
-        _parentState.persistentDraw = true;
-
-        capsules.lerp = false;
+        if (!stateMachine.canInteract()) return;
+        stateMachine.transition(Transitioning);
 
         backcard.hide();
         exitMovers.outro();
-        exitMovers.onOutroDone = () -> close();
+        exitMovers.onOutroDone = close;
 
         FunkinSound.playOnce('ui/sounds/cancel');
         FunkinSound.music.stop();
@@ -294,9 +303,15 @@ class FreeplaySubState extends FunkinSubState
 
     override public function destroy()
     {
-        super.destroy();
-
         FunkinSound.music?.stop();
+
+        if (_parentState != null)
+        {
+            FunkinSound.playMusic('ui/music/menu');
+            FunkinSound.music.fadeIn(0.75, 0);
+        }
+
+        super.destroy();
     }
 
     inline function get_song():Song

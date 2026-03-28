@@ -1,7 +1,10 @@
 package funkin.ui.menu;
 
+import flixel.FlxSubState;
+import funkin.audio.FunkinSound;
 import funkin.graphics.FunkinSprite;
 import funkin.ui.freeplay.FreeplaySubState;
+import funkin.ui.story.StoryMenuSubState;
 
 /**
  * The engine's main menu state.
@@ -12,6 +15,8 @@ class MainMenuState extends FunkinState
     override public function create()
     {
         super.create();
+
+        FunkinSound.playMusic('ui/music/menu');
 
         var bg:FunkinSprite = FunkinSprite.create(0, 0, 'ui/menu/bg', 1.5);
         bg.color = 0xFF363636;
@@ -25,5 +30,7 @@ class MainMenuState extends FunkinState
 
         if (controls.ACCEPT)
             openSubState(new FreeplaySubState());
+        if (controls.RESET)
+            openSubState(new StoryMenuSubState());
     }
 }

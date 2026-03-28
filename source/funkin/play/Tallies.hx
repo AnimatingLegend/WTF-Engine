@@ -27,4 +27,18 @@ class Tallies
         bads = 0;
         shits = 0;
     }
+
+    public function combine(tallies:Tallies)
+    {
+        hits += tallies.hits;
+        misses += tallies.misses;
+
+        // Combo should be the highest combo
+        combo = Std.int(Math.max(tallies.combo, combo));
+
+        sicks += tallies.sicks;
+        goods += tallies.goods;
+        bads += tallies.bads;
+        shits += tallies.shits;
+    }
 }

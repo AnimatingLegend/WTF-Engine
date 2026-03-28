@@ -1,5 +1,6 @@
 package funkin.play;
 
+import flixel.FlxCamera;
 import funkin.audio.FunkinSound;
 import funkin.graphics.FunkinSprite;
 import funkin.graphics.FunkinText;
@@ -40,6 +41,10 @@ class PauseSubState extends FunkinSubState
 
         music = FunkinSound.load('play/music/pause', 0);
 
+        camera = new FlxCamera();
+        camera.bgColor = 0x0;
+        FlxG.cameras.add(camera, false);
+
         bg = new FunkinSprite();
         bg.makeSolidColor(FlxG.width, FlxG.height, 0xFF000000);
         bg.alpha = 0;
@@ -52,7 +57,7 @@ class PauseSubState extends FunkinSubState
         add(songText);
 
         menuList = new MenuList(DEFAULT_ENTRIES);
-        menuList.onSelected.add(select);
+        menuList.onChanged.add(select);
         add(menuList);
 
         updateSongText();
@@ -113,7 +118,7 @@ class PauseSubState extends FunkinSubState
                     PlayState.instance.resetSong();
                     close();
                 case 'exit to menu':
-                    FlxG.switchState(() -> FreeplaySubState.build());
+                    PlayState.instance.exit();
                 case 'difficulty':
                     var entries:Array<String> = song.difficulties.copy();
 

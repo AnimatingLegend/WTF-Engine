@@ -29,6 +29,7 @@ import funkin.play.song.Voices;
 import funkin.save.Save;
 import funkin.ui.FunkinState;
 import funkin.ui.freeplay.FreeplaySubState;
+import funkin.ui.story.StoryMenuSubState;
 import funkin.util.MathUtil;
 import funkin.util.RhythmUtil;
 import funkin.util.SortUtil;
@@ -60,7 +61,6 @@ class PlayState extends FunkinState
 	var healthLerp:Float;
 
 	var camHUD:FlxCamera;
-	var camPause:FlxCamera;
 
 	var opponentStrumline:Strumline;
 	var playerStrumline:Strumline;
@@ -89,13 +89,8 @@ class PlayState extends FunkinState
 		camHUD.bgColor = 0x0;
 		FlxG.cameras.add(camHUD, false);
 
-		camPause = new FlxCamera();
-		camPause.bgColor = 0x0;
-		FlxG.cameras.add(camPause, false);
-
 		camFollow = new FlxObject();
 		camFollow.active = false;
-
 		FlxG.camera.follow(camFollow, LOCKON, 0.03);
 
 		//
@@ -228,7 +223,7 @@ class PlayState extends FunkinState
 		camHUD.zoom = MathUtil.lerp(camHUD.zoom, 1, 0.03);
 
 		if (controls.PAUSE)
-			pause();
+			openSubState(new PauseSubState());
 
 		if (controls.RESET)
 		{
@@ -370,20 +365,27 @@ class PlayState extends FunkinState
 	{
 		songEnded = true;
 
-		// Save the song score
-		Save.instance.setScore(song.id, difficulty, Std.int(score), false);
-
 		FunkinSound.stopAllSounds(true);
 
-		// TODO: Make this open the results screen instead
-		FlxG.switchState(() -> FreeplaySubState.build());
-	}
+		// Saves the song score
+		final score:Int = Std.int(score);
 
-	function pause()
-	{
-		var state:PauseSubState = new PauseSubState();
-		state.camera = camPause;
-		openSubState(state);
+		Save.instance.setSongScore(song.id, difficulty, score, false);
+
+		Playlist.tallies.combine(tallies);
+		Playlist.score += score;
+
+		if (Playlist.next())
+			FlxG.resetState();
+		else
+		{
+			// Saves the level score
+			if (Playlist.isStory)
+				Save.instance.setLevelScore(Playlist.level.id, difficulty, Playlist.score, false);
+
+			// Exits the state
+			exit();
+		}
 	}
 
 	function checkSongTime()
@@ -551,6 +553,14 @@ class PlayState extends FunkinState
 	function opponentHoldNoteHit(holdNote:HoldNoteSprite)
 	{
 		stage.opponent?.resetSingTimer();
+	}
+
+	public function exit()
+	{
+		if (Playlist.isStory)
+			FlxG.switchState(() -> StoryMenuSubState.build());
+		else
+			FlxG.switchState(() -> FreeplaySubState.build());
 	}
 
 	override public function openSubState(subState:FlxSubState)

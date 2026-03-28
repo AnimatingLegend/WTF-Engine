@@ -48,6 +48,10 @@
             "name": "down-miss",
             "frames": [9, 14],
             "framerate": 20
+        },
+        {
+            "name": "hey",
+            "frames": [15, 16, 17]
         }
     ]
 }

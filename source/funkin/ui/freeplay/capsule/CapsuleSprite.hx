@@ -10,7 +10,6 @@ import funkin.graphics.FunkinSprite;
 import funkin.graphics.FunkinText;
 import funkin.play.song.Song;
 import funkin.save.Save;
-import funkin.util.StringUtil;
 
 /**
  * The song capsule sprite used for the freeplay menu.
@@ -131,7 +130,7 @@ class CapsuleSprite extends FlxSpriteGroup
         songText.text = song?.name ?? 'Random';
         songText.updateHitbox();
 
-        bpmText.text = StringUtil.leadingZeros(song?.bpm, 3);
+        bpmText.text = Std.string(song?.bpm).leadingZeros(3);
         bpmText.visible = diffText.visible;
 
         justLoaded = false;
@@ -145,7 +144,7 @@ class CapsuleSprite extends FlxSpriteGroup
     {
         this.difficulty = difficulty;
 
-        ratingText.text = StringUtil.leadingZeros(song?.getRating(difficulty), 2);
+        ratingText.text = Std.string(song?.getRating(difficulty)).leadingZeros(2);
 
         diffText.visible = song != null;
         ratingText.visible = diffText.visible;

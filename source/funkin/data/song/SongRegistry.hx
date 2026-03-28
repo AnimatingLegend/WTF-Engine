@@ -1,7 +1,10 @@
 package funkin.data.song;
 
 import funkin.data.song.SongData;
+import funkin.data.story.LevelData;
+import funkin.data.story.LevelRegistry;
 import funkin.play.song.Song;
+import funkin.ui.story.Level;
 import funkin.util.FileUtil;
 import funkin.util.SortUtil;
 import json2object.JsonParser;
@@ -16,6 +19,8 @@ class SongRegistry extends BaseRegistry<Song>
     var metaParser(default, null) = new JsonParser<SongMetadata>();
     var chartParser(default, null) = new JsonParser<SongChartData>();
 
+    var diffs:Array<String>;
+
     public function new()
     {
         super('songs', 'play/songs');
@@ -28,8 +33,8 @@ class SongRegistry extends BaseRegistry<Song>
         // Loads the entries
         for (id in FileUtil.listFolders(path))
         {
-            var metaPath:String = Paths.json('$path/$id/meta');
-            var chartPath:String = Paths.json('$path/$id/chart');
+            final metaPath:String = Paths.json('$path/$id/meta');
+            final chartPath:String = Paths.json('$path/$id/chart');
 
             // Skip the song if it doesn't have a chart or metadata file
             if (!Paths.exists(metaPath) || !Paths.exists(chartPath)) continue;
@@ -44,7 +49,10 @@ class SongRegistry extends BaseRegistry<Song>
 
     public function getDifficulties():Array<String>
     {
-        var diffs:Array<String> = [];
+        // Use a cached array to make it real easy for the engine
+        if (diffs != null) return diffs;
+
+        diffs = [];
 
         for (song in entries)
         {
@@ -64,13 +72,27 @@ class SongRegistry extends BaseRegistry<Song>
     {
         var list:Array<String> = [];
 
-        for (song in entries)
+        // List songs through levels to ensure proper order
+        for (id in LevelRegistry.instance.listSorted())
         {
-            if (!song.difficulties.contains(diff)) continue;
-            list.push(song.id);
+            var level:Level = LevelRegistry.instance.fetch(id);
+
+            for (id in level.getSongs())
+            {
+                var song:Song = SongRegistry.instance.fetch(id);
+
+                if (list.contains(id) || !song?.difficulties?.contains(diff)) continue;
+                list.push(id);
+            }
         }
 
-        list.sort(SortUtil.defaultsAlphabetically.bind(Constants.DEFAULT_SONGS));
+        // List songs through the entries themselves
+        // Because not every song has a level
+        for (song in entries)
+        {
+            if (list.contains(song.id) || !song.difficulties.contains(diff)) continue;
+            list.push(song.id);
+        }
 
         return list;
     }

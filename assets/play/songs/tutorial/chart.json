@@ -759,7 +759,8 @@
 		{
 			"v": {
 				"c": 1,
-				"a": "hey"
+				"a": "hey",
+				"f": true
 			},
 			"t": 18600,
 			"e": "play-animation"
@@ -767,7 +768,8 @@
 		{
 			"v": {
 				"c": 0,
-				"a": "cheer"
+				"a": "cheer",
+				"f": false
 			},
 			"t": 18600,
 			"e": "play-animation"
@@ -789,7 +791,8 @@
 		{
 			"v": {
 				"c": 1,
-				"a": "hey"
+				"a": "hey",
+				"f": true
 			},
 			"t": 28200,
 			"e": "play-animation"
@@ -797,7 +800,8 @@
 		{
 			"v": {
 				"c": 0,
-				"a": "cheer"
+				"a": "cheer",
+				"f": false
 			},
 			"t": 28200,
 			"e": "play-animation"

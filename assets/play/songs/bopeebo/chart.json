@@ -1450,8 +1450,9 @@
 		},
 		{
 			"v": {
-				"c": 0,
-				"a": "hey"
+				"c": 1,
+				"a": "hey",
+				"f": true
 			},
 			"t": 4200,
 			"e": "play-animation"
@@ -1472,8 +1473,9 @@
 		},
 		{
 			"v": {
-				"c": 0,
-				"a": "hey"
+				"c": 1,
+				"a": "hey",
+				"f": true
 			},
 			"t": 9000,
 			"e": "play-animation"
@@ -1494,8 +1496,9 @@
 		},
 		{
 			"v": {
-				"c": 0,
-				"a": "hey"
+				"c": 1,
+				"a": "hey",
+				"f": true
 			},
 			"t": 13800,
 			"e": "play-animation"
@@ -1516,8 +1519,9 @@
 		},
 		{
 			"v": {
-				"c": 0,
-				"a": "hey"
+				"c": 1,
+				"a": "hey",
+				"f": true
 			},
 			"t": 18600,
 			"e": "play-animation"
@@ -1538,8 +1542,9 @@
 		},
 		{
 			"v": {
-				"c": 0,
-				"a": "hey"
+				"c": 1,
+				"a": "hey",
+				"f": true
 			},
 			"t": 23400,
 			"e": "play-animation"
@@ -1560,16 +1565,18 @@
 		},
 		{
 			"v": {
-				"c": 0,
-				"a": "hey"
+				"c": 1,
+				"a": "hey",
+				"f": true
 			},
 			"t": 28200,
 			"e": "play-animation"
 		},
 		{
 			"v": {
-				"c": 0,
-				"a": "hey"
+				"c": 1,
+				"a": "hey",
+				"f": true
 			},
 			"t": 28500,
 			"e": "play-animation"
@@ -1590,8 +1597,9 @@
 		},
 		{
 			"v": {
-				"c": 0,
-				"a": "hey"
+				"c": 1,
+				"a": "hey",
+				"f": true
 			},
 			"t": 33000,
 			"e": "play-animation"
@@ -1612,8 +1620,9 @@
 		},
 		{
 			"v": {
-				"c": 0,
-				"a": "hey"
+				"c": 1,
+				"a": "hey",
+				"f": true
 			},
 			"t": 37800,
 			"e": "play-animation"
@@ -1634,8 +1643,9 @@
 		},
 		{
 			"v": {
-				"c": 0,
-				"a": "hey"
+				"c": 1,
+				"a": "hey",
+				"f": true
 			},
 			"t": 42600,
 			"e": "play-animation"
@@ -1670,8 +1680,9 @@
 		},
 		{
 			"v": {
-				"c": 0,
-				"a": "hey"
+				"c": 1,
+				"a": "hey",
+				"f": true
 			},
 			"t": 52200,
 			"e": "play-animation"
@@ -1692,8 +1703,9 @@
 		},
 		{
 			"v": {
-				"c": 0,
-				"a": "hey"
+				"c": 1,
+				"a": "hey",
+				"f": true
 			},
 			"t": 57000,
 			"e": "play-animation"
@@ -1714,8 +1726,9 @@
 		},
 		{
 			"v": {
-				"c": 0,
-				"a": "hey"
+				"c": 1,
+				"a": "hey",
+				"f": true
 			},
 			"t": 61800,
 			"e": "play-animation"
@@ -1736,16 +1749,18 @@
 		},
 		{
 			"v": {
-				"c": 0,
-				"a": "hey"
+				"c": 1,
+				"a": "hey",
+				"f": true
 			},
 			"t": 66600,
 			"e": "play-animation"
 		},
 		{
 			"v": {
-				"c": 0,
-				"a": "hey"
+				"c": 1,
+				"a": "hey",
+				"f": true
 			},
 			"t": 66900,
 			"e": "play-animation"
@@ -1766,8 +1781,9 @@
 		},
 		{
 			"v": {
-				"c": 0,
-				"a": "hey"
+				"c": 1,
+				"a": "hey",
+				"f": true
 			},
 			"t": 71400,
 			"e": "play-animation"
@@ -1788,8 +1804,9 @@
 		},
 		{
 			"v": {
-				"c": 0,
-				"a": "hey"
+				"c": 1,
+				"a": "hey",
+				"f": true
 			},
 			"t": 76200,
 			"e": "play-animation"

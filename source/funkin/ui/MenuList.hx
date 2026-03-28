@@ -16,7 +16,7 @@ class MenuList extends FlxTypedGroup<FunkinText>
     public var size(get, never):Int;
 
     public var selected:Int = 0;
-    public var onSelected(default, null) = new FlxTypedSignal<String->Void>();
+    public var onChanged(default, null) = new FlxTypedSignal<String->Void>();
 
     var controls(get, never):Controls;
 
@@ -34,7 +34,7 @@ class MenuList extends FlxTypedGroup<FunkinText>
         if (controls.UI_UP_P || controls.UI_DOWN_P)
             change(controls.UI_UP_P ? -1 : 1);
         if (controls.ACCEPT)
-            onSelected.dispatch(entries[selected]);
+            onChanged.dispatch(entries[selected]);
 
         // Updates the items to be in the correct position
         forEachAlive(item -> {

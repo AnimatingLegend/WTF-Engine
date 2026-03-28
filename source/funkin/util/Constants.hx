@@ -21,17 +21,15 @@ class Constants
     public static final ZOOM:Float = 1.35;
 
     /**
-     * This is so that the engine's songs have higher priority over custom songs.
+     * This is so that the engine's levels have higher priority over custom levels.
      */
-    public static final DEFAULT_SONGS:Array<String> = [
+    public static final DEFAULT_LEVELS:Array<String> = [
         'tutorial',
-        'bopeebo',
-        'fresh',
-        'dadbattle'
+        'week1'
     ];
 
-    public static final DEFAULT_SONG_NAME:String = 'Untitled';
-    public static final DEFAULT_SONG_ARTIST:String = 'Unknown';
+    public static final DEFAULT_NAME:String = 'Untitled';
+    public static final DEFAULT_ARTIST:String = 'Unknown';
     public static final DEFAULT_SPEED:Float = 1;
     public static final DEFAULT_CAMERA_ZOOM:Float = 1;
 

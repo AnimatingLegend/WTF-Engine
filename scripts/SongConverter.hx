@@ -91,13 +91,14 @@ class SongConverter
                     var target:String = event.v.target;
                     var c:Int = 0;
 
-                    if (target == 'boyfriend')
+                    if (target == 'boyfriend' || target == 'bf')
                         c = 1;
-                    if (target == 'girlfriend')
+                    if (target == 'girlfriend' || target == 'gf')
                         c = 2;
 
                     value.c = c;
                     value.a = event.v.anim;
+                    value.f = event.v.force;
                 default:
                     continue;
             }

@@ -33,6 +33,8 @@ class Character extends FunkinSprite
             addAnimation(anim.name, anim.frames, anim.framerate, anim.looped);
 
         flipX = meta.flipX != isPlayer;
+        flipY = meta.flipY;
+
         offset.set(-meta.globalOffset[0] ?? 0, -meta.globalOffset[1] ?? 0);
 
         resetSingTimer();
@@ -53,16 +55,10 @@ class Character extends FunkinSprite
     }
 
     public function sing(direction:NoteDirection)
-    {
         playAnimation(direction.name, true);
-        resetSingTimer();
-    }
 
     public function miss(direction:NoteDirection)
-    {
         playAnimation('${direction.name}-miss', true);
-        resetSingTimer();
-    }
 
     public function resetSingTimer()
         singTimer = 0;
@@ -74,5 +70,14 @@ class Character extends FunkinSprite
         if (meta.icon == null)
             return null;
         return new HealthIcon(id, meta.icon, isPlayer);
+    }
+
+    override public function playAnimation(name:String, force:Bool = false)
+    {
+        super.playAnimation(name, force);
+
+        // Resets the sing timer
+        if (name != 'idle')
+            resetSingTimer();
     }
 }

@@ -50,8 +50,8 @@ class Song
     inline function get_name():String
     {
         var name:Null<String> = meta.name;
-        if (name == null || name.trim() == '')
-            name = Constants.DEFAULT_SONG_NAME;
+        if (name.isEmpty())
+            name = Constants.DEFAULT_NAME;
         return name;
     }
 
@@ -62,7 +62,7 @@ class Song
     {
         var artist:Null<String> = meta.artist;
         if (artist == null || artist.trim() == '')
-            artist = Constants.DEFAULT_SONG_ARTIST;
+            artist = Constants.DEFAULT_ARTIST;
         return artist;
     }
 

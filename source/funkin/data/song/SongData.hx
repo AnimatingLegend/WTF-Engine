@@ -6,11 +6,9 @@ import funkin.data.event.EventData;
  * A structure object used for song metadata.
  */
 typedef SongMetadata = {
-    @:optional
     var name:String;
     @:default(100)
     var bpm:Float;
-    @:optional
     var artist:String;
     @:default([])
     var difficulties:Array<String>;

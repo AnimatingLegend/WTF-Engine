@@ -15,6 +15,7 @@ typedef CharacterData = {
     @:default(1)
     var scale:Float;
     var flipX:Bool;
+    var flipY:Bool;
     @:default(2)
     var danceEvery:Int;
     @:default(8)

@@ -72,7 +72,7 @@ class GameOverSubState extends FunkinSubState
         if (controls.ACCEPT)
             skip();
         if (controls.BACK)
-            FlxG.switchState(() -> FreeplaySubState.build());
+            PlayState.instance.exit();
     }
 
     function skip()

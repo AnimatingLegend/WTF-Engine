@@ -1,4 +1,4 @@
-package funkin.ui.freeplay.components;
+package funkin.ui.selector;
 
 import funkin.input.Controls;
 
@@ -18,9 +18,7 @@ class DifficultyText extends SelectorText
 
         super(selected, 'ui/freeplay/arrow');
 
-        text.size = 48;
-
-        updateText();
+        size = 48;
     }
 
     override public function update(elapsed:Float)
