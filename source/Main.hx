@@ -1,10 +1,22 @@
 package;
 
+import flixel.FlxG;
 import flixel.FlxGame;
+import flixel.FlxObject;
+import flixel.util.typeLimit.NextState.InitialState;
+import funkin.Conductor;
+import funkin.data.character.CharacterRegistry;
+import funkin.data.event.EventRegistry;
+import funkin.data.song.SongRegistry;
+import funkin.data.stage.StageRegistry;
+import funkin.data.story.LevelRegistry;
+import funkin.input.Controls;
+import funkin.save.Save;
+import funkin.ui.freeplay.FreeplaySubState;
 import openfl.display.FPS;
 
 /**
- * The engine's main class where Flixel is initialized.
+ * The engine's main class where the game is initialized.
  */
 class Main extends FlxGame
 {
@@ -14,9 +26,37 @@ class Main extends FlxGame
 
 	public function new()
 	{
+		final width:Int = 0;
+		final height:Int = 0;
+		final state:InitialState = InitialState.fromMaker(() -> FreeplaySubState.build());
 		final framerate:Int = 180;
+		final skipSplash:Bool = true;
+		final startFullscreen:Bool = false;
 
-		super(0, 0, funkin.InitState, framerate, framerate, true, false);
+		super(width, height, state, framerate, framerate, skipSplash, startFullscreen);
+
+		//
+		// INIT
+		//
+		
+		// Flixel
+		FlxG.fixedTimestep = false;
+		FlxG.game.focusLostFramerate = 30;
+		FlxG.inputs.resetOnStateSwitch = false;
+		FlxG.mouse.visible = false;
+		FlxObject.defaultMoves = false;
+
+		// Instances
+		Conductor.instance = new Conductor();
+		Controls.instance = new Controls();
+		Save.instance = new Save();
+
+		// Registries
+		CharacterRegistry.instance = new CharacterRegistry();
+		StageRegistry.instance = new StageRegistry();
+		SongRegistry.instance = new SongRegistry();
+		LevelRegistry.instance = new LevelRegistry();
+		EventRegistry.instance = new EventRegistry();
 	}
 
 	override function create(_)
