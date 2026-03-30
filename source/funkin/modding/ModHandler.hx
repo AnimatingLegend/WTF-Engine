@@ -5,6 +5,7 @@ import funkin.data.event.EventRegistry;
 import funkin.data.song.SongRegistry;
 import funkin.data.stage.StageRegistry;
 import funkin.data.story.LevelRegistry;
+import funkin.util.WindowUtil;
 import polymod.Polymod;
 import sys.FileSystem;
 
@@ -59,10 +60,16 @@ class ModHandler
 
     static function onError(e:PolymodError)
     {
-        // Don't trace errors related to framework or missing icons
-        // Literally no one cares
+        // Trace the message because why the hell not
+        // Only the good errors though
+        // No one cares about framework and missing icons
         if (e.code == FRAMEWORK_INIT || e.code == MOD_MISSING_ICON) return;
 
         trace(e.message);
+
+        // Only alert the player of errors because no one cares about the other stuff
+        // Though the player should be aware of dependency problems as well
+        if (e.severity == ERROR || e.code == MOD_DEPENDENCY_UNMET)
+            WindowUtil.alert(e.message);
     }
 }
