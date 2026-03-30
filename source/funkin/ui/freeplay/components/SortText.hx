@@ -41,9 +41,9 @@ class SortText extends SelectorText
     {
         var sortText:String = 'all';
 
-        if (selected == 1)
+        if (selected == count - 1)
             sortText = 'favorites';
-        else if (selected > 1)
+        else if (selected > 0)
             sortText = level.title;
 
         text.text = sortText;
@@ -58,7 +58,7 @@ class SortText extends SelectorText
     {
         // Gets the level id
         // Holy moly :O
-        final id:String = LevelRegistry.instance.listSorted()[selected - 2];
+        final id:String = LevelRegistry.instance.listSorted()[selected - 1];
 
         return LevelRegistry.instance.fetch(id);
     }

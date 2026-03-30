@@ -272,9 +272,9 @@ class FreeplaySubState extends FunkinSubState
 
         // Song sorting
         // Either sort by favorites, or sort by levels
-        if (selectedSort == 1)
+        if (selectedSort == sortText.count - 1)
             songs = songs.filter(song -> return Save.instance.isSongFavorited(song));
-        else if (selectedSort > 1)
+        else if (selectedSort > 0)
             songs = songs.filter(song -> return sortText.level.hasSong(song));
 
         capsules.load(songs, difficulty);
