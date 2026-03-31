@@ -6,5 +6,6 @@ import flixel.FlxG;
 import funkin.util.Constants;
 
 using StringTools;
+using funkin.util.tools.IteratorTools;
 using funkin.util.tools.StringTools;
 #end

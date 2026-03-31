@@ -47,12 +47,7 @@ class BaseRegistry<T>
     }
 
     public function list():Array<String>
-    {
-        var list:Array<String> = [];
-        for (entry in entries.keys())
-            list.push(entry);
-        return list;
-    }
+        return entries.keys().array();
 
     public function exists(id:String):Bool
         return entries.exists(id);
