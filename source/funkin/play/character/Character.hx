@@ -104,4 +104,6 @@ class Character extends FunkinSprite implements IPlayStateScriptedClass
     public function onSongStart(event:ScriptEvent) {}
     public function onSongEnd(event:ScriptEvent) {}
     public function onSongRetry(event:ScriptEvent) {}
+    public function onPause(event:ScriptEvent) {}
+    public function onGameOver(event:ScriptEvent) {}
 }

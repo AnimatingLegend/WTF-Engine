@@ -20,4 +20,6 @@ enum ScriptEventType
     SongStart;
     SongEnd;
     SongRetry;
+    Pause;
+    GameOver;
 }

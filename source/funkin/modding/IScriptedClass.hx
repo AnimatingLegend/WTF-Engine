@@ -43,4 +43,6 @@ interface IPlayStateScriptedClass extends IConductorScriptedClass extends INoteS
     public function onSongStart(event:ScriptEvent):Void;
     public function onSongEnd(event:ScriptEvent):Void;
     public function onSongRetry(event:ScriptEvent):Void;
+    public function onPause(event:ScriptEvent):Void;
+    public function onGameOver(event:ScriptEvent):Void;
 }

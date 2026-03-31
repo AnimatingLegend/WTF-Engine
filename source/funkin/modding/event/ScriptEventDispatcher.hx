@@ -93,6 +93,10 @@ class ScriptEventDispatcher
                     target.onSongEnd(event);
                 case SongRetry:
                     target.onSongRetry(event);
+                case Pause:
+                    target.onPause(event);
+                case GameOver:
+                    target.onGameOver(event);
                 default:
                     // Does literally nothing
             }

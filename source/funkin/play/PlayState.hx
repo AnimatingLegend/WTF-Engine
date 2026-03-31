@@ -230,7 +230,7 @@ class PlayState extends FunkinState
 		camHUD.zoom = MathUtil.lerp(camHUD.zoom, 1, 0.03);
 
 		if (controls.PAUSE)
-			openSubState(new PauseSubState());
+			pause();
 
 		if (controls.RESET)
 		{
@@ -240,7 +240,13 @@ class PlayState extends FunkinState
 
 		// Death :(
 		if (health <= healthBar.min)
-			openSubState(new GameOverSubState());
+		{
+			var event:ScriptEvent = new ScriptEvent(GameOver, true);
+			dispatch(event);
+
+			if (!event.cancelled)
+				openSubState(new GameOverSubState());
+		}
 	}
 
 	override function beatHit(beat:Int)
@@ -337,6 +343,16 @@ class PlayState extends FunkinState
 
 		if (instant)
 			FlxG.camera.snapToTarget();
+	}
+
+	public function pause()
+	{
+		var event:ScriptEvent = new ScriptEvent(Pause, true);
+		dispatch(event);
+
+		if (event.cancelled) return;
+
+		openSubState(new PauseSubState());
 	}
 
 	function loadCharacters()
