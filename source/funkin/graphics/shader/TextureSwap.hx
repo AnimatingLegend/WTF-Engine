@@ -16,8 +16,8 @@ class TextureSwap extends FlxShader
         void main()
         {
             vec2 uv = openfl_TextureCoordv;
-            vec4 color = flixel_texture2D(bitmap, uv);
-            vec4 texColor = flixel_texture2D(uTexture, uv);
+            vec4 color = texture2D(bitmap, uv);
+            vec4 texColor = texture2D(uTexture, uv);
 
             if (color.a > 0.0)
             {
