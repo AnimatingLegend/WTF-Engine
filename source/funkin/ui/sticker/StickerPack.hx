@@ -14,6 +14,8 @@ class StickerPack
 	public var artist(get, never):String;
 	public var images(get, never):Array<String>;
 
+	var _images:Array<String>;
+
 	public function new(id:String)
 	{
 		this.id = id;
@@ -42,7 +44,21 @@ class StickerPack
 	}
 
 	function get_images():Array<String>
-		return meta.images;
+	{
+		if (_images != null)
+			return _images;
+
+		_images = [];
+
+		for (image in meta.images)
+		{
+			if (!Paths.exists(Paths.image('ui/sticker/packs/$id/$image')))
+				continue;
+			_images.push(image);
+		}
+
+		return _images;
+	}
 
 	public function toString():String
 		return '$id | $name';
