@@ -3,12 +3,14 @@
 		"export/**/*.*": true
 	},
 	"[haxe]": {
-		"editor.formatOnSave": false,
-		"editor.formatOnSaveMode":"modifications",
+		"editor.formatOnSave": true,
+		"editor.formatOnSaveMode": "file",
 		"editor.formatOnPaste": false,
+		"editor.defaultFormatter": "nadako.vshaxe",
 		"editor.codeActionsOnSave": {
 			"source.sortImports": "explicit"
 		}
 	},
-	"haxe.enableExtendedIndentation": true
+	"haxe.enableExtendedIndentation": true,
+	"haxe.enableServerView": true,
 }
