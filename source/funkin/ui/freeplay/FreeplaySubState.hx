@@ -317,10 +317,7 @@ class FreeplaySubState extends FunkinSubState
 		FunkinSound.music?.stop();
 
 		if (_parentState != null)
-		{
-			FunkinSound.playMusic('ui/music/menu');
-			FunkinSound.music.fadeIn(0.75, 0);
-		}
+			MainMenuState.playMusic(true);
 
 		super.destroy();
 	}

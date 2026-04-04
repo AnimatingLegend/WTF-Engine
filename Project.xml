@@ -23,6 +23,7 @@
 	<haxedef name="HAS_FPS_COUNTER" />
 	<haxedef name="HAS_MODDING" />
 	<haxedef name="HAS_SCREENSHOTS" if="debug" />
+	<haxedef name="HAS_TITLE_SCARE" />
 
 	<!-- ____________________________ WTF Engine Flags __________________________ -->
 

@@ -7,6 +7,7 @@ import funkin.graphics.FunkinSprite;
 import funkin.graphics.FunkinText;
 import funkin.ui.freeplay.FreeplaySubState;
 import funkin.ui.story.StoryMenuSubState;
+import funkin.ui.title.TitleState;
 
 /**
  * The engine's main menu state.
@@ -25,7 +26,7 @@ class MainMenuState extends FunkinState
 	{
 		super.create();
 
-		FunkinSound.playMusic('ui/music/menu');
+		playMusic();
 
 		stateMachine = new StateMachine();
 
@@ -62,6 +63,8 @@ class MainMenuState extends FunkinState
 	{
 		super.update(elapsed);
 
+		if (controls.BACK)
+			FlxG.switchState(() -> new TitleState());
 		if (controls.ACCEPT)
 			confirm();
 
@@ -86,5 +89,13 @@ class MainMenuState extends FunkinState
 
 		FunkinSound.playOnce('ui/sounds/confirm');
 		FlxTimer.wait(1, stateMachine.reset);
+	}
+
+	public static function playMusic(fadeIn:Bool = false)
+	{
+		FunkinSound.playMusic('ui/music/menu', 1, true, true, false);
+		if (fadeIn)
+			FunkinSound.music.volume = 0;
+		FunkinSound.music.fadeIn(0.75, FunkinSound.music.volume);
 	}
 }

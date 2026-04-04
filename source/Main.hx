@@ -15,10 +15,14 @@ import funkin.input.Controls;
 import funkin.modding.ModHandler;
 import funkin.modding.module.ModuleHandler;
 import funkin.save.Save;
-import funkin.ui.menu.MainMenuState;
+import funkin.ui.title.TitleState;
 import funkin.util.plugins.ReloadPlugin;
-import funkin.util.plugins.ScreenshotPlugin;
+#if HAS_FPS_COUNTER
 import openfl.display.FPS;
+#end
+#if HAS_SCREENSHOTS
+import funkin.util.plugins.ScreenshotPlugin;
+#end
 
 /**
  * The engine's main class where the game is initialized.
@@ -33,7 +37,7 @@ class Main extends FlxGame
 	{
 		final width:Int = 0;
 		final height:Int = 0;
-		final state:InitialState = MainMenuState;
+		final state:InitialState = TitleState;
 		final framerate:Int = 180;
 		final skipSplash:Bool = true;
 		final startFullscreen:Bool = false;
