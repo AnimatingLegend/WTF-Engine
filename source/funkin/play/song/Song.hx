@@ -69,6 +69,16 @@ class Song implements IPlayStateScriptedClass
 	public function hasDifficulty(diff:String):Bool
 		return getDifficulties().contains(diff);
 
+	public function getVariationFromDifficulty(diff:String):Song
+	{
+		for (variation in variations)
+		{
+			if (variation.hasDifficulty(diff))
+				return variation;
+		}
+		return this;
+	}
+
 	function get_name():String
 	{
 		var name:Null<String> = meta.name;

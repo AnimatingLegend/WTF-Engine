@@ -73,12 +73,12 @@ class CapsuleGroup extends FlxTypedGroup<CapsuleSprite>
 		}
 	}
 
-	public function load(songs:Array<String>, difficulty:String)
+	public function load(songs:Array<String>, diff:String)
 	{
 		killMembers();
 
 		// Builds the Random capsule
-		buildCapsuleSprite(null, difficulty, 0);
+		buildCapsuleSprite(null, diff, 0);
 
 		var prevSong:Song = song;
 
@@ -90,16 +90,12 @@ class CapsuleGroup extends FlxTypedGroup<CapsuleSprite>
 			var song:Song = SongRegistry.instance.fetch(song);
 			var id:Int = i + 1;
 
-			for (variation in song.variations)
-			{
-				if (variation.hasDifficulty(difficulty))
-					song = variation;
-			}
+			song = song.getVariationFromDifficulty(diff);
 
 			if (prevSong?.id == song.id)
 				selected = id;
 
-			buildCapsuleSprite(song, difficulty, id);
+			buildCapsuleSprite(song, diff, id);
 		}
 
 		// Snaps the capsules into place
@@ -116,14 +112,14 @@ class CapsuleGroup extends FlxTypedGroup<CapsuleSprite>
 		justLoaded = false;
 	}
 
-	function buildCapsuleSprite(song:Song, difficulty:String, index:Int):CapsuleSprite
+	function buildCapsuleSprite(song:Song, diff:String, index:Int):CapsuleSprite
 	{
 		var capsule:CapsuleSprite = recycle(CapsuleSprite);
 
 		capsule.ID = index;
 
 		capsule.song = song;
-		capsule.difficulty = difficulty;
+		capsule.difficulty = diff;
 
 		return capsule;
 	}
