@@ -10,7 +10,7 @@ class FunkinAction
 	var keys:Array<FlxKey> = [];
 	var pressed:Bool = false;
 
-	var timestamp(default, null):Int;
+	var timestamp(default, null):Int = 0;
 
 	public function new(keys:Array<FlxKey>)
 	{
@@ -31,7 +31,7 @@ class FunkinAction
 		return pressed;
 
 	public inline function checkPressed():Bool
-		return pressed && FlxG.game.ticks - timestamp <= FlxG.elapsed * Constants.MS_PER_SEC;
+		return FlxG.game.ticks - timestamp <= FlxG.elapsed * Constants.MS_PER_SEC;
 
 	public inline function hasKey(key:FlxKey):Bool
 		return keys.contains(key);

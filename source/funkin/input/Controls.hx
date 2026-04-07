@@ -123,8 +123,8 @@ class Controls
 
 	public function new()
 	{
-		FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDown, false, 1);
-		FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, keyUp, false, 1);
+		FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
+		FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, keyUp);
 	}
 
 	inline function getAction(id:Control):FunkinAction
