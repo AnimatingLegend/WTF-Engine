@@ -1,52 +1,32 @@
 package funkin.input;
 
-import flixel.input.actions.FlxActionSet;
-import flixel.input.keyboard.FlxKey;
+import flixel.FlxG;
+import openfl.events.KeyboardEvent;
 
 /**
- * An enum abstract of the different `FunkinAction` ids.
+ * The engine's controls class where input is handled.
  */
-enum abstract Control(String) to String from String
-{
-	var NOTE_LEFT = 'note-left';
-	var NOTE_DOWN = 'note-down';
-	var NOTE_UP = 'note-up';
-	var NOTE_RIGHT = 'note-right';
-	var UI_LEFT = 'ui-left';
-	var UI_DOWN = 'ui-down';
-	var UI_UP = 'ui-up';
-	var UI_RIGHT = 'ui-right';
-	var ACCEPT = 'accept';
-	var BACK = 'back';
-	var PAUSE = 'pause';
-	var RESET = 'reset';
-	var FAVORITE = 'favorite';
-	var SORT_LEFT = 'sort-left';
-	var SORT_RIGHT = 'sort-right';
-}
-
-/**
- * A class for handling input controls.
- */
-class Controls extends FlxActionSet
+class Controls
 {
 	public static var instance:Controls;
 
-	var note_left(default, null) = new FunkinAction(Control.NOTE_LEFT);
-	var note_down(default, null) = new FunkinAction(Control.NOTE_DOWN);
-	var note_up(default, null) = new FunkinAction(Control.NOTE_UP);
-	var note_right(default, null) = new FunkinAction(Control.NOTE_RIGHT);
-	var ui_left(default, null) = new FunkinAction(Control.UI_LEFT);
-	var ui_down(default, null) = new FunkinAction(Control.UI_DOWN);
-	var ui_up(default, null) = new FunkinAction(Control.UI_UP);
-	var ui_right(default, null) = new FunkinAction(Control.UI_RIGHT);
-	var accept(default, null) = new FunkinAction(Control.ACCEPT);
-	var back(default, null) = new FunkinAction(Control.BACK);
-	var pause(default, null) = new FunkinAction(Control.PAUSE);
-	var reset(default, null) = new FunkinAction(Control.RESET);
-	var favorite(default, null) = new FunkinAction(Control.FAVORITE);
-	var sort_left(default, null) = new FunkinAction(Control.SORT_LEFT);
-	var sort_right(default, null) = new FunkinAction(Control.SORT_RIGHT);
+	var actions:Map<Control, FunkinAction> = [
+		NoteLeft => new FunkinAction([A, LEFT]),
+		NoteDown => new FunkinAction([S, DOWN]),
+		NoteUp => new FunkinAction([W, UP]),
+		NoteRight => new FunkinAction([D, RIGHT]),
+		UILeft => new FunkinAction([A, LEFT]),
+		UIDown => new FunkinAction([S, DOWN]),
+		UIUp => new FunkinAction([W, UP]),
+		UIRight => new FunkinAction([D, RIGHT]),
+		Accept => new FunkinAction([Z, SPACE, ENTER]),
+		Back => new FunkinAction([X, ESCAPE, BACKSPACE]),
+		Pause => new FunkinAction([P, ENTER, ESCAPE]),
+		Reset => new FunkinAction([R]),
+		Favorite => new FunkinAction([F]),
+		SortLeft => new FunkinAction([Q]),
+		SortRight => new FunkinAction([E])
+	];
 
 	public var NOTE_LEFT(get, never):Bool;
 	public var NOTE_DOWN(get, never):Bool;
@@ -73,163 +53,98 @@ class Controls extends FlxActionSet
 	public var SORT_RIGHT(get, never):Bool;
 
 	inline function get_NOTE_LEFT():Bool
-		return note_left.check();
+		return getAction(NoteLeft).check();
 
 	inline function get_NOTE_DOWN():Bool
-		return note_down.check();
+		return getAction(NoteDown).check();
 
 	inline function get_NOTE_UP():Bool
-		return note_up.check();
+		return getAction(NoteUp).check();
 
 	inline function get_NOTE_RIGHT():Bool
-		return note_right.check();
+		return getAction(NoteRight).check();
 
 	inline function get_NOTE_LEFT_P():Bool
-		return note_left.checkPressed();
+		return getAction(NoteLeft).checkPressed();
 
 	inline function get_NOTE_DOWN_P():Bool
-		return note_down.checkPressed();
+		return getAction(NoteDown).checkPressed();
 
 	inline function get_NOTE_UP_P():Bool
-		return note_up.checkPressed();
+		return getAction(NoteUp).checkPressed();
 
 	inline function get_NOTE_RIGHT_P():Bool
-		return note_right.checkPressed();
+		return getAction(NoteRight).checkPressed();
 
 	inline function get_UI_LEFT():Bool
-		return ui_left.check();
+		return getAction(UILeft).check();
 
 	inline function get_UI_DOWN():Bool
-		return ui_down.check();
+		return getAction(UIDown).check();
 
 	inline function get_UI_UP():Bool
-		return ui_up.check();
+		return getAction(UIUp).check();
 
 	inline function get_UI_RIGHT():Bool
-		return ui_right.check();
+		return getAction(UIRight).check();
 
 	inline function get_UI_LEFT_P():Bool
-		return ui_left.checkPressed();
+		return getAction(UILeft).checkPressed();
 
 	inline function get_UI_DOWN_P():Bool
-		return ui_down.checkPressed();
+		return getAction(UIDown).checkPressed();
 
 	inline function get_UI_UP_P():Bool
-		return ui_up.checkPressed();
+		return getAction(UIUp).checkPressed();
 
 	inline function get_UI_RIGHT_P():Bool
-		return ui_right.checkPressed();
+		return getAction(UIRight).checkPressed();
 
 	inline function get_ACCEPT():Bool
-		return accept.checkPressed();
+		return getAction(Accept).checkPressed();
 
 	inline function get_BACK():Bool
-		return back.checkPressed();
+		return getAction(Back).checkPressed();
 
 	inline function get_PAUSE():Bool
-		return pause.checkPressed();
+		return getAction(Pause).checkPressed();
 
 	inline function get_RESET():Bool
-		return reset.checkPressed();
+		return getAction(Reset).checkPressed();
 
 	inline function get_FAVORITE():Bool
-		return favorite.checkPressed();
+		return getAction(Favorite).checkPressed();
 
 	inline function get_SORT_LEFT():Bool
-		return sort_left.checkPressed();
+		return getAction(SortLeft).checkPressed();
 
 	inline function get_SORT_RIGHT():Bool
-		return sort_right.checkPressed();
+		return getAction(SortRight).checkPressed();
 
 	public function new()
 	{
-		super('controls');
-
-		// Adds the actions
-		add(note_left);
-		add(note_down);
-		add(note_up);
-		add(note_right);
-		add(ui_left);
-		add(ui_down);
-		add(ui_up);
-		add(ui_right);
-		add(accept);
-		add(back);
-		add(pause);
-		add(reset);
-		add(favorite);
-		add(sort_left);
-		add(sort_right);
-
-		// Sets the keys
-		setKeys(Control.NOTE_LEFT, [A, LEFT]);
-		setKeys(Control.NOTE_DOWN, [S, DOWN]);
-		setKeys(Control.NOTE_UP, [W, UP]);
-		setKeys(Control.NOTE_RIGHT, [D, RIGHT]);
-		setKeys(Control.UI_LEFT, [A, LEFT]);
-		setKeys(Control.UI_DOWN, [S, DOWN]);
-		setKeys(Control.UI_UP, [W, UP]);
-		setKeys(Control.UI_RIGHT, [D, RIGHT]);
-		setKeys(Control.ACCEPT, [Z, ENTER]);
-		setKeys(Control.BACK, [X, ESCAPE]);
-		setKeys(Control.PAUSE, [P, ENTER]);
-		setKeys(Control.RESET, [R]);
-		setKeys(Control.FAVORITE, [F]);
-		setKeys(Control.SORT_LEFT, [Q]);
-		setKeys(Control.SORT_RIGHT, [E]);
+		FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDown, false, 1);
+		FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, keyUp, false, 1);
 	}
 
-	public function setKeys(id:Control, keys:Array<FlxKey>)
-	{
-		func(id, action ->
-		{
-			// Clears any set keys
-			action.removeDevice(KEYBOARD);
+	inline function getAction(id:Control):FunkinAction
+		return actions.get(id);
 
-			// Adds the keys
-			for (key in keys)
-			{
-				action.addKey(key, PRESSED);
-				action.addKey(key, JUST_PRESSED);
-			}
-		});
+	inline function keyDown(event:KeyboardEvent)
+	{
+		for (action in actions)
+		{
+			if (action.hasKey(event.keyCode))
+				action.press();
+		}
 	}
 
-	function func(id:Control, func:FunkinAction->Void)
+	inline function keyUp(event:KeyboardEvent)
 	{
-		switch (id)
+		for (action in actions)
 		{
-			case NOTE_LEFT:
-				func(note_left);
-			case NOTE_DOWN:
-				func(note_down);
-			case NOTE_UP:
-				func(note_up);
-			case NOTE_RIGHT:
-				func(note_right);
-			case UI_LEFT:
-				func(ui_left);
-			case UI_DOWN:
-				func(ui_down);
-			case UI_UP:
-				func(ui_up);
-			case UI_RIGHT:
-				func(ui_right);
-			case ACCEPT:
-				func(accept);
-			case BACK:
-				func(back);
-			case PAUSE:
-				func(pause);
-			case RESET:
-				func(reset);
-			case FAVORITE:
-				func(favorite);
-			case SORT_LEFT:
-				func(sort_left);
-			case SORT_RIGHT:
-				func(sort_right);
+			if (action.hasKey(event.keyCode))
+				action.release();
 		}
 	}
 }

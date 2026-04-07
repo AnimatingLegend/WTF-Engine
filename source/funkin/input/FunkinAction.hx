@@ -1,66 +1,38 @@
 package funkin.input;
 
-import flixel.input.FlxInput.FlxInputState;
-import flixel.input.actions.FlxAction.FlxActionDigital;
-import flixel.input.actions.FlxActionInput.FlxInputDevice;
-import funkin.input.Controls.Control;
+import flixel.input.keyboard.FlxKey;
 
 /**
- * An extension of `FlxActionDigital` used for `Controls`.
+ * The engine's control action class.
  */
-class FunkinAction extends FlxActionDigital
+class FunkinAction
 {
-	public function new(id:Control)
+	var keys:Array<FlxKey> = [];
+	var pressed:Bool = false;
+
+	var timestamp(default, null):Int;
+
+	public function new(keys:Array<FlxKey>)
 	{
-		super(id);
+		this.keys = keys;
 	}
 
-	public override function check():Bool
-		return checkFiltered(PRESSED);
-
-	public function checkPressed():Bool
-		return checkFiltered(JUST_PRESSED);
-
-	public function removeDevice(device:FlxInputDevice)
+	public function press()
 	{
-		for (input in inputs)
-		{
-			if (input.device != device)
-				continue;
-			input.destroy();
-		}
+		if (!pressed)
+			timestamp = FlxG.game.ticks;
+		pressed = true;
 	}
 
-	function checkFiltered(trigger:FlxInputState):Bool
-	{
-		// Borrowed from FlxActionDigital hehehe
-		_x = null;
-		_y = null;
+	public function release()
+		pressed = false;
 
-		_timestamp = FlxG.game.ticks;
-		triggered = false;
+	public inline function check():Bool
+		return pressed;
 
-		var i = inputs != null ? inputs.length : 0;
-		while (i-- > 0) // Iterate backwards, since we may remove items
-		{
-			final input = inputs[i];
+	public inline function checkPressed():Bool
+		return pressed && FlxG.game.ticks - timestamp <= FlxG.elapsed * Constants.MS_PER_SEC;
 
-			if (input.destroyed)
-			{
-				inputs.remove(input);
-				continue;
-			}
-
-			// Skip the input if it doesn't match the specified trigger
-			if (input.trigger != trigger)
-				continue;
-
-			input.update();
-
-			if (input.check(this))
-				triggered = true;
-		}
-
-		return triggered;
-	}
+	public inline function hasKey(key:FlxKey):Bool
+		return keys.contains(key);
 }
