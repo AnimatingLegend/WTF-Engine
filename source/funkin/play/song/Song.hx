@@ -140,7 +140,7 @@ class Song implements IPlayStateScriptedClass
 	inline function get_path():String
 	{
 		var path:String = 'play/songs/$id';
-		if (!variation.isEmpty())
+		if (variation != Constants.DEFAULT_VARIATION)
 			path += '/$variation';
 		return path;
 	}
