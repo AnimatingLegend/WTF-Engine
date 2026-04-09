@@ -1,6 +1,7 @@
 package funkin.play;
 
 import flixel.FlxCamera;
+import flixel.tweens.FlxTween;
 import funkin.audio.FunkinSound;
 import funkin.graphics.FunkinSprite;
 import funkin.graphics.FunkinText;
@@ -39,6 +40,7 @@ class PauseSubState extends FunkinSubState
 		#end
 
 		music = FunkinSound.load('play/music/pause', 0);
+		music.fadeIn(2);
 
 		camera = new FlxCamera();
 		camera.bgColor = 0x0;
@@ -59,6 +61,8 @@ class PauseSubState extends FunkinSubState
 		menuList.onChanged.add(select);
 		add(menuList);
 
+		FlxTween.tween(bg, {alpha: 0.8}, 0.15);
+
 		updateSongText();
 	}
 
@@ -67,10 +71,6 @@ class PauseSubState extends FunkinSubState
 		super.update(elapsed);
 
 		justOpened = false;
-
-		// Gotta do this as tweens cannot be used here :(
-		music.volume = Math.min(1, music.volume += elapsed / 5);
-		bg.alpha = Math.min(0.8, bg.alpha += elapsed * 5);
 	}
 
 	function updateSongText()
@@ -142,6 +142,7 @@ class PauseSubState extends FunkinSubState
 
 		// Destroys the music as it isn't needed anymore
 		// If you remove this line, great things will happen
+		music.fadeTween.cancel();
 		music.destroy();
 	}
 
