@@ -12,21 +12,21 @@
     },
     "props": [
         {
-            "id": "back",
+            "image": "back",
             "position": [-525, -350]
         },
         {
-            "id": "front",
+            "image": "front",
             "position": [-525, 180]
         },
         {
-            "id": "curtain",
+            "image": "curtain",
             "position": [-525, -300],
             "scroll": [0.75, 0.75],
             "zIndex": 3
         },
         {
-            "id": "curtain",
+            "image": "curtain",
             "position": [700, -300],
             "scroll": [0.75, 0.75],
             "flipX": true,

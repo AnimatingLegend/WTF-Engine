@@ -1,0 +1,19 @@
+{
+	"name": "Pico",
+	"gf": "gf",
+	"difficulties": [
+		"easy",
+		"normal",
+		"hard"
+	],
+	"opponent": "pico",
+	"player": "bf",
+	"stage": "philly-train",
+	"bpm": 150,
+	"artist": "Kawai Sprite",
+	"rating": {
+		"normal": 2,
+		"hard": 2,
+		"easy": 1
+	}
+}

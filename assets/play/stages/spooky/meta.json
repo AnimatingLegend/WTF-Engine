@@ -12,7 +12,7 @@
     },
     "props": [
         {
-            "id": "back",
+            "image": "back",
             "position": [-600, -400],
             "scale": 1.1
         }

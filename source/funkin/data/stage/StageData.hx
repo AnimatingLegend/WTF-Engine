@@ -31,7 +31,9 @@ typedef StageCharacterData =
  */
 typedef StagePropData =
 {
+	@:optional
 	var id:String;
+	var image:String;
 	var position:Array<Float>;
 	var scroll:Array<Float>;
 	@:default(1)

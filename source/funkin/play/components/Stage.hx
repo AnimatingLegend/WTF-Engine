@@ -7,9 +7,9 @@ import funkin.data.stage.StageData;
 import funkin.graphics.FunkinSprite;
 import funkin.modding.IScriptedClass.IPlayStateScriptedClass;
 import funkin.modding.event.ScriptEvent;
-import funkin.modding.event.ScriptEventDispatcher;
 import funkin.play.character.Character;
 import funkin.util.MathUtil;
+import haxe.ds.StringMap;
 
 /**
  * A group containing stage props and characters.
@@ -19,11 +19,14 @@ class Stage extends FlxGroup implements IPlayStateScriptedClass
 	public var id:String;
 	public var meta:StageData;
 
+	public var props(default, null) = new StringMap<FunkinSprite>();
 	public var zoom(get, never):Float;
 
 	public var player:Character;
 	public var opponent:Character;
 	public var gf:Character;
+
+	var path(get, never):String;
 
 	public function new(id:String)
 	{
@@ -42,10 +45,11 @@ class Stage extends FlxGroup implements IPlayStateScriptedClass
 			if (prop == null)
 				continue;
 
-			var position:FlxPoint = MathUtil.arrayToPoint(prop.position);
-			var scroll:FlxPoint = MathUtil.arrayToPoint(prop.scroll, 1);
+			final position:FlxPoint = MathUtil.arrayToPoint(prop.position);
+			final scroll:FlxPoint = MathUtil.arrayToPoint(prop.scroll, 1);
 
-			var image:String = 'play/stages/${this.id}/props/${prop.id}';
+			final image:String = '$path/props/${prop.image}';
+
 			var sprite:FunkinSprite = FunkinSprite.create(position.x, position.y, image, prop.scale);
 
 			sprite.scrollFactor.copyFrom(scroll);
@@ -60,12 +64,18 @@ class Stage extends FlxGroup implements IPlayStateScriptedClass
 			position.put();
 			scroll.put();
 
+			if (prop.id != null)
+				props.set(prop.id, sprite);
+
 			add(sprite);
 		}
 
 		// Refreshes to properly sort props
 		refresh();
 	}
+
+	public function getProp(id:String):FunkinSprite
+		return props.get(id);
 
 	public function setPlayer(id:String)
 	{
@@ -135,6 +145,9 @@ class Stage extends FlxGroup implements IPlayStateScriptedClass
 
 	function get_zoom():Float
 		return meta?.zoom ?? Constants.DEFAULT_CAMERA_ZOOM;
+
+	inline function get_path():String
+		return 'play/stages/$id';
 
 	public function onCreate(event:ScriptEvent) {}
 

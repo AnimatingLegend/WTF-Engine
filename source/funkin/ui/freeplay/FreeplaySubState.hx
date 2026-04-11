@@ -191,7 +191,7 @@ class FreeplaySubState extends FunkinSubState
 		diffText.x = (440 - diffText.width) / 2;
 
 		loadCapsules();
-		changeSong(selectedSong);
+		changeSong(capsules.selected);
 
 		if (!stateMachine.canInteract())
 			return;

@@ -1,0 +1,17 @@
+{
+	"name": "Pico Erect",
+	"gf": "gf",
+	"difficulties": [
+		"erect",
+		"nightmare"
+	],
+	"opponent": "pico",
+	"player": "bf",
+	"stage": "philly-train",
+	"bpm": 162,
+	"artist": "Kawai Sprite (feat. Saruky)",
+	"rating": {
+		"nightmare": 10,
+		"erect": 9
+	}
+}

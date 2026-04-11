@@ -1,0 +1,40 @@
+{
+    "name": "Philly Train",
+    "zoom": 1.4,
+    "opponent": {
+        "position": [-220, 350]
+    },
+    "player": {
+        "position": [220, 350]
+    },
+    "gf": {
+        "position": [0, 300]
+    },
+    "props": [
+        {
+            "image": "sky",
+            "position": [0, 20],
+            "scroll": [0.05, 0.05]
+        },
+        {
+            "image": "buildings",
+            "position": [-350, 20],
+            "scroll": [0.3, 0.3]
+        },
+        {
+            "id": "windows",
+            "image": "windows",
+            "position": [-325, 80],
+            "scroll": [0.3, 0.3]
+        },
+        {
+            "id": "train",
+            "image": "train",
+            "position": [0, -180]
+        },
+        {
+            "image": "front",
+            "position": [-550, 150]
+        }
+    ]
+}

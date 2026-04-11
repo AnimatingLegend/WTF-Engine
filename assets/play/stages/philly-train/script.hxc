@@ -1,0 +1,115 @@
+import funkin.play.components.Stage;
+import funkin.audio.FunkinSound;
+import funkin.graphics.FunkinSprite;
+import funkin.util.Constants;
+import funkin.Conductor;
+
+import flixel.util.FlxColor;
+import flixel.util.FlxTimer;
+import flixel.FlxG;
+
+class PhillyTrainStage extends Stage
+{
+    final WINDOW_COLORS:Array<FlxColor> = [0xFFFF0000, 0xFF00FF00, 0xFF0000FF, 0xFFFF00FF];
+    final WINDOW_BEATS:Int = 4;
+    final TRAIN_SPEED:Float = 10000;
+
+    var windowFade:Float;
+
+    var trainActive:Bool = false;
+    var trainMoving:Bool = false;
+
+    var windows:FunkinSprite;
+    var train:FunkinSprite;
+
+    public function new()
+    {
+        super("philly-train");
+    }
+
+    override function onCreate(event:ScriptEvent)
+    {
+        super.onCreate(event);
+
+        windows = getProp("windows");
+        train = getProp("train");
+
+        windowFade = Conductor.instance.crotchet;
+        windowFade /= Constants.MS_PER_SEC / WINDOW_BEATS;
+
+        // Hides the train
+        stopTrain();
+
+        pickWindowColor();
+    }
+
+    override function onUpdate(event:UpdateScriptEvent)
+    {
+        super.onUpdate(event);
+
+        windows.alpha -= event.elapsed / windowFade;
+
+        if (trainMoving)
+        {
+            train.x -= event.elapsed * TRAIN_SPEED;
+
+            if (train.x < -train.width * 2)
+            {
+                stopTrain();
+            }
+        }
+    }
+
+    override function onBeatHit(event:ConductorScriptEvent)
+    {
+        super.onBeatHit(event);
+
+        if (event.beat % WINDOW_BEATS == 0)
+        {
+            pickWindowColor();
+        }
+
+        if (FlxG.random.bool(2))
+        {
+            startTrain();
+        }
+    }
+
+    function pickWindowColor()
+    {
+        var lastColor:FlxColor = windows.color;
+
+        windows.color = WINDOW_COLORS[FlxG.random.int(0, WINDOW_COLORS.length - 1)];
+        windows.alpha = 1;
+
+        if (lastColor == windows.color)
+            pickWindowColor();
+    }
+
+    function startTrain()
+    {
+        if (trainActive) return;
+        trainActive = true;
+
+        train.visible = true;
+        train.x = FlxG.width;
+
+        FunkinSound.playOnce('$path/train');
+
+        FlxTimer.wait(5, () ->
+        {
+            // Shakes the camera for the cool
+            FlxG.camera.shake(0.005, 0.6);
+
+            trainMoving = true;
+        });
+    }
+
+    function stopTrain()
+    {
+        trainActive = false;
+        trainMoving = false;
+
+        train.visible = false;
+    }
+}

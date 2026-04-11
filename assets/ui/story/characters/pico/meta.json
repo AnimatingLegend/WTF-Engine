@@ -1,0 +1,11 @@
+{
+    "name": "Pico",
+    "frameWidth": 226,
+    "frameHeight": 225,
+    "animations": [
+        {
+            "name": "idle",
+            "frames": [0, 1, 2]
+        }
+    ]
+}
