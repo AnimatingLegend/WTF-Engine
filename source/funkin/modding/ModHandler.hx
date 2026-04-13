@@ -90,7 +90,7 @@ class ModHandler
 		Polymod.addDefaultImport(Preferences);
 
 		// Imports Flixel classes
-		Polymod.addDefaultImport(flixel.FlxG);
+		Polymod.addDefaultImport(FlxG);
 	}
 
 	static function onError(e:PolymodError)
@@ -98,7 +98,7 @@ class ModHandler
 		// Trace the message because why the hell not
 		// Only the good errors though
 		// No one cares about framework and missing icons
-		if (e.code == FRAMEWORK_INIT || e.code == MOD_MISSING_ICON)
+		if (e.code == FRAMEWORK_INIT || e.code == MOD_MISSING_ICON || e.code == MOD_MISSING_DIRECTORY)
 			return;
 
 		trace(e.message);
