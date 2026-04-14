@@ -1,6 +1,8 @@
 package funkin.input;
 
 import flixel.FlxG;
+import lime.ui.Gamepad;
+import lime.ui.GamepadButton;
 import openfl.events.KeyboardEvent;
 
 /**
@@ -11,21 +13,21 @@ class Controls
 	public static var instance:Controls;
 
 	var actions:Map<Control, FunkinAction> = [
-		NoteLeft => new FunkinAction([A, LEFT]),
-		NoteDown => new FunkinAction([S, DOWN]),
-		NoteUp => new FunkinAction([W, UP]),
-		NoteRight => new FunkinAction([D, RIGHT]),
-		UILeft => new FunkinAction([A, LEFT]),
-		UIDown => new FunkinAction([S, DOWN]),
-		UIUp => new FunkinAction([W, UP]),
-		UIRight => new FunkinAction([D, RIGHT]),
-		Accept => new FunkinAction([Z, SPACE, ENTER]),
-		Back => new FunkinAction([X, ESCAPE, BACKSPACE]),
-		Pause => new FunkinAction([P, ENTER, ESCAPE]),
-		Reset => new FunkinAction([R]),
-		Favorite => new FunkinAction([F]),
-		SortLeft => new FunkinAction([Q]),
-		SortRight => new FunkinAction([E])
+		NoteLeft => new FunkinAction([A, LEFT], [DPAD_LEFT, X]),
+		NoteDown => new FunkinAction([S, DOWN], [DPAD_DOWN, A]),
+		NoteUp => new FunkinAction([W, UP], [DPAD_UP, Y]),
+		NoteRight => new FunkinAction([D, RIGHT], [DPAD_RIGHT, B]),
+		UILeft => new FunkinAction([A, LEFT], [DPAD_LEFT]),
+		UIDown => new FunkinAction([S, DOWN], [DPAD_DOWN]),
+		UIUp => new FunkinAction([W, UP], [DPAD_UP]),
+		UIRight => new FunkinAction([D, RIGHT], [DPAD_RIGHT]),
+		Accept => new FunkinAction([Z, SPACE, ENTER], [START, A]),
+		Back => new FunkinAction([X, ESCAPE, BACKSPACE], [B]),
+		Pause => new FunkinAction([P, ENTER, ESCAPE], [START]),
+		Reset => new FunkinAction([R], []),
+		Favorite => new FunkinAction([F], [Y]),
+		SortLeft => new FunkinAction([Q], [LEFT_SHOULDER]),
+		SortRight => new FunkinAction([E], [RIGHT_SHOULDER])
 	];
 
 	public var NOTE_LEFT(get, never):Bool;
@@ -125,6 +127,8 @@ class Controls
 	{
 		FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
 		FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, keyUp);
+
+		Gamepad.onConnect.add(gamepadConnect);
 	}
 
 	inline function getAction(id:Control):FunkinAction
@@ -146,5 +150,26 @@ class Controls
 			if (action.hasKey(event.keyCode))
 				action.release();
 		}
+	}
+
+	inline function gamepadConnect(gamepad:Gamepad)
+	{
+		gamepad.onButtonDown.add(button ->
+		{
+			for (action in actions)
+			{
+				if (action.hasButton(button))
+					action.press();
+			}
+		});
+
+		gamepad.onButtonUp.add(button ->
+		{
+			for (action in actions)
+			{
+				if (action.hasButton(button))
+					action.release();
+			}
+		});
 	}
 }
