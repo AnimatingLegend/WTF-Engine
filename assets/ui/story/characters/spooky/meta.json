@@ -1,8 +1,8 @@
 {
     "name": "Spooky Kids",
-    "frameWidth": 218,
-    "frameHeight": 245,
-    "scale": 0.9,
+    "frameWidth": 184,
+    "frameHeight": 227,
+    "scale": 0.95,
     "animations": [
         {
             "name": "idle",

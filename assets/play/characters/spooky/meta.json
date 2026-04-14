@@ -1,8 +1,8 @@
 {
     "name": "Spooky Kids",
-    "frameWidth": 256,
-    "frameHeight": 284,
-    "globalOffset": [0, -390],
+    "frameWidth": 231,
+    "frameHeight": 266,
+    "globalOffset": [0, -360],
     "cameraOffset": [100, -80],
     "icon": {},
     "animations": [
