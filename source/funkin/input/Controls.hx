@@ -2,7 +2,6 @@ package funkin.input;
 
 import flixel.FlxG;
 import lime.ui.Gamepad;
-import lime.ui.GamepadButton;
 import openfl.events.KeyboardEvent;
 
 /**
@@ -123,10 +122,18 @@ class Controls
 	inline function get_SORT_RIGHT():Bool
 		return getAction(SortRight).checkPressed();
 
+	var gamepadConnected:Bool = false;
+
 	public function new()
 	{
 		FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
 		FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, keyUp);
+
+		// Connects any gamepad devices that are already connected
+		// This is need so that controllers don't have to be plugged in AFTER the game starts
+		// So basically, this makes the game less annoying
+		for (device in Gamepad.devices)
+			gamepadConnect(device);
 
 		Gamepad.onConnect.add(gamepadConnect);
 	}
@@ -134,7 +141,7 @@ class Controls
 	inline function getAction(id:Control):FunkinAction
 		return actions.get(id);
 
-	inline function keyDown(event:KeyboardEvent)
+	function keyDown(event:KeyboardEvent)
 	{
 		for (action in actions)
 		{
@@ -143,7 +150,7 @@ class Controls
 		}
 	}
 
-	inline function keyUp(event:KeyboardEvent)
+	function keyUp(event:KeyboardEvent)
 	{
 		for (action in actions)
 		{
@@ -152,8 +159,16 @@ class Controls
 		}
 	}
 
-	inline function gamepadConnect(gamepad:Gamepad)
+	function gamepadConnect(gamepad:Gamepad)
 	{
+		// No point of allowing multiple devices
+		// Do you even need more than one to play the game??
+		if (gamepadConnected)
+			return;
+		gamepadConnected = true;
+
+		trace('Connected gamepad device.');
+
 		gamepad.onButtonDown.add(button ->
 		{
 			for (action in actions)
@@ -170,6 +185,13 @@ class Controls
 				if (action.hasButton(button))
 					action.release();
 			}
+		});
+
+		gamepad.onDisconnect.add(() ->
+		{
+			trace('Disconnected gamepad device.');
+
+			gamepadConnected = false;
 		});
 	}
 }
