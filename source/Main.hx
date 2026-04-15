@@ -84,6 +84,10 @@ class Main extends FlxGame
 		FlxG.mouse.visible = false;
 		FlxObject.defaultMoves = false;
 
+		// Forces the mouse to stay hidden
+		@:privateAccess
+		FlxG.mouse._visibleWhenFocusLost = false;
+
 		// Save data has to be loaded here
 		// It just has to be
 		Save.instance = new Save();
