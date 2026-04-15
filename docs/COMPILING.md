@@ -12,6 +12,9 @@ Below are steps to compiling WTF Engine. Y'know like the requirements and all th
 6. Run `hmm install`.
 7. Run `haxelib run lime setup`.
 
+> [!NOTE]
+> If dependencies need updating, run `hmm install`.
+
 ## Platform Setup
 
 Windows:
@@ -25,4 +28,3 @@ Windows:
 
 - Run `lime test <platform>` to compile the engine.
 - Run `lime run <platform>` if you want to relaunch the engine.
-- If dependencies need updating, run `hmm install` from the repository folder.
