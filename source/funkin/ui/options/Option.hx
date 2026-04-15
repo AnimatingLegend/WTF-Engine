@@ -57,7 +57,7 @@ class Option extends FlxSpriteGroup
 				arrowLeft.y = (text.height - arrowLeft.height) / 2;
 				add(arrowLeft);
 
-				arrowRight = arrowLeft.copy();
+				arrowRight = arrowLeft.clone();
 				arrowRight.flipX = true;
 				arrowRight.y = arrowLeft.y;
 				add(arrowRight);

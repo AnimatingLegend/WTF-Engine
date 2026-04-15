@@ -40,7 +40,7 @@ class SelectorText extends FlxSpriteGroup
 		arrowLeft.active = false;
 		add(arrowLeft);
 
-		arrowRight = arrowLeft.copy();
+		arrowRight = arrowLeft.clone();
 		arrowRight.flipX = true;
 		add(arrowRight);
 

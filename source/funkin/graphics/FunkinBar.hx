@@ -33,7 +33,7 @@ class FunkinBar extends FlxSpriteGroup
 		empty.active = false;
 		add(empty);
 
-		fill = empty.copy();
+		fill = empty.clone();
 		fill.offset.x = isLeft ? -width + 1 : 0;
 		fill.origin.x = isLeft ? 1 : 0;
 		add(fill);

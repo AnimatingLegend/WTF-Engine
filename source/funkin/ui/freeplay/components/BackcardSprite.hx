@@ -41,7 +41,7 @@ class BackcardSprite extends FlxSpriteGroup
 		text3.scrollWidth = card.width;
 		add(text3);
 
-		cardFlash = card.copy();
+		cardFlash = card.clone();
 		cardFlash.visible = false;
 		add(cardFlash);
 	}

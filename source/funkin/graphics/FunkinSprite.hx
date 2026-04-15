@@ -46,10 +46,7 @@ class FunkinSprite extends FlxSprite
 	public function getCurrentAnimation():String
 		return animation.curAnim?.name ?? '';
 
-	/**
-	 * A better version of `FlxSprite`'s `clone` function.
-	 */
-	public function copy():FunkinSprite
+	override public function clone():FunkinSprite
 	{
 		var sprite:FunkinSprite = new FunkinSprite();
 

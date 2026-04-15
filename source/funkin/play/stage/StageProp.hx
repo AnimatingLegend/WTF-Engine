@@ -32,11 +32,10 @@ class StageProp extends FunkinSprite
 			playAnimation(BOP_ANIMATION, true);
 	}
 
-	override public function copy():StageProp
+	override public function clone():StageProp
 	{
 		// This is so fucking stupid
 		// Best I can do unfortunately
-
 		var sprite:StageProp = new StageProp(id);
 
 		sprite.loadGraphicFromSprite(this);

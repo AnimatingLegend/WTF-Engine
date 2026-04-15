@@ -51,7 +51,7 @@ class Stage extends FlxTypedGroup<StageProp> implements IPlayStateScriptedClass
 			var sprite:StageProp;
 
 			if (props.exists(prop.prop))
-				sprite = props.get(prop.prop).copy();
+				sprite = props.get(prop.prop).clone();
 			else
 			{
 				sprite = new StageProp(prop.id);
