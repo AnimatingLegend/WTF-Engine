@@ -40,19 +40,19 @@ class Voices
 	public function checkResync(time:Float)
 	{
 		// Opponent vocals resync
-		if (Math.abs(time - opponent.time) > Constants.RESYNC_THRESHOLD && opponent.playing)
+		if (Math.abs(time - opponent.time) > Constants.RESYNC_THRESHOLD)
 		{
 			opponent.pause();
 			opponent.time = time;
-			opponent.play();
+			opponent.resume();
 		}
 
 		// Player vocals resync
-		if (Math.abs(time - player.time) > Constants.RESYNC_THRESHOLD && player.playing)
+		if (Math.abs(time - player.time) > Constants.RESYNC_THRESHOLD)
 		{
 			player.pause();
 			player.time = time;
-			player.play();
+			player.resume();
 		}
 	}
 

@@ -157,7 +157,7 @@ class PlayState extends FunkinState
 		add(popups);
 
 		loadCharacters();
-		resetSong(false);
+		resetSong();
 
 		refresh();
 
@@ -296,7 +296,7 @@ class PlayState extends FunkinState
 		}
 	}
 
-	public function resetSong(isRetry:Bool = true)
+	public function resetSong()
 	{
 		// Canceling the retry event causes a softlock when dying
 		// Putting this before it to stop that from happening
@@ -309,11 +309,11 @@ class PlayState extends FunkinState
 			healthLerp = health;
 			tallies = new Tallies();
 
-			FunkinSound.playMusic(song.instPath, 1, false, false);
 			voices = new Voices(song);
-		}
 
-		if (isRetry)
+			FunkinSound.playMusic(song.instPath, 1, false, false);
+		}
+		else
 		{
 			var event:ScriptEvent = new ScriptEvent(SongRetry);
 			dispatch(event);
@@ -452,12 +452,10 @@ class PlayState extends FunkinState
 		var event:ScriptEvent = new ScriptEvent(SongEnd);
 		dispatch(event);
 
-		if (event.cancelled)
-			return;
-
 		songEnded = true;
 
-		FunkinSound.stopAllSounds(true);
+		if (event.cancelled)
+			return;
 
 		// Saves the song score
 		final score:Int = Std.int(score);
@@ -466,6 +464,9 @@ class PlayState extends FunkinState
 
 		Playlist.tallies.combine(tallies);
 		Playlist.score += score;
+
+		// Exits or switches to the next song
+		FunkinSound.stopAllSounds(true);
 
 		if (Playlist.next())
 			FlxG.resetState();
@@ -482,25 +483,23 @@ class PlayState extends FunkinState
 
 	function checkSongTime()
 	{
-		// End the song if the time has come...
-		// Doing this normally has a problem unfortunately :(
-		if (conductor.time >= FunkinSound.music.length)
+		// End the song if it's complete
+		// Flixel's onComplete doesn't work properly
+		if (FunkinSound.music.time >= FunkinSound.music.length)
 		{
+			FunkinSound.music.stop();
 			endSong();
-			return;
 		}
 
-		// Don't resync if the song isn't playing
-		if (!FunkinSound.music.playing)
-			return;
-
+		// Instrumental resync
 		if (Math.abs(conductor.time - FunkinSound.music.time) > Constants.RESYNC_THRESHOLD)
 		{
 			FunkinSound.music.pause();
 			FunkinSound.music.time = conductor.time;
-			FunkinSound.music.play();
+			FunkinSound.music.resume();
 
-			trace('Resynced instrumental.');
+			if (FunkinSound.music.playing)
+				trace('Resynced instrumental.');
 		}
 
 		voices.checkResync(conductor.time);
@@ -740,9 +739,6 @@ class PlayState extends FunkinState
 	{
 		super.openSubState(subState);
 
-		FunkinSound.music?.pause();
-		voices?.pause();
-
 		FlxTimer.globalManager.forEach(timer ->
 		{
 			if (!timer.active)
@@ -757,6 +753,8 @@ class PlayState extends FunkinState
 			tween.active = false;
 		});
 
+		FunkinSound.music.pause();
+
 		FlxG.sound.defaultSoundGroup.pause();
 		FlxG.camera.active = false;
 	}
@@ -764,12 +762,6 @@ class PlayState extends FunkinState
 	override public function closeSubState()
 	{
 		super.closeSubState();
-
-		if (songStarted && !songEnded)
-		{
-			FunkinSound.music.play();
-			voices.play();
-		}
 
 		FlxTimer.globalManager.forEach(timer ->
 		{
@@ -784,6 +776,8 @@ class PlayState extends FunkinState
 				return;
 			tween.active = true;
 		});
+
+		FunkinSound.music.resume();
 
 		FlxG.sound.defaultSoundGroup.resume();
 		FlxG.camera.active = true;
