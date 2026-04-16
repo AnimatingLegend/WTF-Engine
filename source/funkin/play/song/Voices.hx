@@ -44,7 +44,7 @@ class Voices
 		{
 			opponent.pause();
 			opponent.time = time;
-			opponent.play();
+			opponent.resume();
 		}
 
 		// Player vocals resync
@@ -52,7 +52,7 @@ class Voices
 		{
 			player.pause();
 			player.time = time;
-			player.play();
+			player.resume();
 		}
 	}
 
