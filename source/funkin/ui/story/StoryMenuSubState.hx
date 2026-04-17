@@ -154,10 +154,6 @@ class StoryMenuSubState extends FunkinSubState
 
 		if (!skipIntro)
 			intro();
-
-		#if HAS_DISCORD_RPC
-		DiscordRPC.updatePresence('Story Menu');
-		#end
 	}
 
 	override public function update(elapsed:Float)
@@ -296,13 +292,6 @@ class StoryMenuSubState extends FunkinSubState
 		exitMovers.onOutroDone = close;
 
 		FunkinSound.playOnce('ui/sounds/cancel');
-	}
-
-	override public function close()
-	{
-		super.close();
-
-		MainMenuState.updatePresence();
 	}
 
 	inline function get_level():Level

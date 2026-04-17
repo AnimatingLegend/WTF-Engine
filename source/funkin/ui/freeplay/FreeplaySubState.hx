@@ -138,10 +138,6 @@ class FreeplaySubState extends FunkinSubState
 
 		if (!skipIntro)
 			intro();
-
-		#if HAS_DISCORD_RPC
-		DiscordRPC.updatePresence('Freeplay Menu');
-		#end
 	}
 
 	override public function update(elapsed:Float)
@@ -383,9 +379,7 @@ class FreeplaySubState extends FunkinSubState
 		super.close();
 
 		FunkinSound.music?.stop();
-
 		MainMenuState.playMusic(true);
-		MainMenuState.updatePresence();
 	}
 
 	inline function get_song():Song

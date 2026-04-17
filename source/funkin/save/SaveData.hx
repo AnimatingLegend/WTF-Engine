@@ -22,4 +22,5 @@ typedef SaveOptionsData =
 	var showTimer:Bool;
 	var showFPS:Bool;
 	var fpsCap:Int;
+	var discordRPC:Bool;
 }

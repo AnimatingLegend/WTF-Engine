@@ -74,6 +74,10 @@ class PauseSubState extends FunkinSubState
 		songText.x = FlxG.width - songText.width - 20;
 
 		FlxTween.tween(bg, {alpha: 0.8}, 0.15);
+
+		#if HAS_DISCORD_RPC
+		DiscordRPC.updatePresence(null, 'Paused');
+		#end
 	}
 
 	override public function update(elapsed:Float)
@@ -131,6 +135,15 @@ class PauseSubState extends FunkinSubState
 					close();
 			}
 		}
+	}
+
+	override public function close()
+	{
+		super.close();
+
+		#if HAS_DISCORD_RPC
+		DiscordRPC.updatePresence();
+		#end
 	}
 
 	override public function destroy()

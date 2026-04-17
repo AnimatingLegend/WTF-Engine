@@ -58,9 +58,12 @@ class MainMenuState extends FunkinState
 		add(items);
 
 		change(selectedItem);
-		updatePresence();
 
 		FlxG.camera.snapToTarget();
+
+		#if HAS_DISCORD_RPC
+		DiscordRPC.updatePresenceMenu();
+		#end
 	}
 
 	override public function update(elapsed:Float)
@@ -124,9 +127,4 @@ class MainMenuState extends FunkinState
 			FunkinSound.music.volume = 0;
 		FunkinSound.music.fadeIn(0.75, FunkinSound.music.volume);
 	}
-
-	#if HAS_DISCORD_RPC
-	public static function updatePresence()
-		DiscordRPC.updatePresence('Main Menu');
-	#end
 }

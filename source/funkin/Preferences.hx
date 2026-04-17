@@ -13,10 +13,16 @@ class Preferences
 	public static var downscroll(get, set):Bool;
 	public static var ghostTapping(get, set):Bool;
 	public static var showTimer(get, set):Bool;
+
 	#if HAS_FPS_COUNTER
 	public static var showFPS(get, set):Bool;
 	#end
+
 	public static var fpsCap(get, set):Int;
+
+	#if HAS_DISCORD_RPC
+	public static var discordRPC(get, set):Bool;
+	#end
 
 	static inline function set_downscroll(value:Bool):Bool
 	{
@@ -83,6 +89,24 @@ class Preferences
 
 	static inline function get_fpsCap():Int
 		return Save.instance.options.fpsCap;
+
+	#if HAS_DISCORD_RPC
+	static inline function set_discordRPC(value:Bool):Bool
+	{
+		Save.instance.options.discordRPC = value;
+		Save.instance.flush();
+
+		if (value)
+			DiscordRPC.start();
+		else
+			DiscordRPC.shutdown(0);
+
+		return value;
+	}
+
+	static inline function get_discordRPC():Bool
+		return Save.instance.options.discordRPC;
+	#end
 
 	//
 	// DEBUG

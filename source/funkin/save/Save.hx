@@ -38,6 +38,11 @@ class Save
 		#if HAS_FPS_COUNTER
 		Main.fpsCounter.visible = options.showFPS;
 		#end
+
+		#if HAS_DISCORD_RPC
+		if (options.discordRPC)
+			DiscordRPC.start();
+		#end
 	}
 
 	public function flush()
@@ -174,6 +179,9 @@ class Save
 				showTimer: true,
 				#if HAS_FPS_COUNTER
 				showFPS: true,
+				#end
+				#if HAS_DISCORD_RPC
+				discordRPC: true,
 				#end
 				fpsCap: 200
 			}

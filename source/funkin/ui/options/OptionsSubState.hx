@@ -49,11 +49,6 @@ class OptionsSubState extends FunkinSubState
 
 		loadOptions();
 		intro();
-
-		#if HAS_DISCORD_RPC
-		if (Std.isOfType(_parentState, MainMenuState))
-			DiscordRPC.updatePresence('Options Menu');
-		#end
 	}
 
 	override public function update(elapsed:Float)
@@ -74,10 +69,15 @@ class OptionsSubState extends FunkinSubState
 		options.addOption('downscroll');
 		options.addOption('ghostTapping', 'ghost tapping');
 		options.addOption('showTimer', 'show timer');
+
 		#if HAS_FPS_COUNTER
 		options.addOption('showFPS', 'show fps');
 		#end
 		options.addOption('fpsCap', 'fps cap', 10, 60, 500);
+
+		#if HAS_DISCORD_RPC
+		options.addOption('discordRPC', 'discord rpc');
+		#end
 
 		options.forEach(option -> exitMovers.add(option, FlxG.width));
 	}
@@ -107,13 +107,5 @@ class OptionsSubState extends FunkinSubState
 
 		FlxTween.tween(bg.scale, {x: 0, y: 0}, 0.75, {ease: FlxEase.quintOut});
 		FunkinSound.playOnce('ui/sounds/cancel');
-	}
-
-	override public function close()
-	{
-		super.close();
-
-		if (Std.isOfType(_parentState, MainMenuState))
-			MainMenuState.updatePresence();
 	}
 }

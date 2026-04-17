@@ -82,7 +82,7 @@ class TitleState extends FunkinState
 		#end
 
 		#if HAS_DISCORD_RPC
-		DiscordRPC.updatePresence('Title Screen');
+		DiscordRPC.updatePresenceMenu();
 		#end
 	}
 

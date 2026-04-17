@@ -89,13 +89,13 @@ class Main extends FlxGame
 		@:privateAccess
 		FlxG.mouse._visibleWhenFocusLost = false;
 
-		// Save data has to be loaded here
-		// It just has to be
-		Save.instance = new Save();
-
 		#if HAS_DISCORD_RPC
 		DiscordRPC.init();
 		#end
+
+		// Save data has to be loaded here
+		// It just has to be
+		Save.instance = new Save();
 
 		// Plugins
 		ReloadPlugin.init();

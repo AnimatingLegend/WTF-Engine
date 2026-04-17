@@ -22,16 +22,14 @@ class DiscordRPC
 	static var handlers:DiscordEventHandlers;
 	static var presence:DiscordRichPresence;
 
+	static var presenceState:String;
+
 	public static function init()
 	{
-		trace('Initializing Discord RPC...');
-
 		handlers = new DiscordEventHandlers();
 		handlers.ready = Function.fromStaticFunction(ready);
 		handlers.errored = Function.fromStaticFunction(error);
 		handlers.disconnected = Function.fromStaticFunction(disconnect);
-
-		Discord.Initialize(APP_ID, RawPointer.addressOf(handlers), false, null);
 
 		// Creates the daemon thread
 		// This allows Discord to update and run its stuff
@@ -52,15 +50,36 @@ class DiscordRPC
 		Lib.application.onExit.add(shutdown);
 	}
 
-	public static function updatePresence(state:String = '', details:String = '')
+	public static function start()
 	{
-		presence.state = state;
+		trace('Initializing Discord RPC...');
+
+		Discord.Initialize(APP_ID, RawPointer.addressOf(handlers), false, null);
+	}
+
+	public static function updatePresence(?state:String, details:String = '')
+	{
+		presence = new DiscordRichPresence();
+		presence.type = DiscordActivityType_Playing;
+
+		presence.state = state ?? presenceState;
 		presence.details = details;
+
+		if (state != null)
+			presenceState = state;
 
 		Discord.UpdatePresence(RawPointer.addressOf(presence));
 	}
 
-	static function shutdown(code:Int)
+	/**
+	 * Updates the presence to show main menu status.
+	 */
+	public static function updatePresenceMenu()
+	{
+		updatePresence('In the menus...');
+	}
+
+	public static function shutdown(code:Int)
 	{
 		trace('Shutting down Discord RPC...');
 
@@ -72,8 +91,7 @@ class DiscordRPC
 		trace('Done initializing Discord RPC.');
 		trace('Haiii!! ${request[0].username}!');
 
-		presence = new DiscordRichPresence();
-		presence.type = DiscordActivityType_Playing;
+		Discord.UpdatePresence(RawPointer.addressOf(presence));
 	}
 
 	static function error(code:Int, message:ConstCharStar)
