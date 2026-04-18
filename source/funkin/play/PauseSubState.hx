@@ -1,6 +1,7 @@
 package funkin.play;
 
 import flixel.FlxCamera;
+import flixel.sound.FlxSound;
 import flixel.tweens.FlxTween;
 import funkin.audio.FunkinSound;
 import funkin.graphics.FunkinSprite;

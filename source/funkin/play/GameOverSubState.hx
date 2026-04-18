@@ -1,5 +1,6 @@
 package funkin.play;
 
+import flixel.sound.FlxSound;
 import flixel.util.FlxTimer;
 import funkin.audio.FunkinSound;
 import funkin.data.character.CharacterRegistry;

@@ -3,7 +3,6 @@ package;
 // Only import classes outside of macro
 #if !macro
 import flixel.FlxG;
-import flixel.sound.FlxSound;
 import funkin.util.Constants;
 
 using StringTools;
