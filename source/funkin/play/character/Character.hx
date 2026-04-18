@@ -75,7 +75,7 @@ class Character extends StageProp implements IPlayStateScriptedClass
 		super.playAnimation(name, force);
 
 		// Resets the sing timer
-		if (name != BOP_ANIMATION)
+		if (name != 'idle')
 			resetSingTimer();
 	}
 

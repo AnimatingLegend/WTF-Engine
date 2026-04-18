@@ -8,8 +8,6 @@ import funkin.graphics.FunkinSprite;
  */
 class StageProp extends FunkinSprite
 {
-	final BOP_ANIMATION:String = 'idle';
-
 	public var id:String;
 	public var bopEvery:Int = 1;
 
@@ -29,7 +27,7 @@ class StageProp extends FunkinSprite
 	public function bop(force:Bool = false)
 	{
 		if ((Conductor.instance.beat % bopEvery == 0) || force)
-			playAnimation(BOP_ANIMATION, true);
+			playAnimation('idle', true);
 	}
 
 	override public function clone():StageProp
