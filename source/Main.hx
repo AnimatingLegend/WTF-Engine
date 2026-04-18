@@ -85,10 +85,6 @@ class Main extends FlxGame
 		FlxG.mouse.visible = false;
 		FlxObject.defaultMoves = false;
 
-		// Forces the mouse to stay hidden
-		@:privateAccess
-		FlxG.mouse._visibleWhenFocusLost = false;
-
 		#if HAS_DISCORD_RPC
 		DiscordRPC.init();
 		#end

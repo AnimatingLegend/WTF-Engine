@@ -1,24 +1,21 @@
 package funkin.audio;
 
+import flixel.FlxG;
 import flixel.sound.FlxSound;
 
 /**
- * A class for playing and handling sounds.
+ * A helper class for handling the engine's audio.
  */
-class FunkinSound extends FlxSound
+class FunkinSound
 {
-	public static var music:FunkinSound;
+	public static var music(get, never):FlxSound;
 
-	public static function load(id:String, volume:Float = 1, looped:Bool = true, autoDestroy:Bool = true, autoPlay:Bool = true):FunkinSound
+	public static inline function load(id:String, volume:Float = 1, looped:Bool = true, autoDestroy:Bool = true, autoPlay:Bool = true):FlxSound
 	{
-		var sound:FunkinSound = cast FlxG.sound.list.recycle(FunkinSound);
+		var sound:FlxSound = FlxG.sound.create(Paths.sound(id));
 
-		sound.loadEmbedded(Paths.sound(id), looped, autoDestroy);
-		sound.persist = false;
-		sound.volume = volume;
-
-		FlxG.sound.list.add(sound);
-		FlxG.sound.defaultSoundGroup.add(sound);
+		sound.setup(volume, 0, autoDestroy);
+		sound.looped = looped;
 
 		if (autoPlay)
 			sound.play();
@@ -26,35 +23,35 @@ class FunkinSound extends FlxSound
 		return sound;
 	}
 
-	public static function playOnce(id:String, volume:Float = 1):FunkinSound
-		return load(id, volume, false);
+	public static inline function playOnce(id:String, volume:Float = 1):FlxSound
+		return FlxG.sound.play(Paths.sound(id), volume);
 
-	public static function playMusic(id:String, volume:Float = 1, looped:Bool = true, autoPlay:Bool = true, overrideMusic:Bool = true)
+	public static inline function playMusic(id:String, volume:Float = 1, looped:Bool = true, autoPlay:Bool = true, overrideMusic:Bool = true)
 	{
 		if (music?.playing && !overrideMusic)
 			return;
 
-		if (music == null)
-			music = new FunkinSound();
-		else if (music.active)
-			music.stop();
+		FlxG.sound.playMusic(Paths.sound(id), null, volume, looped);
 
-		music.loadEmbedded(Paths.sound(id), looped);
-		music.volume = volume;
+		// Forces the music to persist
+		// Music NEEDS to persist
+		// Removing this line will crash the game oh my god
 		music.persist = true;
 
-		FlxG.sound.music = music;
-		FlxG.sound.defaultMusicGroup.add(music);
-
-		if (autoPlay)
-			music.play();
+		if (!autoPlay)
+			music.stop();
 	}
 
 	public static function stopAllSounds(stopMusic:Bool = false)
 	{
-		for (sound in FlxG.sound.list)
+		FlxG.sound.list.forEachAlive(sound ->
+		{
+			if (sound == music && !stopMusic)
+				return;
 			sound.stop();
-		if (stopMusic)
-			music?.stop();
+		});
 	}
+
+	static inline function get_music():FlxSound
+		return FlxG.sound.music;
 }

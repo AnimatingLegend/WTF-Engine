@@ -24,7 +24,7 @@ class PauseSubState extends FunkinSubState
 	var justOpened:Bool = true;
 	var changingDiff:Bool = false;
 
-	var music:FunkinSound;
+	var music:FlxSound;
 
 	var bg:FunkinSprite;
 	var songText:FunkinText;

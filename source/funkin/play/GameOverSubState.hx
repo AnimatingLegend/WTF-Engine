@@ -15,8 +15,8 @@ class GameOverSubState extends FunkinSubState
 
 	var menuConductor:Conductor;
 
-	var music:FunkinSound;
-	var startSound:FunkinSound;
+	var music:FlxSound;
+	var startSound:FlxSound;
 
 	var character:Character;
 

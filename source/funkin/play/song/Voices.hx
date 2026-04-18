@@ -7,8 +7,8 @@ import funkin.audio.FunkinSound;
  */
 class Voices
 {
-	public var opponent:FunkinSound;
-	public var player:FunkinSound;
+	public var opponent:FlxSound;
+	public var player:FlxSound;
 
 	public var opponentVolume(get, set):Float;
 	public var playerVolume(get, set):Float;
