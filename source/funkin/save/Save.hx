@@ -177,12 +177,8 @@ class Save
 				downscroll: false,
 				ghostTapping: true,
 				showTimer: true,
-				#if HAS_FPS_COUNTER
 				showFPS: true,
-				#end
-				#if HAS_DISCORD_RPC
 				discordRPC: true,
-				#end
 				fpsCap: 200
 			}
 		}
