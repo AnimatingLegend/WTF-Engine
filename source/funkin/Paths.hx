@@ -37,6 +37,11 @@ class Paths
 		return path('$id.${Constants.FRAG_EXT}');
 	}
 
+	public static inline function vert(id:String):String
+	{
+		return path('$id.${Constants.VERT_EXT}');
+	}
+
 	public static inline function exists(id:String):Bool
 	{
 		return Assets.exists(id);

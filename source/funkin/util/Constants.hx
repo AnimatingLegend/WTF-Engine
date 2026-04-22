@@ -15,6 +15,7 @@ class Constants
 	public static final SOUND_EXT:String = 'ogg';
 	public static final JSON_EXT:String = 'json';
 	public static final FRAG_EXT:String = 'frag';
+	public static final VERT_EXT:String = 'vert';
 
 	public static final MS_PER_SEC:Int = 1000;
 	public static final SECS_PER_MIN:Int = 60;
