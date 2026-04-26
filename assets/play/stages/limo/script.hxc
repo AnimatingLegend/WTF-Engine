@@ -9,7 +9,7 @@ class LimoStage extends Stage
 
     var carActive:Bool;
     var carMoving:Bool;
-    var carBeat:Int = 0;
+    var carBeat:Int = 10;
 
     var car:StageProp;
 

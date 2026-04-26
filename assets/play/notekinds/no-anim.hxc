@@ -1,0 +1,23 @@
+import funkin.play.note.NoteKind;
+
+class NoAnimationNoteKind extends NoteKind
+{
+    public function new()
+    {
+        super("no-anim");
+    }
+
+    override function onNoteHit(event:NoteScriptEvent)
+    {
+        super.onNoteHit(event);
+
+        event.playAnimation = false;
+    }
+
+    override function onHoldNoteHold(event:HoldNoteScriptEvent)
+    {
+        super.onNoteHit(event);
+
+        event.playAnimation = false;
+    }
+}

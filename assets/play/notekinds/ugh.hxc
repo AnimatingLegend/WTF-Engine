@@ -1,0 +1,12 @@
+import funkin.play.note.NoteKind;
+import funkin.play.PlayState;
+
+class UghNoteKind extends NoteKind
+{
+    public function new()
+    {
+        super("ugh");
+
+        // Handled in Tankman's script
+    }
+}

@@ -4,15 +4,20 @@ import flixel.sound.FlxSound;
 import flixel.util.FlxTimer;
 import funkin.audio.FunkinSound;
 import funkin.data.character.CharacterRegistry;
+import funkin.modding.event.ScriptEvent;
 import funkin.play.character.Character;
 import funkin.ui.FunkinSubState;
 
 /**
  * The game over sub state that appears when the player dies.
+ * 
+ * TODO: Possibly rework how character gameover stuff is handled.
  */
 class GameOverSubState extends FunkinSubState
 {
-	var skipped:Bool = false;
+	public static var instance:GameOverSubState;
+
+	var retrying:Bool = false;
 
 	var menuConductor:Conductor;
 
@@ -27,6 +32,14 @@ class GameOverSubState extends FunkinSubState
 	{
 		super.create();
 
+		instance = this;
+
+		var event:ScriptEvent = new ScriptEvent(GameOverStart);
+		dispatch(event);
+
+		if (event.cancelled)
+			return close();
+
 		PlayState.instance.deaths++;
 
 		_parentState.persistentDraw = false;
@@ -36,14 +49,13 @@ class GameOverSubState extends FunkinSubState
 		menuConductor.reset(100);
 
 		player = PlayState.instance.stage.player;
-		id = player.meta.death ?? player?.id ?? 'bf';
+
+		music = FunkinSound.load(getDeathMusic(), 1, true, true, false);
+
+		startSound = FunkinSound.load(getDeathSound('start'), 1, false);
+		startSound.onComplete = startLoop;
 
 		buildCharacter();
-
-		music = FunkinSound.load(getPath('music'), 1, true, true, false);
-
-		startSound = FunkinSound.load(getPath('start'), 1, false);
-		startSound.onComplete = () -> music.play();
 
 		if (character != null)
 		{
@@ -61,36 +73,34 @@ class GameOverSubState extends FunkinSubState
 		menuConductor.update();
 
 		if (controls.ACCEPT)
-			skip();
+			retry();
 		if (controls.BACK)
 			PlayState.instance.exit();
 	}
 
-	function buildCharacter()
+	function startLoop()
 	{
-		character = CharacterRegistry.instance.fetchCharacter('$id-death');
+		var event:ScriptEvent = new ScriptEvent(GameOverLoop);
+		dispatch(event);
 
-		// Don't do the actual character stuff if it's null
-		// Because I guess you never know when the death sprite doesn't exist
-		if (character == null)
+		if (event.cancelled)
 			return;
 
-		character.scrollFactor.copyFrom(player.scrollFactor);
-		character.setPosition(player.x, player.y);
-		character.playAnimation('start');
-		add(character);
+		music.play();
 	}
 
-	function getPath(id:String):String
+	function retry()
 	{
-		return '${character?.charPath}/$id';
-	}
-
-	function skip()
-	{
-		if (skipped)
+		if (retrying)
 			return;
-		skipped = true;
+
+		var event:ScriptEvent = new ScriptEvent(GameOverRetry);
+		dispatch(event);
+
+		if (event.cancelled)
+			return;
+
+		retrying = true;
 
 		character?.playAnimation('end');
 
@@ -101,8 +111,42 @@ class GameOverSubState extends FunkinSubState
 		// Or else the character keeps bopping
 		menuConductor.reset();
 
-		FunkinSound.playOnce(getPath('end'));
+		FunkinSound.playOnce(getDeathSound('end'));
+
 		FlxTimer.wait(1, () -> FlxG.camera.fade(0xFF000000, 2, false, close));
+	}
+
+	function buildCharacter()
+	{
+		final id:String = player?.meta?.death?.id ?? player?.id;
+
+		character = CharacterRegistry.instance.fetchCharacter('$id-death');
+
+		// Don't do the actual character stuff if it's null
+		// Because I guess you never know when the death sprite doesn't exist
+		if (character == null)
+			return;
+
+		character.scrollFactor.copyFrom(player?.scrollFactor);
+		character.setPosition(player?.x, player?.y);
+
+		character.playAnimation('start');
+
+		add(character);
+	}
+
+	function getDeathMusic():String
+	{
+		final id:String = player?.meta?.death?.music ?? player?.id;
+
+		return 'play/characters/$id-death/music';
+	}
+
+	function getDeathSound(id:String)
+	{
+		final path:String = player?.meta?.death?.sounds ?? player?.id;
+
+		return 'play/characters/$path-death/$id';
 	}
 
 	override function beatHit(beat:Int)
@@ -126,5 +170,12 @@ class GameOverSubState extends FunkinSubState
 		FlxG.camera.fade(0xFF000000, 1, true);
 
 		PlayState.instance.resetSong();
+	}
+
+	override public function destroy()
+	{
+		super.destroy();
+
+		instance = null;
 	}
 }

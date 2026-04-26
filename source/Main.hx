@@ -1,29 +1,10 @@
 package;
 
-import flixel.FlxG;
 import flixel.FlxGame;
-import flixel.FlxObject;
 import flixel.util.typeLimit.NextState.InitialState;
-import funkin.Conductor;
-import funkin.DiscordRPC;
-import funkin.data.character.CharacterRegistry;
-import funkin.data.event.EventRegistry;
-import funkin.data.song.SongRegistry;
-import funkin.data.stage.StageRegistry;
-import funkin.data.sticker.StickerRegistry;
-import funkin.data.story.LevelRegistry;
-import funkin.data.style.StyleRegistry;
-import funkin.input.Controls;
-import funkin.modding.ModHandler;
-import funkin.modding.module.ModuleHandler;
-import funkin.save.Save;
-import funkin.ui.title.TitleState;
-import funkin.util.plugins.ReloadPlugin;
+import funkin.InitState;
 #if HAS_FPS_COUNTER
 import funkin.FPSCounter;
-#end
-#if HAS_SCREENSHOTS
-import funkin.util.plugins.ScreenshotPlugin;
 #end
 
 /**
@@ -39,34 +20,18 @@ class Main extends FlxGame
 	{
 		final width:Int = 0;
 		final height:Int = 0;
-		final state:InitialState = TitleState;
+		final state:InitialState = InitState;
 		final framerate:Int = 60;
 		final skipSplash:Bool = true;
 		final startFullscreen:Bool = false;
 
+		// The FPS counter has to be initialized here
+		// Because the FPS counter is problematic media
+		#if HAS_FPS_COUNTER
+		fpsCounter = new FPSCounter(15, 15);
+		#end
+
 		super(width, height, state, framerate, framerate, skipSplash, startFullscreen);
-
-		//
-		// INIT
-		//
-
-		ModHandler.init();
-
-		// Instances
-		Conductor.instance = new Conductor();
-		Controls.instance = new Controls();
-
-		// Registries
-		CharacterRegistry.instance = new CharacterRegistry();
-		StageRegistry.instance = new StageRegistry();
-		SongRegistry.instance = new SongRegistry();
-		LevelRegistry.instance = new LevelRegistry();
-		EventRegistry.instance = new EventRegistry();
-		StyleRegistry.instance = new StyleRegistry();
-		StickerRegistry.instance = new StickerRegistry();
-
-		// Load modules
-		ModuleHandler.load();
 	}
 
 	override function create(_)
@@ -76,35 +41,8 @@ class Main extends FlxGame
 		// Adds the FPS counter
 		// Only if it's enabled though
 		#if HAS_FPS_COUNTER
-		fpsCounter = new FPSCounter(15, 15);
 		addChild(fpsCounter.bg);
 		addChild(fpsCounter);
-		#end
-
-		// Flixel
-		FlxG.fixedTimestep = false;
-		FlxG.game.focusLostFramerate = 30;
-		FlxG.inputs.resetOnStateSwitch = false;
-		FlxG.mouse.visible = false;
-		FlxObject.defaultMoves = false;
-
-		// Lmao yeah I may have fixed that bug
-		// I guess having the mouse hidden here doesn't work so great
-		@:privateAccess
-		FlxG.mouse._visibleWhenFocusLost = false;
-
-		#if HAS_DISCORD_RPC
-		DiscordRPC.init();
-		#end
-
-		// Save data has to be loaded here
-		// It just has to be
-		Save.instance = new Save();
-
-		// Plugins
-		ReloadPlugin.init();
-		#if HAS_SCREENSHOTS
-		ScreenshotPlugin.init();
 		#end
 	}
 }

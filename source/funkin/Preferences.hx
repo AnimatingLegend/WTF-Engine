@@ -25,6 +25,7 @@ class Preferences
 	public static var discordRPC(get, set):Bool;
 	#end
 
+	@:noCompletion
 	static inline function set_downscroll(value:Bool):Bool
 	{
 		Save.instance.options.downscroll = value;
@@ -35,11 +36,13 @@ class Preferences
 		return value;
 	}
 
+	@:noCompletion
 	static inline function get_downscroll():Bool
 	{
 		return Save.instance.options.downscroll;
 	}
 
+	@:noCompletion
 	static inline function set_ghostTapping(value:Bool):Bool
 	{
 		Save.instance.options.ghostTapping = value;
@@ -48,11 +51,13 @@ class Preferences
 		return value;
 	}
 
+	@:noCompletion
 	static inline function get_ghostTapping():Bool
 	{
 		return Save.instance.options.ghostTapping;
 	}
 
+	@:noCompletion
 	static inline function set_showTimer(value:Bool):Bool
 	{
 		Save.instance.options.showTimer = value;
@@ -63,12 +68,14 @@ class Preferences
 		return value;
 	}
 
+	@:noCompletion
 	static inline function get_showTimer():Bool
 	{
 		return Save.instance.options.showTimer;
 	}
 
 	#if HAS_FPS_COUNTER
+	@:noCompletion
 	static inline function set_showFPS(value:Bool):Bool
 	{
 		Save.instance.options.showFPS = value;
@@ -79,11 +86,13 @@ class Preferences
 		return value;
 	}
 
+	@:noCompletion
 	static inline function get_showFPS():Bool
 	{
 		return Save.instance.options.showFPS;
 	}
 
+	@:noCompletion
 	static inline function set_fpsBGOpacity(value:Int):Int
 	{
 		Save.instance.options.fpsBGOpacity = value;
@@ -94,12 +103,14 @@ class Preferences
 		return value;
 	}
 
+	@:noCompletion
 	static inline function get_fpsBGOpacity():Int
 	{
 		return Save.instance.options.fpsBGOpacity;
 	}
 	#end
 
+	@:noCompletion
 	static inline function set_fpsCap(value:Int):Int
 	{
 		Save.instance.options.fpsCap = value;
@@ -111,12 +122,14 @@ class Preferences
 		return value;
 	}
 
+	@:noCompletion
 	static inline function get_fpsCap():Int
 	{
 		return Save.instance.options.fpsCap;
 	}
 
 	#if HAS_DISCORD_RPC
+	@:noCompletion
 	static inline function set_discordRPC(value:Bool):Bool
 	{
 		Save.instance.options.discordRPC = value;
@@ -130,6 +143,7 @@ class Preferences
 		return value;
 	}
 
+	@:noCompletion
 	static inline function get_discordRPC():Bool
 	{
 		return Save.instance.options.discordRPC;
@@ -141,6 +155,7 @@ class Preferences
 	//
 	public static var botplay(default, set):Bool = false;
 
+	@:noCompletion
 	static inline function set_botplay(value:Bool):Bool
 	{
 		botplay = value;

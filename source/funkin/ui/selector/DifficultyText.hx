@@ -52,6 +52,7 @@ class DifficultyText extends SelectorText
 		super.updateText();
 	}
 
+	@:noCompletion
 	inline function get_difficulty():String
 	{
 		return difficulties[selected];

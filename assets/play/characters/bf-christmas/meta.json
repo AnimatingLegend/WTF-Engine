@@ -5,7 +5,11 @@
     "globalOffset": [0, -350],
     "cameraOffset": [-100, -100],
     "pause": "bf",
-    "death": "bf",
+    "death": {
+        "id": "bf",
+        "sounds": "bf",
+        "music": "bf"
+    },
     "icon": {
         "id": "bf",
         "flipX": true

@@ -6,7 +6,7 @@ import flixel.FlxG;
 
 class SpookyStage extends Stage
 {
-    var lightningBeat:Int = 0;
+    var lightningBeat:Int = 10;
 
     var back:StageProp;
     var window:StageProp;

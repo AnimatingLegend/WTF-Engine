@@ -1,6 +1,7 @@
 package funkin.play.note;
 
 import funkin.graphics.FunkinSprite;
+import funkin.play.note.strum.StrumSprite;
 
 /**
  * A `FunkinSprite` used as a note splash that appears when hitting a note perfectly.

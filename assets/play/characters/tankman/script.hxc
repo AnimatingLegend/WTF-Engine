@@ -1,0 +1,61 @@
+import flixel.util.FlxTimer;
+import flixel.sound.FlxSound;
+import funkin.audio.FunkinSound;
+import funkin.play.character.Character;
+import funkin.play.GameOverSubState;
+
+class TankmanCharacter extends Character
+{
+    var hehTimer:FlxTimer;
+
+    public function new()
+    {
+        super("tankman");
+    }
+
+    override function onCreate(event:ScriptEvent)
+    {
+        super.onCreate(event);
+
+        animation.onFinish.add(name -> {
+            if (name != "heh")
+                return;
+
+            hehTimer?.cancel();
+            hehTimer = FlxTimer.wait(1.15, () -> {
+                playAnimation("pretty-good", true);
+            });
+        });
+    }
+
+    override function onNoteHit(event:NoteScriptEvent)
+    {
+        super.onNoteHit(event);
+
+        switch (event.note.kind)
+        {
+            case "ugh":
+                playAnimation("ugh", true);
+            case "pretty-good":
+                // "heh", then "pretty-good"
+                playAnimation("heh", true);
+
+                // Give a little extra singing time
+                singTimer = -1;
+        }
+    }
+
+    override function onGameOverLoop(event:ScriptEvent)
+    {
+        super.onGameOverLoop(event);
+
+        var music:FlxSound = GameOverSubState.instance.music;
+
+        music.volume = 0.3;
+
+        // Jeff gameover voicelines
+        // Yes Jeff is his name
+        var deathQuote:FlxSound = FunkinSound.playOnce(Paths.random('$charPath/sounds/gameover', 1, 7));
+        deathQuote.onComplete = () -> music.fadeIn(1, music.volume);
+    }
+}

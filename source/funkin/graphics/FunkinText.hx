@@ -24,6 +24,7 @@ class FunkinText extends FlxBitmapText
 		active = false;
 	}
 
+	@:noCompletion
 	override function set_text(value:String):String
 	{
 		value = value?.toLowerCase();
@@ -32,6 +33,7 @@ class FunkinText extends FlxBitmapText
 		return super.set_text(value);
 	}
 
+	@:noCompletion
 	inline function set_size(value:Int):Int
 	{
 		this.size = value;

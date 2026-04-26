@@ -2,6 +2,7 @@ package funkin.data.character;
 
 import funkin.modding.ScriptBases.ScriptedCharacter;
 import funkin.play.character.Character;
+import funkin.play.character.CharacterType;
 import funkin.util.FileUtil;
 import haxe.ds.StringMap;
 import json2object.JsonParser;
@@ -14,7 +15,7 @@ class CharacterRegistry extends BaseRegistry<CharacterData>
 	public static var instance:CharacterRegistry;
 
 	var parser(default, null) = new JsonParser<CharacterData>();
-	var scripted:StringMap<String> = new StringMap<String>();
+	var scripted(default, null) = new StringMap<String>();
 
 	public function new()
 	{
@@ -53,14 +54,16 @@ class CharacterRegistry extends BaseRegistry<CharacterData>
 			try
 			{
 				var character:Character = ScriptedCharacter.scriptInit(script, '');
+
 				scripted.set(character.id, script);
+				character.destroy();
 			}
 			catch (e)
 				trace('Failed to load script $script.');
 		}
 	}
 
-	public function fetchCharacter(id:String, isPlayer:Bool = false):Character
+	public function fetchCharacter(id:String, type:CharacterType = Other):Character
 	{
 		if (!exists(id))
 			return null;
@@ -73,7 +76,7 @@ class CharacterRegistry extends BaseRegistry<CharacterData>
 			character = new Character(id);
 
 		character.meta = fetch(id);
-		character.isPlayer = isPlayer;
+		character.type = type;
 		character.buildSprite();
 
 		return character;

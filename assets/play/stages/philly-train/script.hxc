@@ -14,7 +14,7 @@ class PhillyTrainStage extends Stage
 
     var trainActive:Bool = false;
     var trainMoving:Bool = false;
-    var trainBeat:Int = 0;
+    var trainBeat:Int = 10;
 
     var windows:StageProp;
     var train:StageProp;

@@ -37,6 +37,9 @@ class FreeplaySubState extends FunkinSubState
 
 	var song(get, never):Song;
 	var difficulty(get, never):String;
+
+	var lastSong:Song;
+
 	var songScore:Int;
 	var lerpScore:Float;
 
@@ -60,7 +63,7 @@ class FreeplaySubState extends FunkinSubState
 		super.create();
 
 		FunkinSound.playMusic('ui/freeplay/music/random', 0);
-		FunkinSound.music.fadeIn(0.75, 0, 0.6);
+		FunkinSound.music.fadeIn(1, 0, 0.6);
 
 		exitMovers = new ExitMovers();
 		stateMachine = new StateMachine();
@@ -143,11 +146,8 @@ class FreeplaySubState extends FunkinSubState
 	{
 		super.update(elapsed);
 
-		if (FunkinSound.music?.playing)
-		{
-			conductor.time = FunkinSound.music.time;
-			conductor.update();
-		}
+		conductor.time = FunkinSound.music.time;
+		conductor.update();
 
 		if (controls.FAVORITE)
 			favorite(capsules.capsule);
@@ -181,7 +181,16 @@ class FreeplaySubState extends FunkinSubState
 	function changeSong(selected:Int)
 	{
 		selectedSong = selected;
+
 		songScore = Save.instance.getSongScore(song?.id, difficulty);
+
+		// TODO: Song previews
+		if (lastSong != song)
+		{
+			// Song preview logic
+		}
+
+		lastSong = song;
 	}
 
 	function changeDiff(selected:Int)
@@ -295,11 +304,9 @@ class FreeplaySubState extends FunkinSubState
 		{
 			songs = songs.filter(song ->
 			{
-				var song:Song = SongRegistry.instance.fetch(song).resolveVariation(difficulty);
+				var song:Song = SongRegistry.instance.fetchSong(song, difficulty);
 
-				final variation:String = song.variation;
-
-				return Save.instance.isSongFavorited(song.id, variation);
+				return Save.instance.isSongFavorited(song.id, song.variation);
 			});
 		}
 		else if (selectedSort > 0)
@@ -377,15 +384,16 @@ class FreeplaySubState extends FunkinSubState
 	{
 		super.close();
 
-		FunkinSound.music?.stop();
 		MainMenuState.playMusic(true);
 	}
 
+	@:noCompletion
 	inline function get_song():Song
 	{
 		return capsules.song;
 	}
 
+	@:noCompletion
 	inline function get_difficulty():String
 	{
 		return diffText.difficulty;

@@ -29,7 +29,11 @@ class StateMachine
 		previousState = currentState;
 		currentState = state;
 
-		// trace('Transitioned from $previousState to $currentState.');
+		// This message is a little annoying
+		// Why not make it debug exclusive?
+		#if debug
+		trace('Transitioned from $previousState to $currentState.');
+		#end
 
 		return true;
 	}
@@ -53,5 +57,10 @@ class StateMachine
 	public function transitioning():Bool
 	{
 		return currentState == Transitioning;
+	}
+
+	public function toString():String
+	{
+		return Std.string(currentState);
 	}
 }

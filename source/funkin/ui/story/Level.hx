@@ -64,7 +64,7 @@ class Level implements IPlayStateScriptedClass
 
 		for (song in getSongs())
 		{
-			var song:Song = SongRegistry.instance.fetch(song);
+			var song:Song = SongRegistry.instance.fetchSong(song);
 			var name:String = song.name;
 
 			songNames.push(name);
@@ -78,6 +78,7 @@ class Level implements IPlayStateScriptedClass
 		return getSongs().contains(id);
 	}
 
+	@:noCompletion
 	function get_name():String
 	{
 		var name:String = meta.name;
@@ -86,26 +87,31 @@ class Level implements IPlayStateScriptedClass
 		return name;
 	}
 
+	@:noCompletion
 	function get_title():String
 	{
 		return meta.title ?? id;
 	}
 
+	@:noCompletion
 	function get_opponent():String
 	{
 		return meta.opponent;
 	}
 
+	@:noCompletion
 	function get_player():String
 	{
 		return meta.player;
 	}
 
+	@:noCompletion
 	function get_gf():String
 	{
 		return meta.gf;
 	}
 
+	@:noCompletion
 	function get_color():String
 	{
 		return meta.color;
@@ -116,6 +122,8 @@ class Level implements IPlayStateScriptedClass
 	public function onUpdate(event:UpdateScriptEvent) {}
 
 	public function onDestroy(event:ScriptEvent) {}
+
+	public function onScriptEvent(event:ScriptEvent) {}
 
 	public function onNoteHit(event:NoteScriptEvent) {}
 
@@ -147,7 +155,13 @@ class Level implements IPlayStateScriptedClass
 
 	public function onPause(event:ScriptEvent) {}
 
-	public function onGameOver(event:ScriptEvent) {}
+	public function onResume(event:ScriptEvent) {}
+
+	public function onGameOverStart(event:ScriptEvent) {}
+
+	public function onGameOverLoop(event:ScriptEvent) {}
+
+	public function onGameOverRetry(event:ScriptEvent) {}
 
 	public function toString():String
 	{

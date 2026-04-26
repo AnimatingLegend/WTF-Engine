@@ -55,7 +55,7 @@ class SenpaiSong extends Song
         if (sentpajim && noteCount > 3 && opponent?.hasAnimation("sentpajim"))
         {
             // Prevents singing from overriding the animation
-            event.note.kind = "noanim";
+            event.note.kind = "no-anim";
 
             opponent.playAnimation("sentpajim");
             opponent.screenCenter();

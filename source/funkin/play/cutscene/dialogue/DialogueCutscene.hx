@@ -163,11 +163,13 @@ class DialogueCutscene extends BaseCutscene
 		music.stop();
 	}
 
+	@:noCompletion
 	inline function get_lineText():String
 	{
 		return line.text;
 	}
 
+	@:noCompletion
 	inline function get_lineFinished():Bool
 	{
 		return text.text == lineText;

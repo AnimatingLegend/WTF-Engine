@@ -12,13 +12,13 @@ import funkin.play.stage.StageProp;
 class Character extends StageProp implements IPlayStateScriptedClass
 {
 	public var meta:CharacterData;
-	public var isPlayer:Bool;
+	public var type:CharacterType;
 
 	// Flixel is so fucking stupid
 	// Why does path HAVE to be an already existing variable?!
 	public var charPath(get, never):String;
 
-	var singTimer:Float;
+	var singTimer:Float = 1;
 
 	public function buildSprite()
 	{
@@ -31,13 +31,12 @@ class Character extends StageProp implements IPlayStateScriptedClass
 
 		bopEvery = meta.bopEvery;
 
-		flipX = meta.flipX != isPlayer;
+		flipX = meta.flipX != (type == Player);
 		flipY = meta.flipY;
 
 		offset.set(-meta.globalOffset[0] ?? 0, -meta.globalOffset[1] ?? 0);
 
-		resetSingTimer();
-		bop(true);
+		bop();
 	}
 
 	override public function update(elapsed:Float)
@@ -70,6 +69,8 @@ class Character extends StageProp implements IPlayStateScriptedClass
 
 	public function resetSingTimer()
 	{
+		if (getCurrentAnimation() == 'idle')
+			return;
 		singTimer = 0;
 	}
 
@@ -79,7 +80,7 @@ class Character extends StageProp implements IPlayStateScriptedClass
 		// The god damn errors this would give >:(
 		if (meta.icon == null)
 			return null;
-		return new HealthIcon(id, meta.icon, isPlayer);
+		return new HealthIcon(id, meta.icon, type == Player);
 	}
 
 	override public function playAnimation(name:String, force:Bool = false)
@@ -87,50 +88,62 @@ class Character extends StageProp implements IPlayStateScriptedClass
 		super.playAnimation(name, force);
 
 		// Resets the sing timer
-		if (!name.startsWith('idle'))
-			resetSingTimer();
+		resetSingTimer();
 	}
 
+	@:noCompletion
 	inline function get_charPath():String
 	{
 		return 'play/characters/$id';
 	}
 
-	public function onCreate(event:ScriptEvent) {}
+	override public function onNoteHit(event:NoteScriptEvent)
+	{
+		super.onNoteHit(event);
 
-	public function onUpdate(event:UpdateScriptEvent) {}
+		if (event.cancelled || !event.playAnimation || type == Player != event.note.isPlayer || type == Other)
+			return;
 
-	public function onDestroy(event:ScriptEvent) {}
+		sing(event.note.direction, event.suffix);
+	}
 
-	public function onNoteHit(event:NoteScriptEvent) {}
+	override public function onNoteMiss(event:NoteScriptEvent)
+	{
+		super.onNoteMiss(event);
 
-	public function onNoteMiss(event:NoteScriptEvent) {}
+		if (event.cancelled || !event.playAnimation || type != Player)
+			return;
 
-	public function onHoldNoteHold(event:HoldNoteScriptEvent) {}
+		miss(event.note.direction, event.suffix);
+	}
 
-	public function onHoldNoteDrop(event:HoldNoteScriptEvent) {}
+	override public function onHoldNoteHold(event:HoldNoteScriptEvent)
+	{
+		super.onHoldNoteHold(event);
 
-	public function onGhostMiss(event:GhostMissScriptEvent) {}
+		if (event.cancelled || !event.playAnimation || type == Player != event.holdNote.isPlayer || type == Other)
+			return;
 
-	public function onStepHit(event:ConductorScriptEvent) {}
+		resetSingTimer();
+	}
 
-	public function onBeatHit(event:ConductorScriptEvent) {}
+	override public function onHoldNoteDrop(event:HoldNoteScriptEvent)
+	{
+		super.onHoldNoteDrop(event);
 
-	public function onSongLoaded(event:SongLoadScriptEvent) {}
+		if (event.cancelled || !event.playAnimation || type != Player)
+			return;
 
-	public function onSongStart(event:ScriptEvent) {}
+		miss(event.holdNote.direction, event.suffix);
+	}
 
-	public function onSongEnd(event:ScriptEvent) {}
+	override public function onGhostMiss(event:GhostMissScriptEvent)
+	{
+		super.onGhostMiss(event);
 
-	public function onSongRetry(event:ScriptEvent) {}
+		if (event.cancelled || !event.playAnimation || type != Player)
+			return;
 
-	public function onSongEvent(event:SongEventScriptEvent) {}
-
-	public function onCountdownStart(event:CountdownScriptEvent) {}
-
-	public function onCountdownStep(event:CountdownScriptEvent) {}
-
-	public function onPause(event:ScriptEvent) {}
-
-	public function onGameOver(event:ScriptEvent) {}
+		miss(event.direction, event.suffix);
+	}
 }

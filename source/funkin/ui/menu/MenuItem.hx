@@ -37,6 +37,7 @@ class MenuItem extends FunkinSprite
 		active = false;
 	}
 
+	@:noCompletion
 	function set_selected(value:Bool):Bool
 	{
 		if (this.selected == value)

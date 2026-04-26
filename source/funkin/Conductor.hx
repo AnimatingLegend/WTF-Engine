@@ -74,11 +74,13 @@ class Conductor
 		return value;
 	}
 
+	@:noCompletion
 	inline function get_crotchet():Float
 	{
 		return Constants.SECS_PER_MIN / bpm * Constants.MS_PER_SEC;
 	}
 
+	@:noCompletion
 	inline function get_quaver():Float
 	{
 		return crotchet / Constants.STEPS_PER_BEAT;

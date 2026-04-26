@@ -1,4 +1,4 @@
-package funkin.play.note;
+package funkin.play.note.hold;
 
 import flixel.FlxStrip;
 import funkin.data.song.SongData.SongNoteData;
@@ -141,6 +141,7 @@ class HoldNoteSprite extends FlxStrip
 		endHeight = 0;
 	}
 
+	@:noCompletion
 	function set_direction(value:NoteDirection):NoteDirection
 	{
 		value %= Constants.NOTE_COUNT;
@@ -154,6 +155,7 @@ class HoldNoteSprite extends FlxStrip
 		return value;
 	}
 
+	@:noCompletion
 	function set_length(value:Float):Float
 	{
 		value = Math.max(0, value);
@@ -167,6 +169,7 @@ class HoldNoteSprite extends FlxStrip
 		return value;
 	}
 
+	@:noCompletion
 	function set_speed(value:Float):Float
 	{
 		if (this.speed == value)
@@ -178,6 +181,7 @@ class HoldNoteSprite extends FlxStrip
 		return value;
 	}
 
+	@:noCompletion
 	override function set_flipY(value:Bool):Bool
 	{
 		if (this.flipY == value)
@@ -189,6 +193,7 @@ class HoldNoteSprite extends FlxStrip
 		return value;
 	}
 
+	@:noCompletion
 	inline function get_isPlayer():Bool
 	{
 		return data.d < Constants.NOTE_COUNT;

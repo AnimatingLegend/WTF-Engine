@@ -90,14 +90,20 @@ class Project extends HXProject
             setHaxedef("FLX_NO_DEBUG");
         setHaxedef("NAPE_RELEASE_BUILD");
 
-        // Makes message reporting nice and pretty
-        // Remove this line if you"re lame
-        setHaxedef("message.reporting", "pretty");
-
         // Polymod
         setHaxedef("POLYMOD_MOD_METADATA_FILE", "meta.json");
         setHaxedef("POLYMOD_MOD_ICON_FILE", "icon.png");
+        if (isDebug())
+            setHaxedef("POLYMOD_DEBUG");
         setHaxedef("hscriptPos");
+
+        // This stops Lime's AssetCache class from recompiling every single time
+        // I promise you doing this does nothing bad
+        setHaxedef("lime_disable_assets_version");
+        
+        // Makes message reporting nice and pretty
+        // Remove this line if you"re lame
+        setHaxedef("message.reporting", "pretty");
     }
 
     function setupMacros()

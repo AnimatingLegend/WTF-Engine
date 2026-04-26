@@ -58,11 +58,13 @@ class FunkinState extends FlxState
 		conductor.beatHit.remove(beatHit);
 	}
 
+	@:noCompletion
 	inline function get_conductor():Conductor
 	{
 		return Conductor.instance;
 	}
 
+	@:noCompletion
 	inline function get_controls():Controls
 	{
 		return Controls.instance;

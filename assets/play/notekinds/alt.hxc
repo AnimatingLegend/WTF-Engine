@@ -1,0 +1,16 @@
+import funkin.play.note.NoteKind;
+
+class AltNoteKind extends NoteKind
+{
+    public function new()
+    {
+        super("alt");
+    }
+
+    override function onNoteHit(event:NoteScriptEvent)
+    {
+        super.onNoteHit(event);
+
+        event.suffix = "-alt";
+    }
+}

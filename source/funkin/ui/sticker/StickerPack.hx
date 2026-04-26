@@ -31,6 +31,7 @@ class StickerPack
 		return FlxG.random.getObject(images);
 	}
 
+	@:noCompletion
 	function get_name():String
 	{
 		var name:String = meta.name;
@@ -39,6 +40,7 @@ class StickerPack
 		return name;
 	}
 
+	@:noCompletion
 	function get_artist():String
 	{
 		var artist:String = meta.artist;
@@ -47,6 +49,7 @@ class StickerPack
 		return artist;
 	}
 
+	@:noCompletion
 	function get_images():Array<String>
 	{
 		if (_images != null)

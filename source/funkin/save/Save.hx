@@ -98,7 +98,7 @@ class Save
 
 	public function isSongComplete(id:String):Bool
 	{
-		var song:Song = SongRegistry.instance.fetch(id);
+		var song:Song = SongRegistry.instance.fetchSong(id);
 
 		if (song == null)
 			return false;
@@ -170,16 +170,19 @@ class Save
 	// GETTERS
 	//
 
+	@:noCompletion
 	inline function get_scores():StringMap<Int>
 	{
 		return data.scores;
 	}
 
+	@:noCompletion
 	inline function get_favorites():StringMap<Bool>
 	{
 		return data.favorites;
 	}
 
+	@:noCompletion
 	inline function get_options():SaveOptionsData
 	{
 		return data.options;

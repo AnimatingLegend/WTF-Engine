@@ -2,9 +2,9 @@ package funkin.modding.event;
 
 import funkin.data.event.EventData;
 import funkin.data.song.SongData.SongNoteData;
-import funkin.play.note.HoldNoteSprite;
 import funkin.play.note.NoteDirection;
 import funkin.play.note.NoteSprite;
+import funkin.play.note.hold.HoldNoteSprite;
 import funkin.play.song.Song;
 import funkin.ui.freeplay.capsule.CapsuleSprite;
 
@@ -85,6 +85,9 @@ class NoteScriptEvent extends ScriptEvent
 {
 	public var note(default, null):NoteSprite;
 
+	public var playAnimation:Bool = true;
+	public var suffix:String = '';
+
 	public function new(type:ScriptEventType, note:NoteSprite)
 	{
 		super(type);
@@ -101,6 +104,9 @@ class NoteScriptEvent extends ScriptEvent
 class HoldNoteScriptEvent extends ScriptEvent
 {
 	public var holdNote(default, null):HoldNoteSprite;
+
+	public var playAnimation:Bool = true;
+	public var suffix:String = '';
 
 	public function new(type:ScriptEventType, holdNote:HoldNoteSprite)
 	{
@@ -137,6 +143,9 @@ class SongEventScriptEvent extends ScriptEvent
 class GhostMissScriptEvent extends ScriptEvent
 {
 	public var direction(default, null):NoteDirection;
+
+	public var playAnimation:Bool = true;
+	public var suffix:String = '';
 
 	public function new(direction:NoteDirection)
 	{

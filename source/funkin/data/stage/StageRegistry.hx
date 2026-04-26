@@ -14,7 +14,7 @@ class StageRegistry extends BaseRegistry<StageData>
 	public static var instance:StageRegistry;
 
 	var parser(default, null) = new JsonParser<StageData>();
-	var scripted:StringMap<String> = new StringMap();
+	var scripted(default, null) = new StringMap<String>();
 
 	public function new()
 	{
@@ -53,7 +53,9 @@ class StageRegistry extends BaseRegistry<StageData>
 			try
 			{
 				var stage:Stage = ScriptedStage.scriptInit(script, '');
+
 				scripted.set(stage.id, script);
+				stage.destroy();
 			}
 			catch (e)
 				trace('Failed to load script $script.');

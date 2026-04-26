@@ -1,9 +1,11 @@
-package funkin.play.note;
+package funkin.play.note.strum;
 
 import flixel.group.FlxGroup;
 import flixel.util.FlxSignal.FlxTypedSignal;
 import flixel.util.FlxSort;
 import funkin.data.song.SongData;
+import funkin.play.note.hold.HoldNoteCover;
+import funkin.play.note.hold.HoldNoteSprite;
 import funkin.util.RhythmUtil;
 import funkin.util.SortUtil;
 
@@ -303,6 +305,7 @@ class Strumline extends FlxGroup
 		return strums.members[direction];
 	}
 
+	@:noCompletion
 	function set_speed(value:Float):Float
 	{
 		value = Math.max(0, value);
@@ -316,6 +319,7 @@ class Strumline extends FlxGroup
 		return value;
 	}
 
+	@:noCompletion
 	inline function set_x(value:Float):Float
 	{
 		this.x = value;

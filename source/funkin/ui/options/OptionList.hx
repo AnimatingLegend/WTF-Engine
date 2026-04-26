@@ -132,11 +132,13 @@ class OptionList extends FlxTypedGroup<Option>
 		return 300 + 100 * (option.ID - selected);
 	}
 
+	@:noCompletion
 	inline function get_option():Option
 	{
 		return members[selected];
 	}
 
+	@:noCompletion
 	inline function get_controls():Controls
 	{
 		return Controls.instance;

@@ -60,6 +60,7 @@ class BaseCutscene extends FlxGroup
 		super.destroy();
 	}
 
+	@:noCompletion
 	inline function get_controls():Controls
 	{
 		return Controls.instance;

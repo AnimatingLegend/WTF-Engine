@@ -10,6 +10,7 @@ interface IScriptedClass
 	public function onCreate(event:ScriptEvent):Void;
 	public function onUpdate(event:UpdateScriptEvent):Void;
 	public function onDestroy(event:ScriptEvent):Void;
+	public function onScriptEvent(event:ScriptEvent):Void;
 }
 
 /**
@@ -46,7 +47,10 @@ interface IPlayStateScriptedClass extends IConductorScriptedClass extends INoteS
 	public function onCountdownStart(event:CountdownScriptEvent):Void;
 	public function onCountdownStep(event:CountdownScriptEvent):Void;
 	public function onPause(event:ScriptEvent):Void;
-	public function onGameOver(event:ScriptEvent):Void;
+	public function onResume(event:ScriptEvent):Void;
+	public function onGameOverStart(event:ScriptEvent):Void;
+	public function onGameOverLoop(event:ScriptEvent):Void;
+	public function onGameOverRetry(event:ScriptEvent):Void;
 }
 
 /**

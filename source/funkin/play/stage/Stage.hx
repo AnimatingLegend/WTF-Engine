@@ -4,8 +4,9 @@ import flixel.group.FlxGroup;
 import flixel.math.FlxPoint;
 import funkin.data.character.CharacterRegistry;
 import funkin.data.stage.StageData;
-import funkin.modding.IScriptedClass.IPlayStateScriptedClass;
+import funkin.modding.IScriptedClass;
 import funkin.modding.event.ScriptEvent;
+import funkin.modding.event.ScriptEventDispatcher;
 import funkin.play.character.Character;
 import funkin.util.MathUtil;
 import haxe.ds.StringMap;
@@ -19,6 +20,8 @@ class Stage extends FlxGroup implements IPlayStateScriptedClass
 	public var meta:StageData;
 
 	public var props(default, null) = new StringMap<StageProp>();
+	public var propData(default, null) = new StringMap<StagePropData>();
+
 	public var zoom(get, never):Float;
 
 	public var player:Character;
@@ -44,29 +47,23 @@ class Stage extends FlxGroup implements IPlayStateScriptedClass
 			if (prop == null)
 				continue;
 
-			final image:String = '$path/props/${prop.image}';
+			var data:StagePropData = propData.get(prop.prop) ?? prop;
+			var sprite:StageProp = new StageProp(data.id);
+
+			final image:String = '$path/props/${data.image}';
 			final position:FlxPoint = MathUtil.arrayToPoint(prop.position);
-			final scroll:FlxPoint = MathUtil.arrayToPoint(prop.scroll, 1);
+			final scroll:FlxPoint = MathUtil.arrayToPoint(data.scroll, 1);
 
-			var sprite:StageProp;
+			sprite.loadSprite(image, data.scale, data.width, data.height);
+			sprite.loadAnimations(data.animations);
 
-			if (props.exists(prop.prop))
-				sprite = props.get(prop.prop).clone();
-			else
-			{
-				sprite = new StageProp(prop.id);
+			sprite.scrollFactor.copyFrom(scroll);
 
-				sprite.loadSprite(image, prop.scale, prop.width, prop.height);
-				sprite.loadAnimations(prop.animations);
+			sprite.flipX = data.flipX;
+			sprite.flipY = data.flipY;
+			sprite.zIndex = data.zIndex;
 
-				sprite.scrollFactor.copyFrom(scroll);
-
-				sprite.flipX = prop.flipX;
-				sprite.flipY = prop.flipY;
-				sprite.zIndex = prop.zIndex;
-
-				sprite.active = prop.animations.length > 0;
-			}
+			sprite.active = data.animations.length > 0;
 
 			sprite.setPosition(position.x, position.y);
 
@@ -75,7 +72,10 @@ class Stage extends FlxGroup implements IPlayStateScriptedClass
 			scroll.put();
 
 			if (prop.id != null)
+			{
 				props.set(prop.id, sprite);
+				propData.set(prop.id, data);
+			}
 
 			add(sprite);
 		}
@@ -89,13 +89,13 @@ class Stage extends FlxGroup implements IPlayStateScriptedClass
 		return props.get(id);
 	}
 
-	public function setPlayer(id:String)
+	public function setPlayer(id:String):Character
 	{
 		var position:FlxPoint = MathUtil.arrayToPoint(meta?.player?.position);
 		var scroll:FlxPoint = MathUtil.arrayToPoint(meta?.player?.scroll, 1);
 
 		player?.destroy();
-		player = CharacterRegistry.instance.fetchCharacter(id, true);
+		player = CharacterRegistry.instance.fetchCharacter(id, Player);
 
 		if (player != null)
 		{
@@ -109,6 +109,8 @@ class Stage extends FlxGroup implements IPlayStateScriptedClass
 
 		position.put();
 		scroll.put();
+
+		return player;
 	}
 
 	public function setOpponent(id:String)
@@ -117,7 +119,7 @@ class Stage extends FlxGroup implements IPlayStateScriptedClass
 		var scroll:FlxPoint = MathUtil.arrayToPoint(meta?.opponent?.scroll, 1);
 
 		opponent?.destroy();
-		opponent = CharacterRegistry.instance.fetchCharacter(id);
+		opponent = CharacterRegistry.instance.fetchCharacter(id, Opponent);
 
 		if (opponent != null)
 		{
@@ -155,11 +157,13 @@ class Stage extends FlxGroup implements IPlayStateScriptedClass
 		scroll.put();
 	}
 
+	@:noCompletion
 	function get_zoom():Float
 	{
 		return meta?.zoom ?? Constants.DEFAULT_CAMERA_ZOOM;
 	}
 
+	@:noCompletion
 	inline function get_path():String
 	{
 		return 'play/stages/$id';
@@ -170,6 +174,19 @@ class Stage extends FlxGroup implements IPlayStateScriptedClass
 	public function onUpdate(event:UpdateScriptEvent) {}
 
 	public function onDestroy(event:ScriptEvent) {}
+
+	public function onScriptEvent(event:ScriptEvent)
+	{
+		// This causes Thorns to crash
+		// For some reason, the game thinks an FlxTrail is an IScriptedClass
+		// TODO: Fix the crash
+		forEachAlive(prop ->
+		{
+			if (!Std.isOfType(prop, IScriptedClass))
+				return;
+			ScriptEventDispatcher.dispatch(cast prop, event);
+		});
+	}
 
 	public function onNoteHit(event:NoteScriptEvent) {}
 
@@ -183,19 +200,7 @@ class Stage extends FlxGroup implements IPlayStateScriptedClass
 
 	public function onStepHit(event:ConductorScriptEvent) {}
 
-	public function onBeatHit(event:ConductorScriptEvent)
-	{
-		// Bops each and every living prop
-		// I dunno maybe someone kills a prop
-		forEachAlive(prop ->
-		{
-			if (!Std.isOfType(prop, StageProp))
-				return;
-
-			var prop:StageProp = cast prop;
-			prop.bop();
-		});
-	}
+	public function onBeatHit(event:ConductorScriptEvent) {}
 
 	public function onSongLoaded(event:SongLoadScriptEvent) {}
 
@@ -213,5 +218,11 @@ class Stage extends FlxGroup implements IPlayStateScriptedClass
 
 	public function onPause(event:ScriptEvent) {}
 
-	public function onGameOver(event:ScriptEvent) {}
+	public function onResume(event:ScriptEvent) {}
+
+	public function onGameOverStart(event:ScriptEvent) {}
+
+	public function onGameOverLoop(event:ScriptEvent) {}
+
+	public function onGameOverRetry(event:ScriptEvent) {}
 }

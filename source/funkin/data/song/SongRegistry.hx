@@ -122,6 +122,19 @@ class SongRegistry extends BaseRegistry<Song>
 		}
 	}
 
+	public function fetchSong(id:String, ?diff:String):Song
+	{
+		var song:Song = fetch(id);
+
+		for (variation in song.variations)
+		{
+			if (variation.hasDifficulty(diff))
+				return variation;
+		}
+
+		return song;
+	}
+
 	public function getDifficulties():Array<String>
 	{
 		// Use a cached array to make it real easy for the engine
@@ -155,7 +168,7 @@ class SongRegistry extends BaseRegistry<Song>
 
 			for (id in level.getSongs())
 			{
-				var song:Song = SongRegistry.instance.fetch(id);
+				var song:Song = fetchSong(id);
 
 				if (list.contains(id) || !song.hasDifficulty(diff))
 					continue;

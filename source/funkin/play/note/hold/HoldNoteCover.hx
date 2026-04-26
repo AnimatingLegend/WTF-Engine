@@ -1,6 +1,7 @@
-package funkin.play.note;
+package funkin.play.note.hold;
 
 import funkin.graphics.FunkinSprite;
+import funkin.play.note.strum.StrumSprite;
 
 /**
  * A `FunkinSprite` that goes over the strumline while a hold note is being held.

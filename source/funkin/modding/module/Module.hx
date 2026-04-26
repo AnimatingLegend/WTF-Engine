@@ -31,6 +31,8 @@ class Module implements IPlayStateScriptedClass implements IFreeplayScriptedClas
 
 	public function onDestroy(event:ScriptEvent) {}
 
+	public function onScriptEvent(event:ScriptEvent) {}
+
 	public function onNoteHit(event:NoteScriptEvent) {}
 
 	public function onNoteMiss(event:NoteScriptEvent) {}
@@ -61,7 +63,13 @@ class Module implements IPlayStateScriptedClass implements IFreeplayScriptedClas
 
 	public function onPause(event:ScriptEvent) {}
 
-	public function onGameOver(event:ScriptEvent) {}
+	public function onResume(event:ScriptEvent) {}
+
+	public function onGameOverStart(event:ScriptEvent) {}
+
+	public function onGameOverLoop(event:ScriptEvent) {}
+
+	public function onGameOverRetry(event:ScriptEvent) {}
 
 	public function onFreeplayEnter(event:ScriptEvent) {}
 

@@ -93,11 +93,13 @@ class TitleGroup extends FlxTypedGroup<TitleText>
 		return y + (text.ID - selected) * (text.height + SPACING);
 	}
 
+	@:noCompletion
 	inline function get_title():TitleText
 	{
 		return members[selected];
 	}
 
+	@:noCompletion
 	inline function get_level():Level
 	{
 		return LevelRegistry.instance.fetch(levels[selected]);

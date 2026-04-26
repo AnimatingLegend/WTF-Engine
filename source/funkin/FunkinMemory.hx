@@ -21,7 +21,6 @@ class FunkinMemory
 		Polymod.clearCache();
 
 		Assets.cache.clear();
-		FlxG.bitmap.clearCache();
 
 		// Run the garbage collector
 		// Major? Pfff I don't know what that means

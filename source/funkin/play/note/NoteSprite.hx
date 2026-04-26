@@ -2,6 +2,7 @@ package funkin.play.note;
 
 import funkin.data.song.SongData.SongNoteData;
 import funkin.graphics.FunkinSprite;
+import funkin.play.note.hold.HoldNoteSprite;
 
 /**
  * A `FunkinSprite` used as a note for a `Strumline`.
@@ -53,6 +54,7 @@ class NoteSprite extends FunkinSprite
 		data = null;
 	}
 
+	@:noCompletion
 	inline function set_direction(value:NoteDirection):NoteDirection
 	{
 		value %= Constants.NOTE_COUNT;
@@ -64,6 +66,7 @@ class NoteSprite extends FunkinSprite
 		return value;
 	}
 
+	@:noCompletion
 	inline function get_isPlayer():Bool
 	{
 		return data.d < Constants.NOTE_COUNT;

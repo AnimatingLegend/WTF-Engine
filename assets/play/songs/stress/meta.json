@@ -1,0 +1,20 @@
+{
+	"style": "funkin",
+	"name": "Stress",
+	"gf": "pico-speaker",
+	"difficulties": [
+		"easy",
+		"normal",
+		"hard"
+	],
+	"opponent": "tankman",
+	"player": "bf-holding-gf",
+	"stage": "tank",
+	"bpm": 178,
+	"artist": "Kawai Sprite",
+	"rating": {
+		"normal": 4,
+		"hard": 5,
+		"easy": 3
+	}
+}

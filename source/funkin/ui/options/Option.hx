@@ -87,6 +87,7 @@ class Option extends FlxSpriteGroup
 		}
 	}
 
+	@:noCompletion
 	inline function set_value(value:Dynamic):Dynamic
 	{
 		value = FlxMath.bound(value, min, max);
@@ -103,11 +104,13 @@ class Option extends FlxSpriteGroup
 		return value;
 	}
 
+	@:noCompletion
 	inline function get_value():Dynamic
 	{
 		return Reflect.getProperty(Preferences, id);
 	}
 
+	@:noCompletion
 	function get_type():OptionType
 	{
 		return switch (Type.typeof(value))

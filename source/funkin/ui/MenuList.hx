@@ -67,6 +67,7 @@ class MenuList extends FlxTypedGroup<FunkinText>
 		return FlxG.height / 2 + (item.ID - selected - 0.5) * (item.height + 50);
 	}
 
+	@:noCompletion
 	function set_entries(value:Array<String>):Array<String>
 	{
 		if (this.entries == value)
@@ -89,11 +90,13 @@ class MenuList extends FlxTypedGroup<FunkinText>
 		return value;
 	}
 
+	@:noCompletion
 	inline function get_size():Int
 	{
 		return countLiving();
 	}
 
+	@:noCompletion
 	inline function get_controls():Controls
 	{
 		return Controls.instance;

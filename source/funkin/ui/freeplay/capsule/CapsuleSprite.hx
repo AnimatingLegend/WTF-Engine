@@ -128,6 +128,7 @@ class CapsuleSprite extends FlxSpriteGroup
 		moveTween?.cancel();
 	}
 
+	@:noCompletion
 	function set_song(value:Song):Song
 	{
 		justLoaded = true;
@@ -149,6 +150,7 @@ class CapsuleSprite extends FlxSpriteGroup
 		return value;
 	}
 
+	@:noCompletion
 	function set_difficulty(value:String):String
 	{
 		this.difficulty = value;
@@ -161,6 +163,7 @@ class CapsuleSprite extends FlxSpriteGroup
 		return value;
 	}
 
+	@:noCompletion
 	function set_selected(value:Bool):Bool
 	{
 		if (this.selected == value)
@@ -174,6 +177,7 @@ class CapsuleSprite extends FlxSpriteGroup
 		return value;
 	}
 
+	@:noCompletion
 	function set_favorited(value:Bool):Bool
 	{
 		if (this.favorited == value)
@@ -195,6 +199,7 @@ class CapsuleSprite extends FlxSpriteGroup
 		return value;
 	}
 
+	@:noCompletion
 	inline function get_clipWidth():Float
 	{
 		var clip:Float = 305;
@@ -203,6 +208,7 @@ class CapsuleSprite extends FlxSpriteGroup
 		return clip;
 	}
 
+	@:noCompletion
 	inline function get_canMoveText():Bool
 	{
 		return songText.width > clipWidth && selected && !FlxFlicker.isFlickering(songText);

@@ -1,0 +1,80 @@
+import flixel.group.FlxTypedGroup;
+import funkin.play.stage.StageProp;
+import funkin.play.stage.Stage;
+import funkin.play.PlayState;
+
+class TankmenGroup extends FlxTypedGroup
+{
+    var data:Array<Dynamic>;
+    var stage:Stage;
+
+    public function new(stage:Stage)
+    {
+        super();
+
+        this.stage = stage;
+
+        clean();
+    }
+
+    override function update(elapsed:Float)
+    {
+        super.update(elapsed);
+
+        if (PlayState.instance.songActive)
+        {
+            while (data.length > 0)
+            {
+                var note:Dynamic = data[0];
+
+                if (note == null)
+                {
+                    data.shift();
+                    break;
+                }
+
+                // Spawn a tankmen one second early
+                // so that it can die on time
+                if (note.t - 1000 > Conductor.instance.time)
+                    break;
+
+                // Doing this so that tankmen don't spawn like crazy
+                if (FlxG.random.bool(90))
+                {
+                    data.shift();
+                    break;
+                }
+
+                var tankmen:TankmenProp = spawnTankmen();
+                var fromRight:Bool = note.d == 3;
+                var off:Float = FlxG.random.int(300, 500);
+
+                tankmen.x = 9999;
+                tankmen.y = stage.gf.y - stage.gf.offset.y;
+                tankmen.flipX = fromRight;
+
+                tankmen.time = note.t;
+                tankmen.endPos = stage.gf.x + off * (fromRight ? 1 : -1);
+
+                data.shift();
+            }
+        }
+    }
+
+    function spawnTankmen():TankmenProp
+    {
+        return recycle(TankmenProp, buildTankmen);
+    }
+
+    function buildTankmen():TankmenProp
+    {
+        return new TankmenProp(stage);
+    }
+
+    function clean()
+    {
+        data = PlayState.song.getNotes("picospeaker").copy();
+
+        killMembers();
+    }
+}

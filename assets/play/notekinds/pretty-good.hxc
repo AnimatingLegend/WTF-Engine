@@ -1,0 +1,12 @@
+import funkin.play.note.NoteKind;
+import funkin.play.PlayState;
+
+class PrettyGoodNoteKind extends NoteKind
+{
+    public function new()
+    {
+        super("pretty-good");
+
+        // Handled in Tankman's script
+    }
+}

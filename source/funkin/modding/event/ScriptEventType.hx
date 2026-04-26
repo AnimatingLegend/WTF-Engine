@@ -30,7 +30,10 @@ enum ScriptEventType
 	CountdownStart;
 	CountdownStep;
 	Pause;
-	GameOver;
+	Resume;
+	GameOverStart;
+	GameOverLoop;
+	GameOverRetry;
 
 	// Freeplay
 	FreeplayEnter;

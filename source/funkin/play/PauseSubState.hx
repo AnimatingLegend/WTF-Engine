@@ -6,6 +6,7 @@ import flixel.tweens.FlxTween;
 import funkin.audio.FunkinSound;
 import funkin.graphics.FunkinSprite;
 import funkin.graphics.FunkinText;
+import funkin.modding.event.ScriptEvent;
 import funkin.play.character.Character;
 import funkin.play.song.Song;
 import funkin.ui.FunkinSubState;
@@ -17,6 +18,8 @@ import funkin.ui.options.OptionsSubState;
  */
 class PauseSubState extends FunkinSubState
 {
+	public static var instance:PauseSubState;
+
 	final DEFAULT_ENTRIES:Array<String> = ['resume', 'restart', 'options', 'botplay', 'exit to menu'];
 
 	var song(get, never):Song;
@@ -35,6 +38,8 @@ class PauseSubState extends FunkinSubState
 	override public function create()
 	{
 		super.create();
+
+		instance = this;
 
 		if (song.difficulties.length > 1)
 			DEFAULT_ENTRIES.insert(2, 'difficulty');
@@ -122,7 +127,11 @@ class PauseSubState extends FunkinSubState
 			switch (item)
 			{
 				case 'resume':
-					close();
+					var event:ScriptEvent = new ScriptEvent(Resume);
+					dispatch(event);
+
+					if (!event.cancelled)
+						close();
 				case 'restart':
 					PlayState.instance.resetSong();
 					close();
@@ -158,22 +167,27 @@ class PauseSubState extends FunkinSubState
 	{
 		super.destroy();
 
+		instance = null;
+
 		// Destroys the music as it isn't needed anymore
 		// If you remove this line, great things will happen
 		music.fadeTween.cancel();
 		music.destroy();
 	}
 
+	@:noCompletion
 	inline function get_song():Song
 	{
 		return PlayState.song;
 	}
 
+	@:noCompletion
 	inline function get_difficulty():String
 	{
 		return PlayState.difficulty;
 	}
 
+	@:noCompletion
 	inline function get_deaths():Int
 	{
 		return PlayState.instance.deaths;

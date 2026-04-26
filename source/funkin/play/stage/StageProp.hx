@@ -2,11 +2,13 @@ package funkin.play.stage;
 
 import funkin.data.stage.StageData.PropAnimData;
 import funkin.graphics.FunkinSprite;
+import funkin.modding.IScriptedClass.IPlayStateScriptedClass;
+import funkin.modding.event.ScriptEvent;
 
 /**
  * A `FunkinSprite` used for the props of a `Stage`.
  */
-class StageProp extends FunkinSprite
+class StageProp extends FunkinSprite implements IPlayStateScriptedClass
 {
 	public var id:String;
 
@@ -28,34 +30,56 @@ class StageProp extends FunkinSprite
 
 	public function bop(force:Bool = false)
 	{
-		if ((Conductor.instance.beat % bopEvery == 0) || force)
+		if (Conductor.instance.beat % bopEvery == 0 || force)
 			playAnimation('idle$idleSuffix', true);
 	}
 
-	override public function clone():StageProp
+	public function onCreate(event:ScriptEvent) {}
+
+	public function onUpdate(event:UpdateScriptEvent) {}
+
+	public function onDestroy(event:ScriptEvent) {}
+
+	public function onScriptEvent(event:ScriptEvent) {}
+
+	public function onNoteHit(event:NoteScriptEvent) {}
+
+	public function onNoteMiss(event:NoteScriptEvent) {}
+
+	public function onHoldNoteHold(event:HoldNoteScriptEvent) {}
+
+	public function onHoldNoteDrop(event:HoldNoteScriptEvent) {}
+
+	public function onGhostMiss(event:GhostMissScriptEvent) {}
+
+	public function onStepHit(event:ConductorScriptEvent) {}
+
+	public function onBeatHit(event:ConductorScriptEvent)
 	{
-		// This is so fucking stupid
-		// Best I can do unfortunately
-		var sprite:StageProp = new StageProp(id);
-
-		sprite.loadGraphicFromSprite(this);
-		sprite.setGraphicSize(width, height);
-		sprite.updateHitbox();
-
-		sprite.animation.copyFrom(animation);
-		sprite.scrollFactor.copyFrom(scrollFactor);
-		sprite.offset.copyFrom(offset);
-		sprite.origin.copyFrom(origin);
-
-		sprite.angle = angle;
-		sprite.flipX = flipX;
-		sprite.flipY = flipY;
-
-		sprite.visible = visible;
-		sprite.active = active;
-
-		sprite.zIndex = zIndex;
-
-		return sprite;
+		bop();
 	}
+
+	public function onSongLoaded(event:SongLoadScriptEvent) {}
+
+	public function onSongStart(event:ScriptEvent) {}
+
+	public function onSongEnd(event:ScriptEvent) {}
+
+	public function onSongRetry(event:ScriptEvent) {}
+
+	public function onSongEvent(event:SongEventScriptEvent) {}
+
+	public function onCountdownStart(event:CountdownScriptEvent) {}
+
+	public function onCountdownStep(event:CountdownScriptEvent) {}
+
+	public function onPause(event:ScriptEvent) {}
+
+	public function onResume(event:ScriptEvent) {}
+
+	public function onGameOverStart(event:ScriptEvent) {}
+
+	public function onGameOverLoop(event:ScriptEvent) {}
+
+	public function onGameOverRetry(event:ScriptEvent) {}
 }

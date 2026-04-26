@@ -32,6 +32,7 @@ enum abstract NoteDirection(Int) to Int from Int
 		}
 	}
 
+	@:noCompletion
 	function get_name():String
 	{
 		return switch (abstract)
@@ -43,6 +44,7 @@ enum abstract NoteDirection(Int) to Int from Int
 		}
 	}
 
+	@:noCompletion
 	function get_inverse():NoteDirection
 	{
 		return switch (abstract)
@@ -54,11 +56,13 @@ enum abstract NoteDirection(Int) to Int from Int
 		}
 	}
 
+	@:noCompletion
 	function get_horizontal():Bool
 	{
 		return abstract == LEFT || abstract == RIGHT;
 	}
 
+	@:noCompletion
 	function get_pressed():Bool
 	{
 		var controls:Controls = Controls.instance;
@@ -72,6 +76,7 @@ enum abstract NoteDirection(Int) to Int from Int
 		}
 	}
 
+	@:noCompletion
 	function get_justPressed():Bool
 	{
 		var controls:Controls = Controls.instance;

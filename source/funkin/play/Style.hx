@@ -51,6 +51,7 @@ class Style
 		return Reflect.field(data, direction.name);
 	}
 
+	@:noCompletion
 	function get_name():String
 	{
 		var name:String = meta.name;
@@ -59,6 +60,7 @@ class Style
 		return name;
 	}
 
+	@:noCompletion
 	function get_artist():String
 	{
 		var artist:String = meta.artist;
@@ -67,26 +69,31 @@ class Style
 		return artist;
 	}
 
+	@:noCompletion
 	function get_scale():Float
 	{
 		return meta.scale;
 	}
 
+	@:noCompletion
 	function get_note():StyleNoteData
 	{
 		return meta.note;
 	}
 
+	@:noCompletion
 	function get_noteSplash():StyleNoteData
 	{
 		return meta.noteSplash;
 	}
 
+	@:noCompletion
 	function get_holdCover():StyleNoteData
 	{
 		return meta.holdCover;
 	}
 
+	@:noCompletion
 	inline function get_path():String
 	{
 		return 'play/styles/$id';

@@ -12,6 +12,7 @@ import flixel.util.FlxTimer;
 import funkin.audio.FunkinSound;
 import funkin.data.event.EventData;
 import funkin.data.event.EventRegistry;
+import funkin.data.notekind.NoteKindRegistry;
 import funkin.data.song.SongData.SongNoteData;
 import funkin.data.stage.StageRegistry;
 import funkin.data.style.StyleRegistry;
@@ -25,10 +26,10 @@ import funkin.play.character.HealthIcon;
 import funkin.play.components.Countdown;
 import funkin.play.components.Popups;
 import funkin.play.cutscene.BaseCutscene;
-import funkin.play.note.HoldNoteSprite;
 import funkin.play.note.NoteDirection;
 import funkin.play.note.NoteSprite;
-import funkin.play.note.Strumline;
+import funkin.play.note.hold.HoldNoteSprite;
+import funkin.play.note.strum.Strumline;
 import funkin.play.song.Song;
 import funkin.play.song.Voices;
 import funkin.play.stage.Stage;
@@ -236,13 +237,7 @@ class PlayState extends FunkinState
 
 		// Death :(
 		if (health <= healthBar.min)
-		{
-			var event:ScriptEvent = new ScriptEvent(GameOver);
-			dispatch(event);
-
-			if (!event.cancelled)
-				openSubState(new GameOverSubState());
-		}
+			openSubState(new GameOverSubState());
 	}
 
 	override public function refresh()
@@ -339,6 +334,10 @@ class PlayState extends FunkinState
 		score = 0;
 		tallies.reset();
 
+		// This is done so that a character is targeted
+		// Not all characters exist in a song
+		setCameraTarget(stage.gf, true);
+		setCameraTarget(stage.opponent, true);
 		setCameraTarget(stage.player, true);
 
 		FlxG.camera.zoom = stage.zoom;
@@ -436,7 +435,10 @@ class PlayState extends FunkinState
 		{
 			stage.opponent.setPosition(stage.gf.x, stage.gf.y);
 			stage.opponent.zIndex = stage.gf.zIndex;
+
 			stage.gf.destroy();
+			stage.gf = null;
+
 			stage.refresh();
 		}
 
@@ -643,14 +645,6 @@ class PlayState extends FunkinState
 				tallies.shits++;
 		}
 
-		var suffix:String = '';
-
-		if (note.kind == 'alt')
-			suffix = '-alt';
-
-		if (note.kind != 'noanim')
-			stage.player?.sing(note.direction, suffix);
-
 		voices.playerVolume = 1;
 
 		popups.popupJudgement(judgement);
@@ -667,9 +661,6 @@ class PlayState extends FunkinState
 
 		score += Constants.HOLD_SCORE_PER_SEC * FlxG.elapsed;
 		health += Constants.HOLD_HEALTH_PER_SEC * FlxG.elapsed;
-
-		if (holdNote.kind != 'noanim')
-			stage.player?.resetSingTimer();
 
 		voices.playerVolume = 1;
 	}
@@ -694,7 +685,6 @@ class PlayState extends FunkinState
 
 		health += Constants.MISS_HEALTH;
 
-		stage.player?.miss(note.direction);
 		voices.playerVolume = 0;
 	}
 
@@ -709,7 +699,6 @@ class PlayState extends FunkinState
 		score += Constants.GHOST_MISS_SCORE;
 		health += Constants.GHOST_MISS_HEALTH;
 
-		stage.player?.miss(direction);
 		voices.playerVolume = 0;
 	}
 
@@ -725,25 +714,18 @@ class PlayState extends FunkinState
 		score += Constants.MISS_SCORE * (holdNote.length / 500);
 		health += Constants.MISS_HEALTH;
 
-		stage.player?.miss(holdNote.direction);
 		voices.playerVolume = 0;
 	}
 
 	function opponentNoteHit(note:NoteSprite)
 	{
-		var suffix:String = '';
-
-		if (note.kind == 'alt')
-			suffix = '-alt';
-
-		if (note.kind != 'noanim')
-			stage.opponent?.sing(note.direction, suffix);
+		// TODO: Make this do something?
 	}
 
 	function opponentHoldNoteHit(holdNote:HoldNoteSprite)
 	{
-		if (holdNote.kind != 'noanim')
-			stage.opponent?.resetSingTimer();
+		var event:HoldNoteScriptEvent = new HoldNoteScriptEvent(HoldNoteHold, holdNote);
+		dispatch(event);
 	}
 
 	public function exit()
@@ -761,10 +743,9 @@ class PlayState extends FunkinState
 		ScriptEventDispatcher.dispatch(Playlist.level, event);
 		ScriptEventDispatcher.dispatch(song, event);
 
+		NoteKindRegistry.instance.dispatch(event);
+
 		ScriptEventDispatcher.dispatch(stage, event);
-		ScriptEventDispatcher.dispatch(stage.opponent, event);
-		ScriptEventDispatcher.dispatch(stage.player, event);
-		ScriptEventDispatcher.dispatch(stage.gf, event);
 	}
 
 	override public function openSubState(subState:FlxSubState)
@@ -813,7 +794,8 @@ class PlayState extends FunkinState
 
 	override public function destroy()
 	{
-		super.destroy();
+		// Runs the destroy script event
+		dispatch(new ScriptEvent(Destroy));
 
 		// Not doing this can cause things to crash
 		// Even if it's accessed in a safe way
@@ -821,7 +803,6 @@ class PlayState extends FunkinState
 
 		FunkinSound.music.stop();
 
-		// Runs the destroy script event
-		dispatch(new ScriptEvent(Destroy));
+		super.destroy();
 	}
 }

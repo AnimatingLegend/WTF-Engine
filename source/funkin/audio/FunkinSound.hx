@@ -5,6 +5,8 @@ import flixel.sound.FlxSound;
 
 /**
  * A helper class for handling the engine's audio.
+ * 
+ * TODO: Change `playMusic` to use streamed audio.
  */
 class FunkinSound
 {
@@ -14,8 +16,7 @@ class FunkinSound
 	{
 		var sound:FlxSound = FlxG.sound.create(Paths.sound(id));
 
-		sound.setup(volume, -1, autoDestroy);
-		sound.looped = looped;
+		sound.setup(volume, looped, autoDestroy);
 
 		if (autoPlay)
 			sound.play();
@@ -28,7 +29,7 @@ class FunkinSound
 		return FlxG.sound.play(Paths.sound(id), volume);
 	}
 
-	public static inline function playMusic(id:String, volume:Float = 1, looped:Bool = true, autoPlay:Bool = true, overrideMusic:Bool = true)
+	public static function playMusic(id:String, volume:Float = 1, looped:Bool = true, autoPlay:Bool = true, overrideMusic:Bool = true)
 	{
 		if (music?.playing && !overrideMusic)
 			return;
@@ -51,6 +52,7 @@ class FunkinSound
 		});
 	}
 
+	@:noCompletion
 	static inline function get_music():FlxSound
 	{
 		return FlxG.sound.music;

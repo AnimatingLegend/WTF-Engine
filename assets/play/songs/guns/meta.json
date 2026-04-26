@@ -1,0 +1,20 @@
+{
+	"style": "funkin",
+	"name": "Guns",
+	"gf": "gf-tankman",
+	"difficulties": [
+		"easy",
+		"normal",
+		"hard"
+	],
+	"opponent": "tankman",
+	"player": "bf",
+	"stage": "tank",
+	"bpm": 185,
+	"artist": "Kawai Sprite",
+	"rating": {
+		"normal": 4,
+		"hard": 5,
+		"easy": 3
+	}
+}

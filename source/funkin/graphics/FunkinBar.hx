@@ -46,6 +46,7 @@ class FunkinBar extends FlxSpriteGroup
 		fill.color = fillColor;
 	}
 
+	@:noCompletion
 	function set_value(value:Float):Float
 	{
 		if (this.value == value)
@@ -57,11 +58,13 @@ class FunkinBar extends FlxSpriteGroup
 		return value;
 	}
 
+	@:noCompletion
 	inline function get_percent():Float
 	{
 		return value / max;
 	}
 
+	@:noCompletion
 	inline function get_fillPosition():Float
 	{
 		var pos:Float = percent * fill.width;

@@ -87,6 +87,7 @@ class SelectorText extends FlxSpriteGroup
 		arrowRight.y = arrowLeft.y;
 	}
 
+	@:noCompletion
 	function set_size(value:Int):Int
 	{
 		if (text.size == value)

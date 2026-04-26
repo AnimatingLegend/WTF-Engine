@@ -14,6 +14,7 @@ enum abstract Judgement(String) to String from String
 
 	public var score(get, never):Int;
 
+	@:noCompletion
 	function get_score():Int
 	{
 		return switch (abstract)

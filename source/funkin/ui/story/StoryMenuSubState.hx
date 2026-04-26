@@ -260,11 +260,11 @@ class StoryMenuSubState extends FunkinSubState
 		{
 			camera.fade(0xFF000000, 0.25, false, () ->
 			{
+				PlayState.difficulty = difficulty;
+
 				Playlist.reset(level);
 				Playlist.songs = level.getSongs().copy();
 				Playlist.load();
-
-				PlayState.difficulty = difficulty;
 
 				FlxG.switchState(() -> new PlayState());
 			});
@@ -291,11 +291,13 @@ class StoryMenuSubState extends FunkinSubState
 		FunkinSound.playOnce('ui/sounds/cancel');
 	}
 
+	@:noCompletion
 	inline function get_level():Level
 	{
 		return titleGroup.level;
 	}
 
+	@:noCompletion
 	inline function get_difficulty():String
 	{
 		return diffText.difficulty;

@@ -28,7 +28,8 @@ class Playlist
 	public static function load()
 	{
 		var id:String = songs[0];
-		var song:Song = SongRegistry.instance.fetch(id);
+		var diff:String = PlayState.difficulty;
+		var song:Song = SongRegistry.instance.fetchSong(id, diff);
 
 		PlayState.song = song;
 	}
@@ -45,6 +46,7 @@ class Playlist
 		return true;
 	}
 
+	@:noCompletion
 	static inline function get_isStory():Bool
 	{
 		return level != null;

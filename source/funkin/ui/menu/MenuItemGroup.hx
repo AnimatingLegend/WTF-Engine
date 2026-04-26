@@ -85,6 +85,7 @@ class MenuItemGroup extends FlxTypedGroup<MenuItem>
 		onChanged.dispatch(selected);
 	}
 
+	@:noCompletion
 	inline function get_item():MenuItem
 	{
 		return members[selected];

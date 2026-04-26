@@ -57,7 +57,7 @@
         {
             "id": "car",
             "image": "car",
-            "position": [0, 200],
+            "position": [0, 180],
             "scale": 1.2,
             "zIndex": 3
         }

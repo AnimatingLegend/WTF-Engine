@@ -1,0 +1,57 @@
+import funkin.play.character.Character;
+import funkin.play.PlayState;
+
+class PicoSpeakerCharacter extends Character
+{
+    var data:Array<Dynamic>;
+
+    public function new()
+    {
+        super("pico-speaker");
+    }
+
+    override function onUpdate(event:UpdateScriptEvent)
+    {
+        super.onUpdate(event);
+
+        if (!PlayState.instance.songActive)
+            return;
+
+        while (data.length > 0)
+        {
+            var note:Dynamic = data[0];
+
+            // Skip the note in case it's null
+            if (note == null)
+            {
+                data.shift();
+                break;
+            }
+
+            // Can't do much if it isn't time to shoot
+            if (note.t > Conductor.instance.time)
+                break;
+
+            data.shift();
+
+            shoot(note.d);
+        }
+    }
+
+    override function onSongLoaded(event:SongLoadScriptEvent)
+    {
+        super.onSongLoaded(event);
+
+        data = PlayState.song.getNotes("picospeaker").copy();
+    }
+
+    function shoot(direction:Int)
+    {
+        // Paths.random() my beloved
+        // Also yeah there's only left and right directions
+        if (direction == 0)
+            playAnimation(Paths.random("shoot", 1, 2));
+        else if (direction == 3)
+            playAnimation(Paths.random("shoot", 3, 4));
+    }
+}

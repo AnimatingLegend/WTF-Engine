@@ -57,23 +57,27 @@ class Voices
 		}
 	}
 
+	@:noCompletion
 	function set_opponentVolume(value:Float):Float
 	{
 		opponent.volume = value;
 		return value;
 	}
 
+	@:noCompletion
 	function set_playerVolume(value:Float):Float
 	{
 		player.volume = value;
 		return value;
 	}
 
+	@:noCompletion
 	inline function get_opponentVolume():Float
 	{
 		return opponent.volume;
 	}
 
+	@:noCompletion
 	inline function get_playerVolume():Float
 	{
 		return player.volume;

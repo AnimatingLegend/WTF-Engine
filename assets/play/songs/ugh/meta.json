@@ -1,0 +1,20 @@
+{
+	"style": "funkin",
+	"name": "Ugh",
+	"gf": "gf-tankman",
+	"difficulties": [
+		"easy",
+		"normal",
+		"hard"
+	],
+	"opponent": "tankman",
+	"player": "bf",
+	"stage": "tank",
+	"bpm": 160,
+	"artist": "Kawai Sprite",
+	"rating": {
+		"normal": 3,
+		"hard": 4,
+		"easy": 2
+	}
+}

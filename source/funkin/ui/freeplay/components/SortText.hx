@@ -51,11 +51,13 @@ class SortText extends SelectorText
 		super.updateText();
 	}
 
+	@:noCompletion
 	inline function get_count():Int
 	{
 		return 2 + LevelRegistry.instance.list().length;
 	}
 
+	@:noCompletion
 	inline function get_level():Level
 	{
 		// Gets the level id

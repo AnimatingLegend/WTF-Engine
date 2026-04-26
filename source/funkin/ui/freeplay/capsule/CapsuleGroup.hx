@@ -87,7 +87,7 @@ class CapsuleGroup extends FlxTypedGroup<CapsuleSprite>
 
 		for (i => song in songs)
 		{
-			var song:Song = SongRegistry.instance.fetch(song).resolveVariation(diff);
+			var song:Song = SongRegistry.instance.fetchSong(song, diff);
 			var id:Int = i + 1;
 
 			if (prevSong?.id == song.id)
@@ -132,16 +132,19 @@ class CapsuleGroup extends FlxTypedGroup<CapsuleSprite>
 		return 200 + (capsule.height + 10) * (capsule.ID - selected);
 	}
 
+	@:noCompletion
 	inline function get_capsule():CapsuleSprite
 	{
 		return members[selected];
 	}
 
+	@:noCompletion
 	function get_song():Song
 	{
 		return capsule?.song;
 	}
 
+	@:noCompletion
 	inline function get_size():Int
 	{
 		return countLiving();

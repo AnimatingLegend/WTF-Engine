@@ -28,7 +28,7 @@ class Constants
 	/**
 	 * This is so that the engine's levels have higher priority over custom levels.
 	 */
-	public static final DEFAULT_LEVELS:Array<String> = ['tutorial', 'week1', 'week2', 'week3', 'week4', 'week5', 'week6'];
+	public static final DEFAULT_LEVELS:Array<String> = ['tutorial', 'week1', 'week2', 'week3', 'week4', 'week5', 'week6', 'week7'];
 
 	/**
 	 * This is so that the engine's songs have higher priority over custom songs.
@@ -62,9 +62,10 @@ class Constants
 	public static final HEALTH_EMPTY_COLOR:FlxColor = 0xFFFF0000;
 	public static final HOLD_HEALTH_PER_SEC:Float = 0.04;
 	public static final NOTE_HEALTH:Float = 0.035;
-	public static final MISS_HEALTH:Float = -0.03;
-	public static final GHOST_MISS_HEALTH:Float = -0.025;
+	public static final MISS_HEALTH:Float = -0.04;
+	public static final GHOST_MISS_HEALTH:Float = -0.03;
 
+	@:noCompletion
 	inline static function get_VERSION():String
 	{
 		return 'v${Application.current.meta.get('version')}';

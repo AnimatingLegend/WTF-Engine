@@ -68,6 +68,7 @@ class HealthIcon extends FunkinSprite
 			angle = meta.bopAngle;
 	}
 
+	@:noCompletion
 	function set_isDead(value:Bool):Bool
 	{
 		if (this.isDead == value)

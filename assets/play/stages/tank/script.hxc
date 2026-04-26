@@ -1,0 +1,61 @@
+import flixel.math.FlxAngle;
+import funkin.play.stage.StageProp;
+import funkin.play.stage.Stage;
+import funkin.play.PlayState;
+
+class TankStage extends Stage
+{
+    var tankX:Float;
+    var tankY:Float;
+    var tankAngle:Float = 0;
+
+    var ground:StageProp;
+    var tank:StageProp;
+
+    var tankmen:TankmenGroup;
+
+    public function new()
+    {
+        super("tank");
+    }
+
+    override function onCreate(event:ScriptEvent)
+    {
+        super.onCreate(event);
+
+        ground = getProp("ground");
+        tank = getProp("tank");
+
+        tankX = tank.x;
+        tankY = tank.y;
+
+        if (PlayState.song.id == "stress")
+        {
+            tankmen = new TankmenGroup(this.superClass);
+            tankmen.zIndex = gf.zIndex - 1;
+
+            add(tankmen);
+            refresh();
+        }
+    }
+
+    override function onUpdate(event:UpdateScriptEvent)
+    {
+        super.onUpdate(event);
+
+        tankAngle += event.elapsed * 8;
+
+        tank.offset.y = FlxG.random.int(0, 2);
+        tank.angle = tankAngle - 40;
+
+        tank.x = tankX + Math.cos(FlxAngle.asRadians(tankAngle) + 180) * ground.width / 2;
+        tank.y = tankY + Math.sin(FlxAngle.asRadians(tankAngle) + 180) * ground.height / 2;
+    }
+
+    override function onSongRetry(event:ScriptEvent)
+    {
+        super.onSongRetry(event);
+
+        tankmen?.clean();
+    }
+}

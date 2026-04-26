@@ -1,4 +1,4 @@
-package funkin.play.note;
+package funkin.play.note.strum;
 
 import funkin.graphics.FunkinSprite;
 

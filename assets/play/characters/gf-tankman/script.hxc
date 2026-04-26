@@ -1,0 +1,32 @@
+import funkin.play.character.Character;
+import funkin.play.stage.StageProp;
+import funkin.play.PlayState;
+
+class GFTankmanCharacter extends Character
+{
+    public function new()
+    {
+        super("gf-tankman");
+    }
+
+    override function onCreate(event:ScriptEvent)
+    {
+        super.onCreate(event);
+
+        var tankmen:StageProp = new StageProp("tankmen");
+
+        tankmen.loadSprite('$charPath/tankmen', 1, 444, 212);
+        tankmen.addAnimation("idle", [0, 1, 2], 10, false);
+
+        tankmen.setPosition(x - 90, y + 100);
+        tankmen.offset.set(offset.x, offset.y);
+        tankmen.scrollFactor.set(scrollFactor.x, scrollFactor.y);
+
+        tankmen.zIndex = zIndex;
+
+        tankmen.bop();
+
+        PlayState.instance.stage.add(tankmen);
+        PlayState.instance.stage.refresh();
+    }
+}

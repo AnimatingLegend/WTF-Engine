@@ -100,8 +100,14 @@ class ScriptEventDispatcher
 					target.onCountdownStep(cast event);
 				case Pause:
 					target.onPause(event);
-				case GameOver:
-					target.onGameOver(event);
+				case Resume:
+					target.onResume(event);
+				case GameOverStart:
+					target.onGameOverStart(event);
+				case GameOverLoop:
+					target.onGameOverLoop(event);
+				case GameOverRetry:
+					target.onGameOverRetry(event);
 				default:
 					// Does literally nothing
 			}
@@ -137,5 +143,9 @@ class ScriptEventDispatcher
 					// Does literally nothing
 			}
 		}
+
+		// Runs the onScriptEvent() script event
+		// This isn't actually a real event type
+		target.onScriptEvent(event);
 	}
 }

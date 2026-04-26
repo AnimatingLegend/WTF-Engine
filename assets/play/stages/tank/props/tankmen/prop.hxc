@@ -1,0 +1,66 @@
+import flixel.effects.FlxFlicker;
+import flixel.util.FlxTimer;
+import funkin.play.stage.StageProp;
+import funkin.play.stage.Stage;
+
+class TankmenProp extends StageProp
+{
+    var time:Float;
+    var endPos:Float;
+
+    var running:Bool = true;
+
+    var stage:Stage;
+
+    public function new(stage:Stage)
+    {
+        super("tankmen");
+
+        this.stage = stage;
+
+        loadSprite('${stage.path}/props/tankmen/image', 1, 224, 267);
+
+        addAnimation("run", [0, 1, 2, 3], 12);
+        addAnimation("shot", [4, 5, 6, 7], 20, false);
+
+        playAnimation("run");
+    }
+
+    override function update(elapsed:Float)
+    {
+        super.update(elapsed);
+
+        if (running)
+            x = endPos + (Conductor.instance.time - time) * 0.5 * (flipX ? -1 : 1);
+
+        if (time <= Conductor.instance.time)
+            die();
+    }
+
+    function die()
+    {
+        if (!running)
+            return;
+        running = false;
+
+        playAnimation("shot");
+
+        FlxTimer.wait(0.25, () -> {
+            FlxFlicker.flicker(this.superClass, 0.5, 0.04, true, true, _ -> kill());
+        });
+    }
+
+    override function revive()
+    {
+        super.revive();
+
+        flipX = false;
+
+        time = 0;
+        endPos = 0;
+
+        running = true;
+
+        playAnimation("run");
+    }
+}

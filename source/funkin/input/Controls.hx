@@ -53,116 +53,139 @@ class Controls
 	public var SORT_LEFT(get, never):Bool;
 	public var SORT_RIGHT(get, never):Bool;
 
+	@:noCompletion
 	inline function get_NOTE_LEFT():Bool
 	{
 		return getAction(NoteLeft).check();
 	}
 
+	@:noCompletion
 	inline function get_NOTE_DOWN():Bool
 	{
 		return getAction(NoteDown).check();
 	}
 
+	@:noCompletion
 	inline function get_NOTE_UP():Bool
 	{
 		return getAction(NoteUp).check();
 	}
 
+	@:noCompletion
 	inline function get_NOTE_RIGHT():Bool
 	{
 		return getAction(NoteRight).check();
 	}
 
+	@:noCompletion
 	inline function get_NOTE_LEFT_P():Bool
 	{
 		return getAction(NoteLeft).checkPressed();
 	}
 
+	@:noCompletion
 	inline function get_NOTE_DOWN_P():Bool
 	{
 		return getAction(NoteDown).checkPressed();
 	}
 
+	@:noCompletion
 	inline function get_NOTE_UP_P():Bool
 	{
 		return getAction(NoteUp).checkPressed();
 	}
 
+	@:noCompletion
 	inline function get_NOTE_RIGHT_P():Bool
 	{
 		return getAction(NoteRight).checkPressed();
 	}
 
+	@:noCompletion
 	inline function get_UI_LEFT():Bool
 	{
 		return getAction(UILeft).check();
 	}
 
+	@:noCompletion
 	inline function get_UI_DOWN():Bool
 	{
 		return getAction(UIDown).check();
 	}
 
+	@:noCompletion
 	inline function get_UI_UP():Bool
 	{
 		return getAction(UIUp).check();
 	}
 
+	@:noCompletion
 	inline function get_UI_RIGHT():Bool
 	{
 		return getAction(UIRight).check();
 	}
 
+	@:noCompletion
 	inline function get_UI_LEFT_P():Bool
 	{
 		return getAction(UILeft).checkPressed();
 	}
 
+	@:noCompletion
 	inline function get_UI_DOWN_P():Bool
 	{
 		return getAction(UIDown).checkPressed();
 	}
 
+	@:noCompletion
 	inline function get_UI_UP_P():Bool
 	{
 		return getAction(UIUp).checkPressed();
 	}
 
+	@:noCompletion
 	inline function get_UI_RIGHT_P():Bool
 	{
 		return getAction(UIRight).checkPressed();
 	}
 
+	@:noCompletion
 	inline function get_ACCEPT():Bool
 	{
 		return getAction(Accept).checkPressed();
 	}
 
+	@:noCompletion
 	inline function get_BACK():Bool
 	{
 		return getAction(Back).checkPressed();
 	}
 
+	@:noCompletion
 	inline function get_PAUSE():Bool
 	{
 		return getAction(Pause).checkPressed();
 	}
 
+	@:noCompletion
 	inline function get_RESET():Bool
 	{
 		return getAction(Reset).checkPressed();
 	}
 
+	@:noCompletion
 	inline function get_FAVORITE():Bool
 	{
 		return getAction(Favorite).checkPressed();
 	}
 
+	@:noCompletion
 	inline function get_SORT_LEFT():Bool
 	{
 		return getAction(SortLeft).checkPressed();
 	}
 
+	@:noCompletion
 	inline function get_SORT_RIGHT():Bool
 	{
 		return getAction(SortRight).checkPressed();
