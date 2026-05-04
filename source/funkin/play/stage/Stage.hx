@@ -1,5 +1,6 @@
 package funkin.play.stage;
 
+import flixel.FlxBasic;
 import flixel.group.FlxGroup;
 import flixel.math.FlxPoint;
 import funkin.data.character.CharacterRegistry;
@@ -177,15 +178,14 @@ class Stage extends FlxGroup implements IPlayStateScriptedClass
 
 	public function onScriptEvent(event:ScriptEvent)
 	{
-		// This causes Thorns to crash
-		// For some reason, the game thinks an FlxTrail is an IScriptedClass
-		// TODO: Fix the crash
-		forEachAlive(prop ->
-		{
-			if (!Std.isOfType(prop, IScriptedClass))
-				return;
+		// Thank you Hyper :whatthehappy:
+		// It's done like this because for Spirit, he runs refresh on the stage
+		// Running a refresh means it iterates through Spirit over and over again
+		// Spirit creates an FlxTrail as well, so the loop just never ends
+		var props:Array<FlxBasic> = members.copy().filter(prop -> return Std.isOfType(prop, IScriptedClass));
+
+		for (prop in props)
 			ScriptEventDispatcher.dispatch(cast prop, event);
-		});
 	}
 
 	public function onNoteHit(event:NoteScriptEvent) {}
