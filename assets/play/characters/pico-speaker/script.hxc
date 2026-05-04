@@ -50,8 +50,8 @@ class PicoSpeakerCharacter extends Character
         // Paths.random() my beloved
         // Also yeah there's only left and right directions
         if (direction == 0)
-            playAnimation(Paths.random("shoot", 1, 2));
+            playAnimation(Paths.random("shoot", 1, 2), true);
         else if (direction == 3)
-            playAnimation(Paths.random("shoot", 3, 4));
+            playAnimation(Paths.random("shoot", 3, 4), true);
     }
 }
