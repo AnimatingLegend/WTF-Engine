@@ -51,7 +51,7 @@ class PlayState extends FunkinState
 	public static var difficulty:String;
 	public static var song:Song;
 
-	public var score:Float;
+	public var score:Float = 0;
 	public var tallies:Tallies;
 	public var deaths:Int = 0;
 
@@ -223,7 +223,16 @@ class PlayState extends FunkinState
 			playerIcon.isDead = health < 0.2;
 		}
 
-		scoreText.text = 'score: ${Std.int(score)} | misses: ${tallies.misses}';
+		if (Preferences.botplay)
+		{
+			scoreText.text = 'Botplay Enabled';
+		}
+		else 
+		{
+			final SHOW_DECIMALS:Bool = false;
+			final COMMA_SEPARATOR:Bool = true;
+			scoreText.text = 'score: ${FlxStringUtil.formatMoney(Std.int(score), SHOW_DECIMALS, COMMA_SEPARATOR)} | misses: ${tallies.misses}';
+		}
 		scoreText.screenCenter(X);
 
 		if (!songEnded)
@@ -331,7 +340,7 @@ class PlayState extends FunkinState
 		songEnded = false;
 		songActive = false;
 
-		score = 0;
+		score = 0.0;
 		tallies.reset();
 
 		// This is done so that a character is targeted
